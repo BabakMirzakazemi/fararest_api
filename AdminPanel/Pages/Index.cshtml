@@ -1,0 +1,56 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "داشبورد";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">داشبورد مدیریت</h1>
+        <p class="text-muted mb-0">نمای کلی سریع از موجودیت‌ها و عملیات سرویس‌ها</p>
+    </div>
+    <span class="badge @(Model.DatabaseReachable ? "text-bg-success" : "text-bg-warning")">
+        @(Model.DatabaseReachable ? "دیتابیس در دسترس" : "بررسی اتصال دیتابیس")
+    </span>
+</div>
+
+<div class="row g-3 mb-4">
+    @foreach (var card in Model.EntityCards.Take(8))
+    {
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h6 mb-2">@card.DisplayName</h2>
+                    <div class="display-6 fw-semibold mb-3">@(card.Count >= 0 ? card.Count : 0)</div>
+                    <a class="btn btn-sm btn-outline-primary" asp-page="/Entities/List" asp-route-entityName="@card.Name">مدیریت</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white">
+                <h2 class="h6 mb-0">مدیریت موجودیت‌ها</h2>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">مدیریت کامل CRUD برای تمام موجودیت‌های ثبت‌شده در EF Core.</p>
+                <a class="btn btn-primary" asp-page="/Entities/Index">مشاهده موجودیت‌ها</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white">
+                <h2 class="h6 mb-0">اجرای سرویس‌ها</h2>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-2">عملیات قابل اجرا: <strong>@Model.Operations.Count</strong></p>
+                <p class="small text-muted">برای اجرای عملیات OTP/Email و سرویس‌های جدید، از این بخش استفاده کنید.</p>
+                <a class="btn btn-outline-primary" asp-page="/Operations/Index">ورود به عملیات سرویس‌ها</a>
+            </div>
+        </div>
+    </div>
+</div>

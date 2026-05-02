@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "Dotnet Backend Auth"
+  short_description: "Auth/account flow updates across DTO, service, and API"
+  default_prompt: "Use $dotnet-backend-auth to implement or review authentication and OTP flow changes."

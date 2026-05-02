@@ -1,0 +1,97 @@
+{
+  "id": null,
+  "uid": "babak-api-endpoint-insights",
+  "title": "Babak API Endpoint Insights",
+  "tags": ["api", "telemetry", "endpoint"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Top Routes By Request Rate (req/s)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "topk(8, sum(rate(http_server_requests_total{http_route!=\"unmatched\"}[1m])) by (http_route))",
+          "legendFormat": "{{http_route}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Top Routes By P95 Latency (ms)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "topk(8, histogram_quantile(0.95, sum(rate(http_server_request_duration_ms_bucket{http_route!=\"unmatched\"}[5m])) by (http_route, le)))",
+          "legendFormat": "{{http_route}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Top Routes By Error Rate (5xx req/s)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "topk(8, sum(rate(http_server_errors_total{http_route!=\"unmatched\"}[1m])) by (http_route))",
+          "legendFormat": "{{http_route}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "table",
+      "title": "Route Health Table (Req/s, Error/s, P95)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum(rate(http_server_requests_total{http_route!=\"unmatched\"}[1m])) by (http_route)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "req/s",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(rate(http_server_errors_total{http_route!=\"unmatched\"}[1m])) by (http_route)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "error/s",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_ms_bucket{http_route!=\"unmatched\"}[5m])) by (http_route, le))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "p95_ms",
+          "refId": "C"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "http_route",
+            "mode": "outer"
+          }
+        }
+      ]
+    }
+  ]
+}

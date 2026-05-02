@@ -1,0 +1,80 @@
+@page "{serviceName}/{methodName}"
+@model AdminPanel.Pages.Operations.InvokeModel
+@{
+    ViewData["Title"] = "اجرای عملیات";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h4 mb-1">اجرای متد @Model.Operation.MethodName</h1>
+        <p class="text-muted mb-0">سرویس: @Model.Operation.ServiceName</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-page="/Operations/Index">بازگشت</a>
+</div>
+
+@if (Model.ResultSuccess.HasValue)
+{
+    <div class="alert @(Model.ResultSuccess.Value ? "alert-success" : "alert-danger") white-space-pre">@Model.ResultMessage</div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            @foreach (var parameter in Model.Operation.Parameters.Where(p => !p.IsCancellationToken))
+            {
+                var type = parameter.EffectiveType;
+                <div class="col-12 @(parameter.IsComplexJsonInput ? "col-lg-12" : "col-md-6")">
+                    <label class="form-label" for="@parameter.Name">
+                        @parameter.Name
+                        <span class="text-muted small">(@parameter.ParameterType.Name)</span>
+                    </label>
+                    @if (parameter.IsEnum)
+                    {
+                        <select class="form-select" name="@parameter.Name" id="@parameter.Name">
+                            <option value="">انتخاب کنید</option>
+                            @foreach (var enumValue in Enum.GetNames(type))
+                            {
+                                if (enumValue == Model.GetValue(parameter.Name))
+                                {
+                                    <option value="@enumValue" selected>@enumValue</option>
+                                }
+                                else
+                                {
+                                    <option value="@enumValue">@enumValue</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else if (type == typeof(bool))
+                    {
+                        var isChecked = Model.GetValue(parameter.Name).Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                                        Model.GetValue(parameter.Name).Equals("on", StringComparison.OrdinalIgnoreCase);
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="@parameter.Name" name="@parameter.Name" checked="@isChecked" />
+                            <label class="form-check-label" for="@parameter.Name">true / false</label>
+                        </div>
+                    }
+                    else if (parameter.IsComplexJsonInput)
+                    {
+                        <textarea class="form-control font-monospace" rows="6" id="@parameter.Name" name="@parameter.Name" placeholder='{"property":"value"}'>@Model.GetValue(parameter.Name)</textarea>
+                    }
+                    else if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
+                    {
+                        <input class="form-control" type="datetime-local" id="@parameter.Name" name="@parameter.Name" value="@Model.GetValue(parameter.Name)" />
+                    }
+                    else if (type == typeof(int) || type == typeof(long) || type == typeof(float) || type == typeof(double) || type == typeof(decimal))
+                    {
+                        <input class="form-control" type="number" step="any" id="@parameter.Name" name="@parameter.Name" value="@Model.GetValue(parameter.Name)" />
+                    }
+                    else
+                    {
+                        <input class="form-control" id="@parameter.Name" name="@parameter.Name" value="@Model.GetValue(parameter.Name)" />
+                    }
+                </div>
+            }
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">اجرای عملیات</button>
+            </div>
+        </form>
+    </div>
+</div>

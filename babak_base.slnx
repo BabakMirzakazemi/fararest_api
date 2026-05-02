@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="AdminPanel/AdminPanel.csproj" Id="ea76449b-1338-47fa-beed-0b2203043f29" />
+  <Project Path="API/API.csproj" />
+  <Project Path="Common/Common.csproj" />
+  <Project Path="Data/Data.csproj" />
+  <Project Path="Entities/Entities.csproj" />
+  <Project Path="Services/Services.csproj" />
+  <Project Path="WebFramwork/WebFramwork.csproj" />
+</Solution>

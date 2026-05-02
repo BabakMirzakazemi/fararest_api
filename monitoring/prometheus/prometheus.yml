@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Scrapes API telemetry endpoint exposed by OpenTelemetry Prometheus exporter.
+  # API launchSettings exposes HTTP endpoint on localhost:5052 in Development.
+  - job_name: "babak-api"
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets: ["host.docker.internal:5052"]

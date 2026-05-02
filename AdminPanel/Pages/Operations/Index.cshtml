@@ -1,0 +1,51 @@
+@page
+@model AdminPanel.Pages.Operations.IndexModel
+@{
+    ViewData["Title"] = "عملیات سرویس‌ها";
+}
+
+<div class="mb-4">
+    <h1 class="h3 mb-1">عملیات سرویس‌ها</h1>
+    <p class="text-muted mb-0">اجرای متدهای سرویس برای کارهای عملیاتی پنل مدیریت (OTP، Email و ...).</p>
+</div>
+
+@if (!Model.OperationsByService.Any())
+{
+    <div class="alert alert-info">سرویسی برای اجرا پیدا نشد.</div>
+}
+else
+{
+    foreach (var serviceGroup in Model.OperationsByService)
+    {
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-white">
+                <h2 class="h6 mb-0">@serviceGroup.Key</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>متد</th>
+                            <th>پارامترها</th>
+                            <th class="text-end">اقدام</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var operation in serviceGroup.OrderBy(x => x.MethodName))
+                    {
+                        <tr>
+                            <td><code>@operation.MethodName</code></td>
+                            <td class="small text-muted">
+                                @string.Join(", ", operation.Parameters.Where(p => !p.IsCancellationToken).Select(p => $"{p.Name}: {p.ParameterType.Name}"))
+                            </td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-primary" asp-page="/Operations/Invoke" asp-route-serviceName="@operation.ServiceName" asp-route-methodName="@operation.MethodName">اجرا</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}

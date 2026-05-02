@@ -1,0 +1,96 @@
+@page "{entityName}"
+@model AdminPanel.Pages.Entities.ListModel
+@{
+    ViewData["Title"] = "لیست " + Model.Entity.DisplayName;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+        <h1 class="h4 mb-1">مدیریت @Model.Entity.DisplayName</h1>
+        <p class="text-muted mb-0">تعداد کل: @Model.TotalRecords رکورد</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-secondary" asp-page="/Entities/Index">بازگشت به موجودیت‌ها</a>
+        <a class="btn btn-primary" asp-page="/Entities/Edit" asp-route-entityName="@Model.Entity.Name">ایجاد رکورد جدید</a>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <input type="hidden" name="entityName" value="@Model.Entity.Name" />
+            <div class="col-12 col-md-6 col-lg-4">
+                <label class="form-label">جستجو</label>
+                <input class="form-control" name="Search" value="@Model.Search" placeholder="جستجو در فیلدهای متنی" />
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <label class="form-label">صفحه</label>
+                <input class="form-control" type="number" min="1" max="@Model.TotalPages" name="PageNumber" value="@Model.PageNumber" />
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <button class="btn btn-outline-primary w-100" type="submit">اعمال</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    @foreach (var column in Model.Columns)
+                    {
+                        <th>@column.DisplayName</th>
+                    }
+                    <th class="text-end">عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Rows.Any())
+                {
+                    <tr>
+                        <td colspan="99" class="text-center py-4 text-muted">رکوردی یافت نشد.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var row in Model.Rows)
+                    {
+                        var key = Model.BuildKey(row);
+                        <tr>
+                            @foreach (var column in Model.Columns)
+                            {
+                                <td class="text-truncate" style="max-width: 220px;">@Model.GetCell(row, column)</td>
+                            }
+                            <td class="text-end">
+                                <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-outline-primary" asp-page="/Entities/Edit" asp-route-entityName="@Model.Entity.Name" asp-route-key="@key">ویرایش</a>
+                                    <a class="btn btn-outline-danger" asp-page="/Entities/Delete" asp-route-entityName="@Model.Entity.Name" asp-route-key="@key">حذف</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mt-3">
+    <a class="btn btn-sm btn-outline-secondary @(Model.PageNumber <= 1 ? "disabled" : "")"
+       asp-page="/Entities/List"
+       asp-route-entityName="@Model.Entity.Name"
+       asp-route-Search="@Model.Search"
+       asp-route-PageNumber="@(Model.PageNumber - 1)">
+        صفحه قبل
+    </a>
+    <span class="text-muted small align-self-center">صفحه @Model.PageNumber از @Model.TotalPages</span>
+    <a class="btn btn-sm btn-outline-secondary @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")"
+       asp-page="/Entities/List"
+       asp-route-entityName="@Model.Entity.Name"
+       asp-route-Search="@Model.Search"
+       asp-route-PageNumber="@(Model.PageNumber + 1)">
+        صفحه بعد
+    </a>
+</div>

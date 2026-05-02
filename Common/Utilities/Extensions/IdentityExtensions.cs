@@ -1,0 +1,52 @@
+﻿using System.Globalization;
+using System.Security.Claims;
+using System.Security.Principal;
+
+namespace Common.Utilities.Extensions;
+
+public static class IdentityExtensions
+{
+    public static List<string> GetRoles(this ClaimsIdentity claimsIdentity)
+    {
+        return claimsIdentity.FindAll(p => p.Type == claimsIdentity.RoleClaimType).Select(p => p.Value).ToList();
+    }
+
+    public static string? FindFirstValue(this ClaimsIdentity? identity, string claimType)
+    {
+        return identity?.FindFirst(claimType)?.Value;
+    }
+
+    public static List<string> GetRoles(this System.Security.Principal.IIdentity identity)
+    {
+        var claimsIdentity = identity as ClaimsIdentity;
+        return claimsIdentity?.GetRoles() ?? [];
+    }
+
+    public static string? FindFirstValue(this System.Security.Principal.IIdentity? identity, string claimType)
+    {
+        var claimsIdentity = identity as ClaimsIdentity;
+        return claimsIdentity?.FindFirstValue(claimType);
+    }
+
+    public static string? GetUserId(this IIdentity? identity)
+    {
+        return identity?.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
+
+    public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
+    {
+        var userId = identity?.GetUserId();
+        if (!userId.HasValue())
+            return default!;
+
+        var converted = Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture);
+        return converted is T typed ? typed : default!;
+    }
+
+    public static string? GetUserName(this System.Security.Principal.IIdentity? identity)
+    {
+        return identity?.FindFirstValue(ClaimTypes.Name);
+    }
+
+    public const string RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+}

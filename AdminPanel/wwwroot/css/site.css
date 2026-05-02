@@ -1,0 +1,46 @@
+html,
+body {
+  height: 100%;
+}
+
+body.admin-body {
+  background: #f6f8fb;
+  color: #1d2939;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.admin-sidebar {
+  min-height: calc(100vh - 58px);
+  background: #ffffff;
+}
+
+.admin-sidebar .nav-link,
+.offcanvas .nav-link {
+  border-radius: 0.6rem;
+  color: #344054;
+  padding: 0.55rem 0.75rem;
+}
+
+.admin-sidebar .nav-link:hover,
+.offcanvas .nav-link:hover {
+  background: #eef4ff;
+  color: #1d4ed8;
+}
+
+.card {
+  border: 1px solid #eaecf0;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.white-space-pre {
+  white-space: pre-line;
+}

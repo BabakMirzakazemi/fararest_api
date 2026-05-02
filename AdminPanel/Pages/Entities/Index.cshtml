@@ -1,0 +1,40 @@
+@page
+@model AdminPanel.Pages.Entities.IndexModel
+@{
+    ViewData["Title"] = "موجودیت‌ها";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">مدیریت موجودیت‌ها</h1>
+        <p class="text-muted mb-0">تمام موجودیت‌های EF Core که در سیستم ثبت شده‌اند.</p>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>نام موجودیت</th>
+                    <th>کلید اصلی</th>
+                    <th>فیلد قابل ویرایش</th>
+                    <th class="text-end">اقدام</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var entity in Model.Entities)
+            {
+                <tr>
+                    <td>@entity.DisplayName</td>
+                    <td>@string.Join(", ", entity.KeyProperties.Select(k => k.Name))</td>
+                    <td>@entity.EditableProperties.Count</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-primary" asp-page="/Entities/List" asp-route-entityName="@entity.Name">ورود به مدیریت</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

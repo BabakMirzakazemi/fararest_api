@@ -1,0 +1,31 @@
+@page "{entityName}/{key}"
+@model AdminPanel.Pages.Entities.DeleteModel
+@{
+    ViewData["Title"] = "حذف رکورد";
+}
+
+<div class="mb-3">
+    <h1 class="h4 mb-1">حذف رکورد از @Model.Entity.DisplayName</h1>
+    <p class="text-muted mb-0">این عملیات غیرقابل بازگشت است.</p>
+</div>
+
+<div class="alert alert-warning">
+    آیا از حذف این رکورد مطمئن هستید؟
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            @foreach (var property in Model.Entity.KeyProperties.Concat(Model.Entity.EditableProperties.Take(5)))
+            {
+                <dt class="col-sm-3">@property.DisplayName</dt>
+                <dd class="col-sm-9">@Model.ShowValue(property)</dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<form method="post" class="d-flex gap-2">
+    <button type="submit" class="btn btn-danger">تایید حذف</button>
+    <a class="btn btn-outline-secondary" asp-page="/Entities/List" asp-route-entityName="@Model.Entity.Name">انصراف</a>
+</form>

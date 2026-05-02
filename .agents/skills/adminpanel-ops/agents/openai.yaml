@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "AdminPanel Ops"
+  short_description: "AdminPanel operations and entity admin workflows"
+  default_prompt: "Use $adminpanel-ops to update operation invocation or entity admin infrastructure safely."

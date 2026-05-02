@@ -1,0 +1,71 @@
+services:
+  # Seq provides a web UI for structured logs.
+  seq:
+    image: datalust/seq:2024.3
+    container_name: babak-seq
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5341:80"
+    volumes:
+      - seq-data:/data
+    restart: unless-stopped
+
+  # Redis is optional but recommended for distributed cache in multi-instance deployments.
+  redis:
+    image: redis:7.2-alpine
+    container_name: babak-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "60", "1", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  # Prometheus scrapes API metrics endpoint and stores time-series.
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: babak-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+
+  # Grafana live dashboards for operational telemetry.
+  grafana:
+    image: grafana/grafana:11.2.2
+    container_name: babak-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # Jaeger UI for distributed tracing; receives OTLP on 4317/4318.
+  jaeger:
+    image: jaegertracing/all-in-one:1.63.0
+    container_name: babak-jaeger
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+    restart: unless-stopped
+
+volumes:
+  seq-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:

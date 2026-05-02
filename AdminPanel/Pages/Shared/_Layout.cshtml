@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AdminPanel.styles.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+    <header class="admin-header border-bottom bg-white">
+        <div class="container-fluid d-flex align-items-center justify-content-between py-2 px-3">
+            <a class="navbar-brand fw-semibold" asp-page="/Index">پنل مدیریت سیستم</a>
+            <div class="d-flex align-items-center gap-2">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <span class="small text-muted">@User.Identity.Name</span>
+                    <form method="post" asp-page="/Auth/Logout" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">خروج</button>
+                    </form>
+                }
+                <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                    منو
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-lg-2 d-none d-lg-block admin-sidebar border-start px-0">
+                <div class="p-3">
+                    <div class="small text-uppercase text-muted mb-2">ناوبری</div>
+                    <nav class="nav flex-column gap-1">
+                        <a class="nav-link" asp-page="/Index">داشبورد</a>
+                        <a class="nav-link" asp-page="/Entities/Index">مدیریت موجودیت‌ها</a>
+                        <a class="nav-link" asp-page="/Operations/Index">عملیات سرویس‌ها</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="col-12 col-lg-10 px-3 py-4">
+                @if (TempData["Success"] is string successMessage)
+                {
+                    <div class="alert alert-success">@successMessage</div>
+                }
+                @if (TempData["Error"] is string errorMessage)
+                {
+                    <div class="alert alert-danger white-space-pre">@errorMessage</div>
+                }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">منوی پنل</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <nav class="nav flex-column gap-2">
+                <a class="nav-link" asp-page="/Index">داشبورد</a>
+                <a class="nav-link" asp-page="/Entities/Index">مدیریت موجودیت‌ها</a>
+                <a class="nav-link" asp-page="/Operations/Index">عملیات سرویس‌ها</a>
+            </nav>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
