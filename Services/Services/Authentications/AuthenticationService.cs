@@ -1,4 +1,4 @@
-﻿using Common.Configurations;
+using Common.Configurations;
 using Common.Markers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -68,11 +68,11 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             FullName = request.FullName?.Trim(),
             IsActive = false,
             EmailConfirmed = false,
-            CreatedDate = DateTime.Now,
+            CreatedDate = DateTime.UtcNow,
             ConfirmationCode = new ConfirmationCode
             {
                 NewEmailOtp = otp,
-                NewEmailOtpExpirationDate = DateTime.Now.AddSeconds(OtpExpireSeconds)
+                NewEmailOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds)
             }
         };
 
@@ -104,7 +104,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
         var confirmation = EnsureConfirmationCode(user);
 
-        if (!confirmation.NewEmailOtpExpirationDate.HasValue || confirmation.NewEmailOtpExpirationDate.Value < DateTime.Now)
+        if (!confirmation.NewEmailOtpExpirationDate.HasValue || confirmation.NewEmailOtpExpirationDate.Value < DateTime.UtcNow)
             throw new BadRequestException(ApplicationMessages.ExpiredOtp);
 
         if (confirmation.NewEmailOtp != request.Otp.Trim())
@@ -135,7 +135,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
         var otp = GenerateOtp();
         confirmation.NewEmailOtp = otp;
-        confirmation.NewEmailOtpExpirationDate = DateTime.Now.AddSeconds(OtpExpireSeconds);
+        confirmation.NewEmailOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds);
         await UpdateUserAsync(user);
 
         await SendActivationEmailAsync(user, email, otp, cancellationToken);
@@ -162,11 +162,11 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             FullName = request.FullName?.Trim(),
             IsActive = false,
             PhoneNumberConfirmed = false,
-            CreatedDate = DateTime.Now,
+            CreatedDate = DateTime.UtcNow,
             ConfirmationCode = new ConfirmationCode
             {
                 NewPhoneNumberOtp = otp,
-                NewPhoneNumberOtpExpirationDate = DateTime.Now.AddSeconds(OtpExpireSeconds)
+                NewPhoneNumberOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds)
             }
         };
 
@@ -190,7 +190,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
         var confirmation = EnsureConfirmationCode(user);
 
-        if (!confirmation.NewPhoneNumberOtpExpirationDate.HasValue || confirmation.NewPhoneNumberOtpExpirationDate.Value < DateTime.Now)
+        if (!confirmation.NewPhoneNumberOtpExpirationDate.HasValue || confirmation.NewPhoneNumberOtpExpirationDate.Value < DateTime.UtcNow)
             throw new AppException(ApplicationMessages.ExpiredOtp);
 
         if (confirmation.NewPhoneNumberOtp != request.Otp.Trim())
@@ -240,7 +240,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         var otp = GenerateOtp();
 
         confirmation.LoginOtp = otp;
-        confirmation.LoginOtpExpirationDate = DateTime.Now.AddSeconds(OtpExpireSeconds);
+        confirmation.LoginOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds);
         await UpdateUserAsync(user);
 
         var otpSendResult =  await _senderService.SendOtpSmsAsync(mobile, otp, cancellationToken);
@@ -264,7 +264,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             throw new AppException(ApplicationMessages.UserIsDeActive);
 
         var confirmation = EnsureConfirmationCode(user);
-        if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.Now)
+        if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.UtcNow)
             throw new AppException(ApplicationMessages.ExpiredOtp);
 
         if (confirmation.LoginOtp != otp)
@@ -303,7 +303,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
         var confirmation = EnsureConfirmationCode(user);
 
-        if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.Now)
+        if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.UtcNow)
             throw new AppException(ApplicationMessages.ExpiredOtp);
 
         if (confirmation.LoginOtp != request.Otp)
@@ -326,7 +326,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         var otp = GenerateOtp();
 
         confirmation.LoginOtp = otp;
-        confirmation.LoginOtpExpirationDate = DateTime.Now.AddSeconds(OtpExpireSeconds);
+        confirmation.LoginOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds);
         await UpdateUserAsync(user);
 
         var otpSendResult = _hostingEnvironment.IsDevelopment() || await _senderService.SendOtpSmsAsync(user.Mobile, otp, cancellationToken);
@@ -351,7 +351,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
         var confirmation = EnsureConfirmationCode(user);
 
-        if (!confirmation.UpdatePasswordOtpExpirationDate.HasValue || confirmation.UpdatePasswordOtpExpirationDate.Value < DateTime.Now)
+        if (!confirmation.UpdatePasswordOtpExpirationDate.HasValue || confirmation.UpdatePasswordOtpExpirationDate.Value < DateTime.UtcNow)
             throw new BadRequestException(ApplicationMessages.ExpiredOtp);
 
         if (confirmation.UpdatePasswordOtp != request.Otp)
@@ -452,7 +452,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (!confirmation.NewEmailOtpExpirationDate.HasValue)
             return false;
 
-        return confirmation.NewEmailOtpExpirationDate.Value > DateTime.Now.AddSeconds(OtpExpireSeconds - ResendActivationCooldownSeconds);
+        return confirmation.NewEmailOtpExpirationDate.Value > DateTime.UtcNow.AddSeconds(OtpExpireSeconds - ResendActivationCooldownSeconds);
     }
 
     #endregion

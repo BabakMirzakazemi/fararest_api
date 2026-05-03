@@ -25,7 +25,7 @@ public class UserDataInitializer : IDataInitializer
                 Email = DataInitializerDefaultValues.Email,
                 UserName = DataInitializerDefaultValues.UserName,
                 IsActive = true,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 FullName = DataInitializerDefaultValues.FullName,
                 IsDeleted = false,
                 Mobile = DataInitializerDefaultValues.PhoneNumber,

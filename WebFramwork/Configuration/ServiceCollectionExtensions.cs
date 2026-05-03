@@ -42,14 +42,12 @@ public static class ServiceCollectionExtensions
             if (webHostEnvironment.IsDevelopment())
                 options.EnableSensitiveDataLogging();
 
-            var dbType = configuration.GetValue<string>("DataBaseType");
-            var isPostgreSQL = dbType != null && dbType.ToLower() == "p";
             var slowQueryInterceptor = sp.GetRequiredService<SlowQueryLoggingInterceptor>();
+            var connectionString = configuration.GetConnectionString("PostgreSql");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("Connection string 'PostgreSql' was not found.");
 
-            if (isPostgreSQL)
-                options.UseNpgsql(configuration.GetConnectionString("postgress"));
-            else
-                options.UseSqlServer(configuration.GetConnectionString("SqlServer"));
+            options.UseNpgsql(connectionString);
 
             options.AddInterceptors(slowQueryInterceptor);
         });

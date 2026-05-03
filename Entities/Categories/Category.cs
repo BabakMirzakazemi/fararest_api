@@ -7,12 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Categories
 {
-    public class Category : BaseEntity
+    public class Category : BaseEntity<long>
     {
-        public int? ParentCategoryId { get; set; }
+        public long OrganizationId { get; set; }
+        public long? ParentCategoryId { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
+        public string[]? ImageUrls { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
         [ForeignKey(nameof(ParentCategoryId))]
         public Category? ParentCategory { get; set; }
         public ICollection<Category> ChildCategories { get; set; } = new List<Category>();
@@ -24,7 +29,16 @@ namespace Entities.Categories
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
+            builder.ToTable("menu_category");
+            builder.Property(p => p.Id).HasColumnName("id");
+            builder.Property(p => p.OrganizationId).HasColumnName("organization_id");
+            builder.Property(p => p.ParentCategoryId).HasColumnName("parent_id");
+            builder.Property(p => p.Name).HasColumnName("name").IsRequired().HasMaxLength(200);
+            builder.Property(p => p.Description).HasColumnName("description");
+            builder.Property(p => p.ImageUrls).HasColumnName("image_urls");
+            builder.Property(p => p.IsActive).HasColumnName("is_active");
+            builder.Property(p => p.CreatedAt).HasColumnName("created_at");
+            builder.Property(p => p.UpdatedAt).HasColumnName("updated_at");
             // Self-referencing relation
             builder
                 .HasOne(c => c.ParentCategory)       // هر دسته یک والد دارد
