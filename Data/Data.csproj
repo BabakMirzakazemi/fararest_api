@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\Sql\*.sql" LogicalName="Data.Migrations.Sql.%(Filename)%(Extension)" />
+  </ItemGroup>
+
 </Project>

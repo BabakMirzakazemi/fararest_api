@@ -4,6 +4,7 @@ using System.Net;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260503092144_Phase6SchemaAlignmentCoreCrmMenuSupport")]
+    partial class Phase6SchemaAlignmentCoreCrmMenuSupport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1610,7 +1613,7 @@ namespace Data.Migrations
 
                     b.HasIndex("EmailSharedInformationId");
 
-                    b.ToTable("EmailDocument", (string)null);
+                    b.ToTable("EmailDocument");
                 });
 
             modelBuilder.Entity("Entities.Emails.Email", b =>
@@ -1641,7 +1644,7 @@ namespace Data.Migrations
 
                     b.HasIndex("EmailSharedInformationId");
 
-                    b.ToTable("Email", (string)null);
+                    b.ToTable("Email");
                 });
 
             modelBuilder.Entity("Entities.Emails.EmailSharedInformation", b =>
@@ -1669,7 +1672,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailSharedInformation", (string)null);
+                    b.ToTable("EmailSharedInformation");
                 });
 
             modelBuilder.Entity("Entities.Items.Item", b =>
@@ -3191,7 +3194,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConfirmationCode", (string)null);
+                    b.ToTable("ConfirmationCode");
                 });
 
             modelBuilder.Entity("Entities.Users.Role", b =>
