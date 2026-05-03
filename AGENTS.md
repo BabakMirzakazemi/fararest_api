@@ -18,6 +18,22 @@
 - Current repo skills:
   - `.agents/skills/dotnet-backend-auth/SKILL.md`
   - `.agents/skills/adminpanel-ops/SKILL.md`
+  - `.agents/skills/auth-business/SKILL.md`
+  - `.agents/skills/accounts-business/SKILL.md`
+  - `.agents/skills/licenses-business/SKILL.md`
+  - `.agents/skills/payments-business/SKILL.md`
+  - `.agents/skills/menu-business/SKILL.md`
+  - `.agents/skills/digital-menu-business/SKILL.md`
+  - `.agents/skills/support-business/SKILL.md`
+  - `.agents/skills/crm-business/SKILL.md`
+
+## Business Requirements Source
+- Business requirement documents live under `docs/business/**`.
+- Use `docs/business/README.md` as the entry point.
+- For any implementation in domains `auth/accounts/licenses/payments/menu/digital-menu/support/crm`:
+  1. Read the related domain document first.
+  2. Follow the related domain skill under `.agents/skills/*-business/SKILL.md`.
+  3. If requirements are ambiguous, add an explicit `Open Questions` item back to the related document.
 
 ## Purpose
 This file defines mandatory engineering and architecture rules for AI agents working in this repository.
