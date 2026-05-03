@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -1658,20 +1657,11 @@ namespace Data.Migrations
                 name: "IX_support_ticket_message_ticket_id_created_at",
                 table: "support_ticket_message",
                 columns: new[] { "ticket_id", "created_at" });
-
-            // Bootstrap database programmable objects during plain `Update-Database`.
-            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS pgcrypto;");
-            migrationBuilder.Sql(ReadEmbeddedSql("base_utilities.sql"));
-            migrationBuilder.Sql(ReadEmbeddedSql("accounts_functions.sql"));
-            migrationBuilder.Sql(ReadEmbeddedSql("accounts_triggers.sql"));
-            migrationBuilder.Sql(ReadEmbeddedSql("phase5_db_objects_up.sql"));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(ReadEmbeddedSql("phase5_db_objects_down.sql"));
-
             migrationBuilder.DropTable(
                 name: "accounts_membership");
 
@@ -1858,15 +1848,5 @@ namespace Data.Migrations
             migrationBuilder.DropTable(
                 name: "ConfirmationCode");
         }
-        private static string ReadEmbeddedSql(string fileName)
-        {
-            var assembly = typeof(Init).Assembly;
-            var resourceName = $"Data.Migrations.Sql.{fileName}";
-            using var stream = assembly.GetManifestResourceStream(resourceName)
-                ?? throw new InvalidOperationException($"Embedded SQL resource not found: {resourceName}");
-            using var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
-        }
     }
 }
-
