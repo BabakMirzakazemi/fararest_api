@@ -2,7 +2,10 @@
 using FluentValidation;
 using Services.Contracts.Authentications;
 using Services.DTOs.Accounts.Login;
+using Services.DTOs.Accounts.Mfa;
+using Services.DTOs.Accounts.Recovery;
 using Services.DTOs.Accounts.Registration;
+using Services.DTOs.Accounts.Sessions;
 
 namespace Services.DTOs.Accounts;
 
@@ -128,6 +131,71 @@ public class PhoneOtpLoginRequestValidator : AbstractValidator<PhoneOtpLoginRequ
         RuleFor(dto => dto.Mobile)
             .ValidatePhoneNumber();
 
+        RuleFor(dto => dto.Otp)
+            .NotNullAndEmpty(ApplicationPropertyPersianName.Otp)
+            .Must(otp => Regex.IsMatch(otp.Trim(), "^\\d{6}$"))
+            .WithMessage(ApplicationMessages.InvalidOtp);
+    }
+}
+
+public class ForgotPasswordRequestValidator : AbstractValidator<ForgotPasswordRequest>
+{
+    public ForgotPasswordRequestValidator()
+    {
+        RuleFor(dto => dto)
+            .Must(dto => !string.IsNullOrWhiteSpace(dto.Email) || !string.IsNullOrWhiteSpace(dto.Mobile))
+            .WithMessage("حداقل یکی از ایمیل یا موبایل باید ارسال شود");
+
+        RuleFor(dto => dto.Email)
+            .Must(email => string.IsNullOrWhiteSpace(email) || Regex.IsMatch(email.Trim(), $"^{RegexHelper.Email}$"))
+            .WithMessage(ApplicationMessages.InvalidEmail);
+
+        RuleFor(dto => dto.Mobile)
+            .Must(mobile => string.IsNullOrWhiteSpace(mobile) || Regex.IsMatch(mobile.Trim(), RegexHelper.Mobile))
+            .WithMessage(ApplicationMessages.IsNotValidPhoneNumber);
+    }
+}
+
+public class ResetPasswordWithOtpRequestValidator : AbstractValidator<ResetPasswordWithOtpRequest>
+{
+    public ResetPasswordWithOtpRequestValidator()
+    {
+        RuleFor(dto => dto)
+            .Must(dto => !string.IsNullOrWhiteSpace(dto.Email) || !string.IsNullOrWhiteSpace(dto.Mobile))
+            .WithMessage("حداقل یکی از ایمیل یا موبایل باید ارسال شود");
+
+        RuleFor(dto => dto.Email)
+            .Must(email => string.IsNullOrWhiteSpace(email) || Regex.IsMatch(email.Trim(), $"^{RegexHelper.Email}$"))
+            .WithMessage(ApplicationMessages.InvalidEmail);
+
+        RuleFor(dto => dto.Mobile)
+            .Must(mobile => string.IsNullOrWhiteSpace(mobile) || Regex.IsMatch(mobile.Trim(), RegexHelper.Mobile))
+            .WithMessage(ApplicationMessages.IsNotValidPhoneNumber);
+
+        RuleFor(dto => dto.Otp)
+            .NotNullAndEmpty(ApplicationPropertyPersianName.Otp)
+            .Must(otp => Regex.IsMatch(otp.Trim(), "^\\d{6}$"))
+            .WithMessage(ApplicationMessages.InvalidOtp);
+
+        RuleFor(dto => dto.NewPassword)
+            .ValidatePassword(dto => dto.ConfirmNewPassword);
+    }
+}
+
+public class RevokeSessionRequestValidator : AbstractValidator<RevokeSessionRequest>
+{
+    public RevokeSessionRequestValidator()
+    {
+        RuleFor(dto => dto.SessionPublicId)
+            .NotEqual(Guid.Empty)
+            .WithMessage(MessageBuilder.CreateNotEmptyErrorMessage("Session Id"));
+    }
+}
+
+public class SetMfaStatusRequestValidator : AbstractValidator<SetMfaStatusRequest>
+{
+    public SetMfaStatusRequestValidator()
+    {
         RuleFor(dto => dto.Otp)
             .NotNullAndEmpty(ApplicationPropertyPersianName.Otp)
             .Must(otp => Regex.IsMatch(otp.Trim(), "^\\d{6}$"))

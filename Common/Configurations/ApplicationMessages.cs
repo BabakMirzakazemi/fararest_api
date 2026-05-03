@@ -76,6 +76,9 @@ public static class ApplicationMessages
     public const string ResendActivationTooSoon = "ارسال مجدد لینک فعال سازی زودتر از حد مجاز است";
     public const string SejamMustApprovedBeforeInvestment = "جهت سرمایه گذاری باید احراز هویت سجام کامل شده باشد";
     public const string ErrorInSendOtp = "در ارسال کد تایید خطایی رخ داده است";
+    public const string ForgotPasswordRequestAccepted = "در صورت معتبر بودن اطلاعات، کد بازیابی ارسال شد";
+    public const string SessionNotFound = "نشست مورد نظر یافت نشد";
+    public const string MfaRequiresOtp = "برای تغییر وضعیت MFA باید کد تایید معتبر ارسال شود";
     public const string InvalidPaginationCursor = "توکن صفحه بندی معتبر نیست";
     public const string InvalidReferralStartDate = "تاریخ شروع اعتبار کد معرفی نمیتواند مربوط به گذشته باشد";
     public const string InvalidReferralEndDate = "تاریخ پایان اعتبار کد معرفی نمیتواند مربوط به گذشته باشد";

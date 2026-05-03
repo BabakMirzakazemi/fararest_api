@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\Sql\*.sql" LogicalName="Data.Migrations.Sql.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Database\SqlObjects\*.sql" LogicalName="Data.Migrations.Sql.%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>

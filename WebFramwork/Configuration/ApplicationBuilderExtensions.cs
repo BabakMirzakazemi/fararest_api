@@ -1,5 +1,6 @@
 ﻿using Common.Utilities.Helpers;
 using Data;
+using Data.Database.SqlObjects;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,8 @@ public static class ApplicationBuilderExtensions
         //dbContext.Database.EnsureCreated();
         //Applies any pending migrations for the context to the database like (Update-Database)
         dbContext.Database.Migrate();
+        // Re-apply SQL objects (functions/triggers/views) from stable scripts.
+        DatabaseSqlObjectsInstaller.ApplyAsync(dbContext).GetAwaiter().GetResult();
 
         var dataInitializers = scope.ServiceProvider.GetServices<IDataInitializer>().OrderBy(i => i.Order).ToList();
         Console.WriteLine($"[Seed] IDataInitializer count: {dataInitializers.Count}");

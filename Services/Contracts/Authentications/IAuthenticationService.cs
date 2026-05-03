@@ -1,8 +1,11 @@
 ﻿using Services.DTOs.Accounts.CompleteRegistration;
 using Services.DTOs.Accounts.Login;
+using Services.DTOs.Accounts.Mfa;
 using Services.DTOs.Accounts.Otp;
+using Services.DTOs.Accounts.Recovery;
 using Services.DTOs.Accounts.Registration;
 using Services.DTOs.Accounts.SendOtp;
+using Services.DTOs.Accounts.Sessions;
 using Services.DTOs.Accounts.StartAuthentication;
 using Services.DTOs.Accounts.ValidateOtp;
 using Services.DTOs.Users.UpdatePassword;
@@ -36,6 +39,20 @@ public interface IAuthenticationService
     //Task<LoginResponse> AdminLoginAsync(AdminLoginRequest request, CancellationToken cancellationToken);
 
     Task<SendOtpResponse> SendOtpAsync(SendOtpRequest request, CancellationToken cancellationToken);
+
+    Task ForgotPasswordAsync(ForgotPasswordRequest request, CancellationToken cancellationToken);
+
+    Task ResetPasswordWithOtpAsync(ResetPasswordWithOtpRequest request, CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<AccountSessionItemDto>> GetMySessionsAsync(CancellationToken cancellationToken);
+
+    Task RevokeSessionAsync(RevokeSessionRequest request, CancellationToken cancellationToken);
+
+    Task RevokeOtherSessionsAsync(CancellationToken cancellationToken);
+
+    Task<MfaStatusResponse> GetMfaStatusAsync(CancellationToken cancellationToken);
+
+    Task SetMfaStatusAsync(SetMfaStatusRequest request, CancellationToken cancellationToken);
 
     //Task ValidateCompleteRegistrationDataAsync(CompleteUserRegistrationRequest request, CancellationToken cancellationToken);
 

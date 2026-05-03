@@ -1,0 +1,34 @@
+﻿DROP TRIGGER IF EXISTS accounts_membership_set_updated_at_bu ON public.accounts_membership;
+CREATE TRIGGER accounts_membership_set_updated_at_bu BEFORE UPDATE ON accounts_membership FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+
+DROP TRIGGER IF EXISTS accounts_organization_location_validate_biu ON public.accounts_organization;
+CREATE TRIGGER accounts_organization_location_validate_biu BEFORE INSERT OR UPDATE ON accounts_organization FOR EACH ROW EXECUTE FUNCTION accounts_organization_location_validate();
+DROP TRIGGER IF EXISTS accounts_organization_set_updated_at_bu ON public.accounts_organization;
+CREATE TRIGGER accounts_organization_set_updated_at_bu BEFORE UPDATE ON accounts_organization FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+
+DROP TRIGGER IF EXISTS accounts_organization_security_setting_set_updated_at_bu ON public.accounts_organization_security_setting;
+CREATE TRIGGER accounts_organization_security_setting_set_updated_at_bu BEFORE UPDATE ON accounts_organization_security_setting FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+
+DROP TRIGGER IF EXISTS accounts_security_feature_set_updated_at_bu ON public.accounts_security_feature;
+CREATE TRIGGER accounts_security_feature_set_updated_at_bu BEFORE UPDATE ON accounts_security_feature FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+
+DROP TRIGGER IF EXISTS accounts_user_oauth_identity_set_updated_at_bu ON public.accounts_user_oauth_identity;
+CREATE TRIGGER accounts_user_oauth_identity_set_updated_at_bu BEFORE UPDATE ON accounts_user_oauth_identity FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+DROP TRIGGER IF EXISTS accounts_user_oauth_identity_validate_biu ON public.accounts_user_oauth_identity;
+CREATE TRIGGER accounts_user_oauth_identity_validate_biu BEFORE INSERT OR UPDATE ON accounts_user_oauth_identity FOR EACH ROW EXECUTE FUNCTION accounts_user_oauth_identity_validate();
+
+DROP TRIGGER IF EXISTS accounts_user_security_setting_set_updated_at_bu ON public.accounts_user_security_setting;
+CREATE TRIGGER accounts_user_security_setting_set_updated_at_bu BEFORE UPDATE ON accounts_user_security_setting FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+DROP TRIGGER IF EXISTS accounts_user_security_setting_validate_biu ON public.accounts_user_security_setting;
+CREATE TRIGGER accounts_user_security_setting_validate_biu BEFORE INSERT OR UPDATE ON accounts_user_security_setting FOR EACH ROW EXECUTE FUNCTION accounts_user_security_setting_validate();
+
+DROP TRIGGER IF EXISTS accounts_user_session_validate_biu ON public.accounts_user_session;
+CREATE TRIGGER accounts_user_session_validate_biu BEFORE INSERT OR UPDATE ON accounts_user_session FOR EACH ROW EXECUTE FUNCTION accounts_user_session_validate();
+
+DROP TRIGGER IF EXISTS accounts_user_totp_factor_set_updated_at_bu ON public.accounts_user_totp_factor;
+CREATE TRIGGER accounts_user_totp_factor_set_updated_at_bu BEFORE UPDATE ON accounts_user_totp_factor FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+
+DROP TRIGGER IF EXISTS accounts_user_verification_set_updated_at_bu ON public.accounts_user_verification;
+CREATE TRIGGER accounts_user_verification_set_updated_at_bu BEFORE UPDATE ON accounts_user_verification FOR EACH ROW EXECUTE FUNCTION set_row_updated_at();
+DROP TRIGGER IF EXISTS accounts_user_verification_validate_biu ON public.accounts_user_verification;
+CREATE TRIGGER accounts_user_verification_validate_biu BEFORE INSERT OR UPDATE ON accounts_user_verification FOR EACH ROW EXECUTE FUNCTION accounts_user_verification_validate();

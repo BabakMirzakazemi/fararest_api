@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Entities.Users;
+using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Authentications;
 using Services.DTOs.Accounts.Login;
+using Services.DTOs.Accounts.Mfa;
 using Services.DTOs.Accounts.Otp;
+using Services.DTOs.Accounts.Recovery;
 using Services.DTOs.Accounts.Registration;
 using Services.DTOs.Accounts.SendOtp;
+using Services.DTOs.Accounts.Sessions;
 using Services.DTOs.Accounts.ValidateOtp;
 using WebFramework.Api;
+using WebFramework.Filters;
 
 namespace API.Controllers.Auth.v1
 {
@@ -59,5 +64,38 @@ namespace API.Controllers.Auth.v1
         [HttpPost("[action]")]
         public async Task<LoginResponse> OtpLoginAsync(ValidateOtpRequest request, CancellationToken cancellationToken)
             => await authService.OtpLoginAsync(request, cancellationToken);
+
+        [HttpPost("[action]")]
+        public async Task ForgotPasswordAsync(ForgotPasswordRequest request, CancellationToken cancellationToken)
+            => await authService.ForgotPasswordAsync(request, cancellationToken);
+
+        [HttpPost("[action]")]
+        public async Task ResetPasswordWithOtpAsync(ResetPasswordWithOtpRequest request, CancellationToken cancellationToken)
+            => await authService.ResetPasswordWithOtpAsync(request, cancellationToken);
+
+        [HttpGet("[action]")]
+        [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
+        public async Task<IReadOnlyList<AccountSessionItemDto>> MySessionsAsync(CancellationToken cancellationToken)
+            => await authService.GetMySessionsAsync(cancellationToken);
+
+        [HttpPost("[action]")]
+        [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
+        public async Task RevokeSessionAsync(RevokeSessionRequest request, CancellationToken cancellationToken)
+            => await authService.RevokeSessionAsync(request, cancellationToken);
+
+        [HttpPost("[action]")]
+        [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
+        public async Task RevokeOtherSessionsAsync(CancellationToken cancellationToken)
+            => await authService.RevokeOtherSessionsAsync(cancellationToken);
+
+        [HttpGet("[action]")]
+        [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
+        public async Task<MfaStatusResponse> MfaStatusAsync(CancellationToken cancellationToken)
+            => await authService.GetMfaStatusAsync(cancellationToken);
+
+        [HttpPost("[action]")]
+        [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
+        public async Task SetMfaStatusAsync(SetMfaStatusRequest request, CancellationToken cancellationToken)
+            => await authService.SetMfaStatusAsync(request, cancellationToken);
     }
 }
