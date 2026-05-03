@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260503085709_Phase5CoreCrmMenuSupport")]
-    partial class Phase5CoreCrmMenuSupport
+    [Migration("20260503132455_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -712,20 +712,19 @@ namespace Data.Migrations
             modelBuilder.Entity("Entities.Core.CoreCounty", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<string>("Name")
@@ -739,20 +738,26 @@ namespace Data.Migrations
                         .HasColumnName("province_id");
 
                     b.Property<string>("Slug")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(140)
+                        .HasColumnType("character varying(140)")
                         .HasColumnName("slug");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProvinceId");
+
                     b.HasIndex("ProvinceId", "Name")
                         .IsUnique();
+
+                    b.HasIndex("ProvinceId", "Slug")
+                        .IsUnique()
+                        .HasFilter("(slug IS NOT NULL)");
 
                     b.ToTable("core_county", (string)null);
                 });
@@ -760,20 +765,19 @@ namespace Data.Migrations
             modelBuilder.Entity("Entities.Core.CoreProvince", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<string>("Name")
@@ -783,22 +787,29 @@ namespace Data.Migrations
                         .HasColumnName("name");
 
                     b.Property<string>("Slug")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)")
                         .HasColumnName("slug");
 
                     b.Property<string>("TelPrefix")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)")
                         .HasColumnName("tel_prefix");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("(slug IS NOT NULL)");
 
                     b.ToTable("core_province", (string)null);
                 });
@@ -827,38 +838,49 @@ namespace Data.Migrations
 
                     b.Property<string>("BalanceStatus")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("balance_status");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("balance_status")
+                        .HasDefaultValueSql("'settled'::character varying");
 
                     b.Property<DateOnly?>("BirthDate")
                         .HasColumnType("date")
                         .HasColumnName("birth_date");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<decimal>("CreditLimitAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("credit_limit_amount");
 
                     b.Property<string>("CustomerNo")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(24)
+                        .HasColumnType("character varying(24)")
                         .HasColumnName("customer_no");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(254)
+                        .HasColumnType("character varying(254)")
                         .HasColumnName("email");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(160)
+                        .HasColumnType("character varying(160)")
                         .HasColumnName("full_name");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsLoyalCustomer")
@@ -870,7 +892,8 @@ namespace Data.Migrations
                         .HasColumnName("last_activity_at");
 
                     b.Property<decimal>("NetBalanceAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("net_balance_amount");
 
                     b.Property<long>("OrganizationId")
@@ -879,27 +902,41 @@ namespace Data.Migrations
 
                     b.Property<string>("PaymentBehavior")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("payment_behavior");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("payment_behavior")
+                        .HasDefaultValueSql("'neutral'::character varying");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone");
 
                     b.Property<decimal>("TotalCreditAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("total_credit_amount");
 
                     b.Property<decimal>("TotalDebitAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("total_debit_amount");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "CustomerNo")
+                        .IsUnique();
+
+                    b.HasIndex("OrganizationId", "Phone")
+                        .IsUnique();
 
                     b.ToTable("crm_customer", (string)null);
                 });
@@ -965,8 +1002,10 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -977,6 +1016,13 @@ namespace Data.Migrations
                         .HasColumnName("interest_tag_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("InterestTagId");
+
+                    b.HasIndex("CustomerId", "InterestTagId")
+                        .IsUnique();
 
                     b.ToTable("crm_customer_interest", (string)null);
                 });
@@ -991,12 +1037,15 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("amount");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -1008,7 +1057,8 @@ namespace Data.Migrations
 
                     b.Property<string>("EntryType")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
                         .HasColumnName("entry_type");
 
                     b.Property<string>("Note")
@@ -1016,14 +1066,18 @@ namespace Data.Migrations
                         .HasColumnName("note");
 
                     b.Property<string>("ReferenceId")
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("reference_id");
 
                     b.Property<string>("ReferenceType")
-                        .HasColumnType("text")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("reference_type");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId", "CreatedAt");
 
                     b.ToTable("crm_customer_ledger", (string)null);
                 });
@@ -1038,8 +1092,10 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
@@ -1058,7 +1114,8 @@ namespace Data.Migrations
                         .HasColumnName("tier_id");
 
                     b.Property<decimal>("TotalSpentAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("total_spent_amount");
 
                     b.Property<int>("TotalVisitCount")
@@ -1066,10 +1123,15 @@ namespace Data.Migrations
                         .HasColumnName("total_visit_count");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.ToTable("crm_customer_loyalty", (string)null);
                 });
@@ -1089,8 +1151,10 @@ namespace Data.Migrations
                         .HasColumnName("body");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int?>("CreatedByUserId")
                         .HasColumnType("integer")
@@ -1106,10 +1170,15 @@ namespace Data.Migrations
 
                     b.Property<string>("NoteType")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("note_type");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("note_type")
+                        .HasDefaultValueSql("'general'::character varying");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId", "CreatedAt");
 
                     b.ToTable("crm_customer_note", (string)null);
                 });
@@ -1125,12 +1194,15 @@ namespace Data.Migrations
 
                     b.Property<string>("CampaignType")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("campaign_type");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -1138,11 +1210,15 @@ namespace Data.Migrations
 
                     b.Property<string>("DiscountType")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("discount_type");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("discount_type")
+                        .HasDefaultValueSql("'percent'::character varying");
 
                     b.Property<decimal>("DiscountValue")
-                        .HasColumnType("numeric")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
                         .HasColumnName("discount_value");
 
                     b.Property<DateTimeOffset>("EndsAt")
@@ -1150,15 +1226,19 @@ namespace Data.Migrations
                         .HasColumnName("ends_at");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<decimal?>("MaxDiscountAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("max_discount_amount");
 
                     b.Property<decimal>("MinOrderAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("min_order_amount");
 
                     b.Property<long>("OrganizationId")
@@ -1171,12 +1251,15 @@ namespace Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(160)
+                        .HasColumnType("character varying(160)")
                         .HasColumnName("title");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int?>("UsageLimitPerCustomer")
                         .HasColumnType("integer")
@@ -1187,6 +1270,8 @@ namespace Data.Migrations
                         .HasColumnName("usage_limit_total");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "StartsAt", "EndsAt");
 
                     b.ToTable("crm_discount_campaign", (string)null);
                 });
@@ -1205,23 +1290,34 @@ namespace Data.Migrations
                         .HasColumnName("campaign_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("ItemId")
                         .HasColumnType("bigint")
                         .HasColumnName("item_id");
 
                     b.Property<decimal>("MinQty")
-                        .HasColumnType("numeric")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(14, 3)
+                        .HasColumnType("numeric(14,3)")
+                        .HasDefaultValue(1m)
                         .HasColumnName("min_qty");
 
                     b.Property<string>("RuleRole")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)")
                         .HasColumnName("rule_role");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("CampaignId", "RuleRole", "ItemId")
+                        .IsUnique();
 
                     b.ToTable("crm_discount_campaign_item_rule", (string)null);
                 });
@@ -1240,14 +1336,19 @@ namespace Data.Migrations
                         .HasColumnName("campaign_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaignId", "CustomerId")
+                        .IsUnique();
 
                     b.ToTable("crm_discount_campaign_target_customer", (string)null);
                 });
@@ -1266,22 +1367,28 @@ namespace Data.Migrations
                         .HasColumnName("campaign_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long?>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
                     b.Property<decimal>("DiscountAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("discount_amount");
 
                     b.Property<string>("OrderRef")
-                        .HasColumnType("text")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
                         .HasColumnName("order_ref");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaignId", "CreatedAt");
 
                     b.ToTable("crm_discount_campaign_usage", (string)null);
                 });
@@ -1301,14 +1408,23 @@ namespace Data.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("code");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaignId")
+                        .IsUnique();
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("crm_discount_coupon", (string)null);
                 });
@@ -1323,16 +1439,21 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("name");
 
                     b.Property<long>("OrganizationId")
@@ -1340,10 +1461,15 @@ namespace Data.Migrations
                         .HasColumnName("organization_id");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "Name")
+                        .IsUnique();
 
                     b.ToTable("crm_interest_tag", (string)null);
                 });
@@ -1362,11 +1488,15 @@ namespace Data.Migrations
                         .HasColumnName("benefits_description");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<int>("MinPoints")
@@ -1374,12 +1504,14 @@ namespace Data.Migrations
                         .HasColumnName("min_points");
 
                     b.Property<decimal>("MinTotalSpent")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("min_total_spent");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
                         .HasColumnName("name");
 
                     b.Property<long>("OrganizationId")
@@ -1391,10 +1523,18 @@ namespace Data.Migrations
                         .HasColumnName("rank_no");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "Name")
+                        .IsUnique();
+
+                    b.HasIndex("OrganizationId", "RankNo")
+                        .IsUnique();
 
                     b.ToTable("crm_loyalty_tier", (string)null);
                 });
@@ -1409,11 +1549,15 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsPrimary")
@@ -1426,14 +1570,20 @@ namespace Data.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "Phone")
+                        .IsUnique();
 
                     b.ToTable("crm_organization_phone", (string)null);
                 });
@@ -1595,23 +1745,31 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("EnableDeliveryOrder")
                         .HasColumnType("boolean")
                         .HasColumnName("enable_delivery_order");
 
                     b.Property<bool>("EnableDineInOrder")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("enable_dine_in_order");
 
                     b.Property<bool>("HideUnavailableItems")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("hide_unavailable_items");
 
                     b.Property<bool>("IsEnabled")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_enabled");
 
                     b.Property<long>("OrganizationId")
@@ -1628,23 +1786,36 @@ namespace Data.Migrations
                         .HasColumnName("qr_code_url");
 
                     b.Property<bool>("ShowOnlineTableReservation")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("show_online_table_reservation");
 
                     b.Property<bool>("ShowPrices")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("show_prices");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(24)
+                        .HasColumnType("character varying(24)")
                         .HasColumnName("token");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId")
+                        .IsUnique();
+
+                    b.HasIndex("Token")
+                        .IsUnique();
 
                     b.ToTable("menu_digital_menu", (string)null);
                 });
@@ -1694,8 +1865,10 @@ namespace Data.Migrations
                         .HasColumnName("address");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("DigitalMenuId")
                         .HasColumnType("bigint")
@@ -1719,11 +1892,15 @@ namespace Data.Migrations
 
                     b.Property<string>("MenuTitle")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("menu_title");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)")
+                        .HasColumnName("menu_title")
+                        .HasDefaultValueSql("'???? ???????'::character varying");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("text")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone");
 
                     b.Property<string>("SocialBaleUrl")
@@ -1756,14 +1933,22 @@ namespace Data.Migrations
 
                     b.Property<string>("ThemeName")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("theme_name");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
+                        .HasColumnName("theme_name")
+                        .HasDefaultValueSql("'default'::character varying");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DigitalMenuId")
+                        .IsUnique();
 
                     b.ToTable("menu_digital_menu_profile", (string)null);
                 });
@@ -1782,8 +1967,10 @@ namespace Data.Migrations
                         .HasColumnName("close_time");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateOnly>("DateValue")
                         .HasColumnType("date")
@@ -1794,7 +1981,9 @@ namespace Data.Migrations
                         .HasColumnName("digital_menu_id");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsClosedAllDay")
@@ -1810,10 +1999,15 @@ namespace Data.Migrations
                         .HasColumnName("open_time");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DigitalMenuId", "DateValue")
+                        .IsUnique();
 
                     b.ToTable("menu_digital_menu_schedule_exception", (string)null);
                 });
@@ -1832,15 +2026,19 @@ namespace Data.Migrations
                         .HasColumnName("close_time");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("DigitalMenuId")
                         .HasColumnType("bigint")
                         .HasColumnName("digital_menu_id");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<TimeOnly?>("OpenTime")
@@ -1848,14 +2046,21 @@ namespace Data.Migrations
                         .HasColumnName("open_time");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<short>("Weekday")
                         .HasColumnType("smallint")
                         .HasColumnName("weekday");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DigitalMenuId");
+
+                    b.HasIndex("DigitalMenuId", "Weekday")
+                        .IsUnique();
 
                     b.ToTable("menu_digital_menu_schedule_weekly", (string)null);
                 });
@@ -1870,8 +2075,10 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("DigitalMenuId")
                         .HasColumnType("bigint")
@@ -1890,14 +2097,19 @@ namespace Data.Migrations
                         .HasColumnName("user_agent");
 
                     b.Property<DateTimeOffset>("VisitedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("visited_at");
+                        .HasColumnName("visited_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("VisitorKeyHash")
+                        .HasMaxLength(64)
                         .HasColumnType("char(64)")
                         .HasColumnName("visitor_key_hash");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DigitalMenuId", "VisitedAt");
 
                     b.ToTable("menu_digital_menu_visit", (string)null);
                 });
@@ -1912,17 +2124,21 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("BrandName")
-                        .HasColumnType("text")
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)")
                         .HasColumnName("brand_name");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("code");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -1938,7 +2154,8 @@ namespace Data.Migrations
 
                     b.Property<string>("IngredientType")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)")
                         .HasColumnName("ingredient_type");
 
                     b.Property<bool>("IsActive")
@@ -1946,12 +2163,15 @@ namespace Data.Migrations
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsSellable")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_sellable");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)")
                         .HasColumnName("name");
 
                     b.Property<long>("OrganizationId")
@@ -1959,7 +2179,8 @@ namespace Data.Migrations
                         .HasColumnName("organization_id");
 
                     b.Property<decimal>("PriceAmount")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("numeric(14,2)")
                         .HasColumnName("price_amount");
 
                     b.Property<long>("UnitId")
@@ -1967,10 +2188,21 @@ namespace Data.Migrations
                         .HasColumnName("unit_id");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IngredientType");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UnitId");
+
+                    b.HasIndex("OrganizationId", "Code")
+                        .IsUnique();
 
                     b.ToTable("menu_ingredient", (string)null);
                 });
@@ -1989,8 +2221,10 @@ namespace Data.Migrations
                         .HasColumnName("component_ingredient_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Notes")
                         .HasColumnType("text")
@@ -2001,7 +2235,8 @@ namespace Data.Migrations
                         .HasColumnName("prepared_ingredient_id");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 3)
+                        .HasColumnType("numeric(14,3)")
                         .HasColumnName("quantity");
 
                     b.Property<long>("UnitId")
@@ -2009,6 +2244,13 @@ namespace Data.Migrations
                         .HasColumnName("unit_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ComponentIngredientId");
+
+                    b.HasIndex("PreparedIngredientId");
+
+                    b.HasIndex("PreparedIngredientId", "ComponentIngredientId")
+                        .IsUnique();
 
                     b.ToTable("menu_ingredient_component", (string)null);
                 });
@@ -2023,8 +2265,10 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<long>("IngredientId")
                         .HasColumnType("bigint")
@@ -2039,7 +2283,8 @@ namespace Data.Migrations
                         .HasColumnName("notes");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("numeric")
+                        .HasPrecision(14, 3)
+                        .HasColumnType("numeric(14,3)")
                         .HasColumnName("quantity");
 
                     b.Property<long>("UnitId")
@@ -2047,6 +2292,13 @@ namespace Data.Migrations
                         .HasColumnName("unit_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ItemId", "IngredientId")
+                        .IsUnique();
 
                     b.ToTable("menu_item_ingredient", (string)null);
                 });
@@ -2647,16 +2899,20 @@ namespace Data.Migrations
                         .HasColumnName("closed_at");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateTimeOffset?>("FirstResponseAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("first_response_at");
 
                     b.Property<DateTimeOffset>("LastActivityAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_activity_at");
+                        .HasColumnName("last_activity_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -2669,8 +2925,11 @@ namespace Data.Migrations
 
                     b.Property<string>("Priority")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("priority");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("priority")
+                        .HasDefaultValueSql("'normal'::character varying");
 
                     b.Property<int>("ReopenCount")
                         .HasColumnType("integer")
@@ -2686,24 +2945,41 @@ namespace Data.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("status");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'open'::character varying");
 
                     b.Property<string>("SubjectCode")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("subject_code");
 
                     b.Property<string>("TicketNo")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(24)
+                        .HasColumnType("character varying(24)")
                         .HasColumnName("ticket_no");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignedToUserId")
+                        .HasFilter("(assigned_to_user_id IS NOT NULL)");
+
+                    b.HasIndex("TicketNo")
+                        .IsUnique();
+
+                    b.HasIndex("RequesterUserId", "CreatedAt");
+
+                    b.HasIndex("OrganizationId", "Status", "LastActivityAt");
 
                     b.ToTable("support_ticket", (string)null);
                 });
@@ -2718,8 +2994,10 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("FileUrl")
                         .IsRequired()
@@ -2740,6 +3018,11 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MessageId")
+                        .HasFilter("(message_id IS NOT NULL)");
+
+                    b.HasIndex("TicketId");
+
                     b.ToTable("support_ticket_attachment", (string)null);
                 });
 
@@ -2757,12 +3040,15 @@ namespace Data.Migrations
                         .HasColumnName("actor_user_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("EventType")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("event_type");
 
                     b.Property<string>("NewValue")
@@ -2779,6 +3065,8 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TicketId", "CreatedAt");
+
                     b.ToTable("support_ticket_event", (string)null);
                 });
 
@@ -2793,8 +3081,11 @@ namespace Data.Migrations
 
                     b.Property<string>("AuthorType")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("author_type");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)")
+                        .HasColumnName("author_type")
+                        .HasDefaultValueSql("'requester'::character varying");
 
                     b.Property<int?>("AuthorUserId")
                         .HasColumnType("integer")
@@ -2806,8 +3097,10 @@ namespace Data.Migrations
                         .HasColumnName("body");
 
                     b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsInternal")
                         .HasColumnType("boolean")
@@ -2818,6 +3111,8 @@ namespace Data.Migrations
                         .HasColumnName("ticket_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TicketId", "CreatedAt");
 
                     b.ToTable("support_ticket_message", (string)null);
                 });

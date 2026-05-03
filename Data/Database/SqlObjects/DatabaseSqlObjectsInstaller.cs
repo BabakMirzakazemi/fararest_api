@@ -9,6 +9,7 @@ public static class DatabaseSqlObjectsInstaller
 {
     private static readonly string[] ScriptApplyOrder =
     [
+        "base_utilities.sql",
         "accounts_functions.sql",
         "accounts_triggers.sql",
         "phase5_db_objects_up.sql"
@@ -20,6 +21,9 @@ public static class DatabaseSqlObjectsInstaller
         var providerName = dbContext.Database.ProviderName;
         if (providerName is null || !providerName.Contains("Npgsql", StringComparison.OrdinalIgnoreCase))
             return;
+
+        // Required by digest()/gen_random_uuid() used in DB functions and seeds.
+        await ExecuteSqlScriptAsync(dbContext, "CREATE EXTENSION IF NOT EXISTS pgcrypto;", cancellationToken);
 
         foreach (var script in ScriptApplyOrder)
         {

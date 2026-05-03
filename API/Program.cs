@@ -66,6 +66,15 @@ builder.Services
     .SetApplicationName("babak_base")
     .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeyPath));
 var app = builder.Build();
+
+// One-shot bootstrap mode for CI/local setup:
+// applies migrations + SQL objects + data initializers, then exits.
+if (args.Any(x => string.Equals(x, "--bootstrap-db", StringComparison.OrdinalIgnoreCase)))
+{
+    app.InitializeDatabase();
+    return;
+}
+
 app
     .UseSwaggerAndUI(true)
     .InitializeDatabase()

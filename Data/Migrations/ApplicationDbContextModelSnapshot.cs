@@ -1610,7 +1610,7 @@ namespace Data.Migrations
 
                     b.HasIndex("EmailSharedInformationId");
 
-                    b.ToTable("EmailDocument", (string)null);
+                    b.ToTable("EmailDocument");
                 });
 
             modelBuilder.Entity("Entities.Emails.Email", b =>
@@ -1641,7 +1641,7 @@ namespace Data.Migrations
 
                     b.HasIndex("EmailSharedInformationId");
 
-                    b.ToTable("Email", (string)null);
+                    b.ToTable("Email");
                 });
 
             modelBuilder.Entity("Entities.Emails.EmailSharedInformation", b =>
@@ -1669,7 +1669,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailSharedInformation", (string)null);
+                    b.ToTable("EmailSharedInformation");
                 });
 
             modelBuilder.Entity("Entities.Items.Item", b =>
@@ -3191,7 +3191,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConfirmationCode", (string)null);
+                    b.ToTable("ConfirmationCode");
                 });
 
             modelBuilder.Entity("Entities.Users.Role", b =>
