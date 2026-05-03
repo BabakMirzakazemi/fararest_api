@@ -112,6 +112,31 @@ if (args.Length > 1 && string.Equals(args[0], "functiondef", StringComparison.Or
     return;
 }
 
+if (args.Length > 1 && string.Equals(args[0], "functiondefs", StringComparison.OrdinalIgnoreCase))
+{
+    var prefix = args[1];
+    var sourceConnectionString = $"Host={host};Port={port};Database={sourceDb};Username={user};Password={password};Pooling=true;Trust Server Certificate=true;";
+    await using var sourceConn = new NpgsqlConnection(sourceConnectionString);
+    await sourceConn.OpenAsync();
+
+    const string sql = """
+                       SELECT pg_get_functiondef(p.oid)
+                       FROM pg_proc p
+                       JOIN pg_namespace n ON n.oid = p.pronamespace
+                       WHERE n.nspname = 'public' AND p.proname LIKE @prefix || '%'
+                       ORDER BY p.proname, p.oid;
+                       """;
+    await using var cmd = new NpgsqlCommand(sql, sourceConn);
+    cmd.Parameters.AddWithValue("prefix", prefix);
+    await using var reader = await cmd.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        Console.WriteLine(reader.GetString(0));
+        Console.WriteLine();
+    }
+    return;
+}
+
 if (args.Length > 1 && string.Equals(args[0], "triggers", StringComparison.OrdinalIgnoreCase))
 {
     var prefix = args[1];
@@ -153,6 +178,33 @@ if (args.Length > 1 && string.Equals(args[0], "triggerdef", StringComparison.Ord
     cmd.Parameters.AddWithValue("triggerName", triggerName);
     var def = await cmd.ExecuteScalarAsync();
     Console.WriteLine(def?.ToString() ?? "<not-found>");
+    return;
+}
+
+if (args.Length > 1 && string.Equals(args[0], "triggerdefs", StringComparison.OrdinalIgnoreCase))
+{
+    var prefix = args[1];
+    var sourceConnectionString = $"Host={host};Port={port};Database={sourceDb};Username={user};Password={password};Pooling=true;Trust Server Certificate=true;";
+    await using var sourceConn = new NpgsqlConnection(sourceConnectionString);
+    await sourceConn.OpenAsync();
+
+    const string sql = """
+                       SELECT pg_get_triggerdef(t.oid, true)
+                       FROM pg_trigger t
+                       JOIN pg_class c ON c.oid = t.tgrelid
+                       JOIN pg_namespace n ON n.oid = c.relnamespace
+                       WHERE n.nspname = 'public'
+                         AND c.relname LIKE @prefix || '%'
+                         AND NOT t.tgisinternal
+                       ORDER BY c.relname, t.tgname;
+                       """;
+    await using var cmd = new NpgsqlCommand(sql, sourceConn);
+    cmd.Parameters.AddWithValue("prefix", prefix);
+    await using var reader = await cmd.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        Console.WriteLine(reader.GetString(0) + ";");
+    }
     return;
 }
 
