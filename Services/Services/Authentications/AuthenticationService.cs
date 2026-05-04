@@ -41,6 +41,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
     private readonly IRepository<AccountUserSession> _sessionRepository;
     private readonly IRepository<AccountSecurityFeature> _securityFeatureRepository;
     private readonly IRepository<AccountUserSecuritySetting> _userSecuritySettingRepository;
+    private readonly IRepository<ConfirmationCode> _confirmationCodeRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SiteSettings _siteSettings;
 
@@ -54,6 +55,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         IRepository<AccountUserSession> sessionRepository,
         IRepository<AccountSecurityFeature> securityFeatureRepository,
         IRepository<AccountUserSecuritySetting> userSecuritySettingRepository,
+        IRepository<ConfirmationCode> confirmationCodeRepository,
         IHttpContextAccessor httpContextAccessor,
         IOptionsSnapshot<SiteSettings> siteSettings)
     {
@@ -66,6 +68,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         _sessionRepository = sessionRepository;
         _securityFeatureRepository = securityFeatureRepository;
         _userSecuritySettingRepository = userSecuritySettingRepository;
+        _confirmationCodeRepository = confirmationCodeRepository;
         _httpContextAccessor = httpContextAccessor;
         _siteSettings = siteSettings.Value;
     }
@@ -123,7 +126,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             return;
         }
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
 
         if (!confirmation.NewEmailOtpExpirationDate.HasValue || confirmation.NewEmailOtpExpirationDate.Value < DateTime.UtcNow)
             throw new BadRequestException(ApplicationMessages.ExpiredOtp);
@@ -150,7 +153,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (user.EmailConfirmed)
             throw new AppException(ApplicationMessages.EmailAlreadyConfirmed);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         if (HasRecentActivationEmail(confirmation))
             throw new AppException(ApplicationMessages.ResendActivationTooSoon);
 
@@ -212,7 +215,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (user.PhoneNumberConfirmed)
             throw new AppException(ApplicationMessages.PhoneNumberAlreadyConfirmed);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         if (HasRecentPhoneRegistrationOtp(confirmation))
             throw new AppException(ApplicationMessages.ResendActivationTooSoon);
 
@@ -236,7 +239,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             cancellationToken)
             ?? throw new NotFoundException(ApplicationMessages.UserNotFound);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
 
         if (!confirmation.NewPhoneNumberOtpExpirationDate.HasValue || confirmation.NewPhoneNumberOtpExpirationDate.Value < DateTime.UtcNow)
             throw new AppException(ApplicationMessages.ExpiredOtp);
@@ -285,7 +288,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (!user.IsActive)
             throw new AppException(ApplicationMessages.UserIsDeActive);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         var otp = GenerateOtp();
 
         confirmation.LoginOtp = otp;
@@ -312,7 +315,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (!user.IsActive)
             throw new AppException(ApplicationMessages.UserIsDeActive);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.UtcNow)
             throw new AppException(ApplicationMessages.ExpiredOtp);
 
@@ -352,7 +355,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (!user.IsActive)
             throw new AppException(ApplicationMessages.UserIsDeActive);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
 
         if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.UtcNow)
             throw new AppException(ApplicationMessages.ExpiredOtp);
@@ -374,7 +377,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (string.IsNullOrWhiteSpace(user.Mobile))
             throw new AppException(ApplicationMessages.UserHasNoValidPhoneNumber);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         var otp = GenerateOtp();
 
         confirmation.LoginOtp = otp;
@@ -395,7 +398,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         if (user == null || !user.IsActive)
             return;
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         var otp = GenerateOtp();
         confirmation.UpdatePasswordOtp = otp;
         confirmation.UpdatePasswordOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds);
@@ -409,7 +412,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         var user = await FindUserByIdentifierAsync(request.Email, request.Mobile, cancellationToken)
             ?? throw new BadRequestException(ApplicationMessages.InvalidOtp);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         if (!confirmation.UpdatePasswordOtpExpirationDate.HasValue || confirmation.UpdatePasswordOtpExpirationDate.Value < DateTime.UtcNow)
             throw new BadRequestException(ApplicationMessages.ExpiredOtp);
 
@@ -512,7 +515,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             ?? throw new NotFoundException(ApplicationMessages.UserNotFound);
 
         // Dependency note: changing MFA state requires OTP challenge to prevent account takeover.
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
         if (!confirmation.LoginOtpExpirationDate.HasValue || confirmation.LoginOtpExpirationDate.Value < DateTime.UtcNow || confirmation.LoginOtp != request.Otp.Trim())
             throw new BadRequestException(ApplicationMessages.MfaRequiresOtp);
 
@@ -553,7 +556,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         var user = await _userManager.FindByIdAsync(_userContext.UserId.ToString())
             ?? throw new NotFoundException(ApplicationMessages.UserNotFound);
 
-        var confirmation = EnsureConfirmationCode(user);
+        var confirmation = await GetOrCreateConfirmationCodeAsync(user, cancellationToken);
 
         if (!confirmation.UpdatePasswordOtpExpirationDate.HasValue || confirmation.UpdatePasswordOtpExpirationDate.Value < DateTime.UtcNow)
             throw new BadRequestException(ApplicationMessages.ExpiredOtp);
@@ -605,10 +608,27 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
     private string GenerateOtp() => _hostingEnvironment.IsDevelopment() ? "123456" : CodeGenerator.GenerateRandomNumber(6);
 
-    private static ConfirmationCode EnsureConfirmationCode(User user)
+    private async Task<ConfirmationCode> GetOrCreateConfirmationCodeAsync(User user, CancellationToken cancellationToken)
     {
-        user.ConfirmationCode ??= new ConfirmationCode();
-        return user.ConfirmationCode;
+        if (user.ConfirmationCodeId > 0)
+        {
+            var existing = await _confirmationCodeRepository.Entities
+                .FirstOrDefaultAsync(x => x.Id == user.ConfirmationCodeId, cancellationToken);
+            if (existing != null)
+            {
+                user.ConfirmationCode = existing;
+                return existing;
+            }
+        }
+
+        var confirmation = new ConfirmationCode();
+        await _confirmationCodeRepository.AddAsync(confirmation, cancellationToken);
+
+        user.ConfirmationCodeId = confirmation.Id;
+        user.ConfirmationCode = confirmation;
+        await UpdateUserAsync(user);
+
+        return confirmation;
     }
 
     private static LoginResponse BuildLoginResponse(User user, string token)

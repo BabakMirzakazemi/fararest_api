@@ -33,8 +33,9 @@ public class SenderService : ISenderService, IScopedDependency
     public Task<bool> SendOtpSmsAsync(string number, string text, CancellationToken cancellationToken)
     {
         var receptor = number.NormalizeMobile();
-        KavenegarApi kavenegar = new KavenegarApi("6730347A667647645944354467515449484C4178726C6A53515530316A4436617A30472F7A7474335444413D");
-        SendResult res = kavenegar.VerifyLookup(receptor, "token20", text);
+        //TODO : uncomment for production
+        //KavenegarApi kavenegar = new KavenegarApi("6730347A667647645944354467515449484C4178726C6A53515530316A4436617A30472F7A7474335444413D");
+        //SendResult res = kavenegar.VerifyLookup(receptor, "token20", text);
         if (_hostingEnvironment.IsDevelopment())
             return Task.FromResult(true);
         else
