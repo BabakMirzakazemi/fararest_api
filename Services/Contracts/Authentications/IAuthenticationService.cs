@@ -28,6 +28,8 @@ public interface IAuthenticationService
 
     Task<OtpChallengeResponse> StartPhoneRegistrationAsync(StartPhoneRegistrationRequest request, CancellationToken cancellationToken);
 
+    Task<OtpChallengeResponse> ResendPhoneRegistrationOtpAsync(ResendPhoneRegistrationOtpRequest request, CancellationToken cancellationToken);
+
     Task CompletePhoneRegistrationAsync(CompletePhoneRegistrationRequest request, CancellationToken cancellationToken);
 
     Task<LoginResponse> EmailPasswordLoginAsync(EmailPasswordLoginRequest request, CancellationToken cancellationToken);

@@ -201,6 +201,33 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         return new OtpChallengeResponse(user.Id, mobile, OtpExpireSeconds);
     }
 
+    public async Task<OtpChallengeResponse> ResendPhoneRegistrationOtpAsync(ResendPhoneRegistrationOtpRequest request, CancellationToken cancellationToken)
+    {
+        var mobile = request.Mobile.Trim();
+        var user = await _userManager.Users.FirstOrDefaultAsync(
+            u => u.Id == request.UserId && u.Mobile != null && u.Mobile == mobile,
+            cancellationToken)
+            ?? throw new NotFoundException(ApplicationMessages.UserNotFound);
+
+        if (user.PhoneNumberConfirmed)
+            throw new AppException(ApplicationMessages.PhoneNumberAlreadyConfirmed);
+
+        var confirmation = EnsureConfirmationCode(user);
+        if (HasRecentPhoneRegistrationOtp(confirmation))
+            throw new AppException(ApplicationMessages.ResendActivationTooSoon);
+
+        var otp = GenerateOtp();
+        confirmation.NewPhoneNumberOtp = otp;
+        confirmation.NewPhoneNumberOtpExpirationDate = DateTime.UtcNow.AddSeconds(OtpExpireSeconds);
+        await UpdateUserAsync(user);
+
+        var otpSendResult = _hostingEnvironment.IsDevelopment() || await _senderService.SendOtpSmsAsync(mobile, otp, cancellationToken);
+        if (!otpSendResult)
+            throw new AppException(ApplicationMessages.ErrorInSendOtp);
+
+        return new OtpChallengeResponse(user.Id, mobile, OtpExpireSeconds);
+    }
+
     public async Task CompletePhoneRegistrationAsync(CompletePhoneRegistrationRequest request, CancellationToken cancellationToken)
     {
         var mobile = request.Mobile.Trim();
@@ -630,6 +657,14 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             return false;
 
         return confirmation.NewEmailOtpExpirationDate.Value > DateTime.UtcNow.AddSeconds(OtpExpireSeconds - ResendActivationCooldownSeconds);
+    }
+
+    private static bool HasRecentPhoneRegistrationOtp(ConfirmationCode confirmation)
+    {
+        if (!confirmation.NewPhoneNumberOtpExpirationDate.HasValue)
+            return false;
+
+        return confirmation.NewPhoneNumberOtpExpirationDate.Value > DateTime.UtcNow.AddSeconds(OtpExpireSeconds - ResendActivationCooldownSeconds);
     }
 
     private async Task<User?> FindUserByIdentifierAsync(string? email, string? mobile, CancellationToken cancellationToken)

@@ -80,6 +80,20 @@ public static class ModelBuilderExtensions
     }
 
     /// <summary>
+    /// Set DeleteBehavior.Cascade by default for relations
+    /// </summary>
+    /// <param name="modelBuilder"></param>
+    public static void AddCascadeDeleteBehaviorConvention(this ModelBuilder modelBuilder)
+    {
+        IEnumerable<IMutableForeignKey> foreignKeys = modelBuilder.Model.GetEntityTypes()
+            .SelectMany(t => t.GetForeignKeys())
+            .Where(fk => !fk.IsOwnership && fk.DeleteBehavior != DeleteBehavior.Cascade);
+
+        foreach (IMutableForeignKey fk in foreignKeys)
+            fk.DeleteBehavior = DeleteBehavior.Cascade;
+    }
+
+    /// <summary>
     /// Dynamicaly load all IEntityTypeConfiguration with Reflection
     /// </summary>
     /// <param name="modelBuilder"></param>

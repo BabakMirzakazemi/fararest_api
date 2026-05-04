@@ -23,7 +23,7 @@ namespace Data
 
             modelBuilder.RegisterAllEntities<IEntity>(entitiesAssembly);
             modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
-            modelBuilder.AddRestrictDeleteBehaviorConvention();
+            modelBuilder.AddCascadeDeleteBehaviorConvention();
 
             var isNpgsql = Database.ProviderName?.Contains("Npgsql", StringComparison.OrdinalIgnoreCase) == true;
             modelBuilder.AddDefaultValueSqlConvention("Id", typeof(Guid), isNpgsql ? "gen_random_uuid()" : "NEWSEQUENTIALID()");

@@ -38,6 +38,10 @@ namespace API.Controllers.Auth.v1
             => await authService.StartPhoneRegistrationAsync(request, cancellationToken);
 
         [HttpPost("[action]")]
+        public async Task<OtpChallengeResponse> ResendPhoneRegistrationOtpAsync(ResendPhoneRegistrationOtpRequest request, CancellationToken cancellationToken)
+            => await authService.ResendPhoneRegistrationOtpAsync(request, cancellationToken);
+
+        [HttpPost("[action]")]
         public async Task CompletePhoneRegistrationAsync(CompletePhoneRegistrationRequest request, CancellationToken cancellationToken)
             => await authService.CompletePhoneRegistrationAsync(request, cancellationToken);
 

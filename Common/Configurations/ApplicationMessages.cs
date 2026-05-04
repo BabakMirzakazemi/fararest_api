@@ -73,6 +73,7 @@ public static class ApplicationMessages
     public const string InvalidOtp = "کد تایید معتبر نیست";
     public const string OtpNotProvided = "کد تایید ارسال نشده است";
     public const string EmailAlreadyConfirmed = "ایمیل کاربر قبلا تایید شده است";
+    public const string PhoneNumberAlreadyConfirmed = "شماره موبایل کاربر قبلا تایید شده است";
     public const string ResendActivationTooSoon = "ارسال مجدد لینک فعال سازی زودتر از حد مجاز است";
     public const string SejamMustApprovedBeforeInvestment = "جهت سرمایه گذاری باید احراز هویت سجام کامل شده باشد";
     public const string ErrorInSendOtp = "در ارسال کد تایید خطایی رخ داده است";

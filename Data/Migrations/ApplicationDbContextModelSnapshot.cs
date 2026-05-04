@@ -3606,7 +3606,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Categories.Category", "ParentCategory")
                         .WithMany("ChildCategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ParentCategory");
                 });
@@ -3616,7 +3616,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Emails.EmailSharedInformation", "EmailSharedInformation")
                         .WithMany("Documents")
                         .HasForeignKey("EmailSharedInformationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("EmailSharedInformation");
@@ -3627,7 +3627,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Emails.EmailSharedInformation", "EmailSharedInformation")
                         .WithMany("Emails")
                         .HasForeignKey("EmailSharedInformationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("EmailSharedInformation");
@@ -3638,7 +3638,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Categories.Category", "Category")
                         .WithMany("Items")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -3649,7 +3649,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Users.ConfirmationCode", "ConfirmationCode")
                         .WithOne("User")
                         .HasForeignKey("Entities.Users.User", "ConfirmationCodeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ConfirmationCode");
@@ -3660,13 +3660,13 @@ namespace Data.Migrations
                     b.HasOne("Entities.Users.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Users.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
@@ -3679,7 +3679,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -3688,7 +3688,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -3697,7 +3697,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -3706,7 +3706,7 @@ namespace Data.Migrations
                     b.HasOne("Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

@@ -101,6 +101,19 @@ public class CompletePhoneRegistrationRequestValidator : AbstractValidator<Compl
     }
 }
 
+public class ResendPhoneRegistrationOtpRequestValidator : AbstractValidator<ResendPhoneRegistrationOtpRequest>
+{
+    public ResendPhoneRegistrationOtpRequestValidator()
+    {
+        RuleFor(dto => dto.UserId)
+            .NotEqual(Guid.Empty)
+            .WithMessage(MessageBuilder.CreateNotEmptyErrorMessage(ApplicationPropertyPersianName.UserId));
+
+        RuleFor(dto => dto.Mobile)
+            .ValidatePhoneNumber();
+    }
+}
+
 public class EmailPasswordLoginRequestValidator : AbstractValidator<EmailPasswordLoginRequest>
 {
     public EmailPasswordLoginRequestValidator()
