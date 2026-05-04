@@ -23,6 +23,7 @@
     public abstract class BaseEntity<TKey> : IEntity<TKey>
     {
         public TKey Id { get; set; } = default!;
+        public bool IsDeleted { get; set; } = false;
     }
 
     /// <summary>

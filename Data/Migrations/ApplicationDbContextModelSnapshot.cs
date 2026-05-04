@@ -44,6 +44,9 @@ namespace Data.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsOwner")
                         .HasColumnType("boolean")
                         .HasColumnName("is_owner");
@@ -90,6 +93,9 @@ namespace Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("group_id");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<long>("MembershipId")
                         .HasColumnType("bigint")
                         .HasColumnName("membership_id");
@@ -113,6 +119,9 @@ namespace Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("NOW()");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsGranted")
                         .ValueGeneratedOnAdd()
@@ -161,6 +170,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LogoUrl")
                         .HasColumnType("text")
@@ -225,6 +237,9 @@ namespace Data.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("feature_id");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("boolean")
                         .HasColumnName("is_enabled");
@@ -273,6 +288,9 @@ namespace Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -304,6 +322,9 @@ namespace Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("NOW()");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LastLoginAt")
                         .HasColumnType("timestamp with time zone")
@@ -377,6 +398,9 @@ namespace Data.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("feature_id");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("boolean")
                         .HasColumnName("is_enabled");
@@ -444,6 +468,9 @@ namespace Data.Migrations
                     b.Property<IPAddress>("IpAddress")
                         .HasColumnType("inet")
                         .HasColumnName("ip_address");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("IssuedAt")
                         .HasColumnType("timestamp with time zone")
@@ -537,6 +564,9 @@ namespace Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("enabled_at");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Issuer")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -616,6 +646,9 @@ namespace Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("expires_at");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<short>("MaxAttempts")
                         .HasColumnType("smallint")
                         .HasColumnName("max_attempts");
@@ -681,6 +714,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -723,6 +759,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -776,6 +815,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -879,6 +921,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsLoyalCustomer")
                         .HasColumnType("boolean")
@@ -1012,6 +1057,9 @@ namespace Data.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("interest_tag_id");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -1058,6 +1106,9 @@ namespace Data.Migrations
                         .HasColumnType("character varying(10)")
                         .HasColumnName("entry_type");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Note")
                         .HasColumnType("text")
                         .HasColumnName("note");
@@ -1097,6 +1148,9 @@ namespace Data.Migrations
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LastVisitAt")
                         .HasColumnType("timestamp with time zone")
@@ -1160,6 +1214,9 @@ namespace Data.Migrations
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsImportant")
                         .HasColumnType("boolean")
@@ -1228,6 +1285,9 @@ namespace Data.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<decimal?>("MaxDiscountAmount")
                         .HasPrecision(14, 2)
                         .HasColumnType("numeric(14,2)")
@@ -1292,6 +1352,9 @@ namespace Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<long>("ItemId")
                         .HasColumnType("bigint")
                         .HasColumnName("item_id");
@@ -1342,6 +1405,9 @@ namespace Data.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CampaignId", "CustomerId")
@@ -1377,6 +1443,9 @@ namespace Data.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("numeric(14,2)")
                         .HasColumnName("discount_amount");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("OrderRef")
                         .HasMaxLength(60)
@@ -1415,6 +1484,9 @@ namespace Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CampaignId")
@@ -1446,6 +1518,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1495,6 +1570,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MinPoints")
                         .HasColumnType("integer")
@@ -1557,6 +1635,9 @@ namespace Data.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("boolean")
                         .HasColumnName("is_primary");
@@ -1606,6 +1687,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EmailSharedInformationId");
@@ -1623,6 +1707,9 @@ namespace Data.Migrations
 
                     b.Property<int>("EmailSharedInformationId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Receiver")
                         .IsRequired()
@@ -1655,6 +1742,9 @@ namespace Data.Migrations
                     b.Property<string>("HtmlBodyFilePath")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("SenderName")
                         .IsRequired()
@@ -1706,6 +1796,9 @@ namespace Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1762,6 +1855,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("hide_unavailable_items");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsEnabled")
                         .ValueGeneratedOnAdd()
@@ -1879,6 +1975,9 @@ namespace Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("header_video_url");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LogoUrl")
                         .HasColumnType("text")
                         .HasColumnName("logo_url");
@@ -1987,6 +2086,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_closed_all_day");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Note")
                         .HasColumnType("text")
                         .HasColumnName("note");
@@ -2038,6 +2140,9 @@ namespace Data.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<TimeOnly?>("OpenTime")
                         .HasColumnType("time without time zone")
                         .HasColumnName("open_time");
@@ -2084,6 +2189,9 @@ namespace Data.Migrations
                     b.Property<IPAddress>("IpAddress")
                         .HasColumnType("inet")
                         .HasColumnName("ip_address");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ReferrerUrl")
                         .HasColumnType("text")
@@ -2159,6 +2267,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsSellable")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -2223,6 +2334,9 @@ namespace Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Notes")
                         .HasColumnType("text")
                         .HasColumnName("notes");
@@ -2270,6 +2384,9 @@ namespace Data.Migrations
                     b.Property<long>("IngredientId")
                         .HasColumnType("bigint")
                         .HasColumnName("ingredient_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<long>("ItemId")
                         .HasColumnType("bigint")
@@ -2323,6 +2440,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -2360,6 +2480,9 @@ namespace Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MonthsCount")
                         .HasColumnType("integer")
@@ -2407,6 +2530,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -2434,6 +2560,9 @@ namespace Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<long>("ModuleId")
                         .HasColumnType("bigint")
@@ -2471,6 +2600,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -2502,6 +2634,9 @@ namespace Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("boolean")
@@ -2552,6 +2687,9 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<long>("PlanId")
                         .HasColumnType("bigint")
                         .HasColumnName("plan_id");
@@ -2596,6 +2734,9 @@ namespace Data.Migrations
                     b.Property<DateTimeOffset>("EndsAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("ends_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<long>("OrganizationId")
                         .HasColumnType("bigint")
@@ -2679,6 +2820,9 @@ namespace Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
                         .HasColumnName("idempotency_key");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Metadata")
                         .HasColumnType("jsonb")
@@ -2786,6 +2930,9 @@ namespace Data.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<long>("OrganizationId")
                         .HasColumnType("bigint")
                         .HasColumnName("organization_id");
@@ -2851,6 +2998,9 @@ namespace Data.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("entry_side");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Metadata")
                         .HasColumnType("jsonb")
                         .HasColumnName("metadata");
@@ -2904,6 +3054,9 @@ namespace Data.Migrations
                     b.Property<DateTimeOffset?>("FirstResponseAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("first_response_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("LastActivityAt")
                         .ValueGeneratedOnAdd()
@@ -3001,6 +3154,9 @@ namespace Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("file_url");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<long?>("MessageId")
                         .HasColumnType("bigint")
                         .HasColumnName("message_id");
@@ -3047,6 +3203,9 @@ namespace Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("event_type");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NewValue")
                         .HasColumnType("text")
@@ -3098,6 +3257,9 @@ namespace Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsInternal")
                         .HasColumnType("boolean")
@@ -3165,6 +3327,9 @@ namespace Data.Migrations
                     b.Property<DateTime?>("CurrentPhoneNumberOtpExpirationDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LoginOtp")
                         .HasColumnType("text");
 
@@ -3209,6 +3374,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasMaxLength(350)
                         .HasColumnType("character varying(350)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -3334,6 +3502,9 @@ namespace Data.Migrations
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("UserId", "RoleId");
 
