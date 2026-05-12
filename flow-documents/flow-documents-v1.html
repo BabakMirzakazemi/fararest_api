@@ -1,0 +1,231 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند فلو احراز هویت و سطح دسترسی - Fararest API</title>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --line:#d9e2ef; --text:#12263a; --muted:#4a6077; --head:#0d1f33; --soft:#eef4fb; --accent:#0b63c9; }
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(130deg,#f8fbff,#edf3fb);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
+    .wrap{max-width:1550px;margin:0 auto;padding:20px 14px 28px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;overflow-x:auto}
+    h1,h2,h3{margin:0 0 10px;color:var(--head)}h1{font-size:24px}h2{font-size:20px;border-right:4px solid var(--accent);padding-right:8px}h3{font-size:17px}
+    p,li{line-height:2;margin:0 0 8px}.muted{color:var(--muted)}
+    .mono{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:12px;background:#f8fbff;border:1px solid #d9e6f7;border-radius:8px;padding:10px;white-space:pre;overflow:auto}
+    .badge{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid #b8d7ff;background:#eef6ff;color:#164d90;font-size:12px;margin-left:6px}
+    .toc a{color:#1253a4;text-decoration:none}.toc ol{margin:8px 0 0;padding-right:20px}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;min-width:1000px}th,td{border:1px solid var(--line);padding:9px;vertical-align:top;line-height:1.9}th{background:var(--soft)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <h1>مستند فلو احراز هویت و سطح دسترسی</h1>
+    <p class="muted">این مستند وضعیت فعلی پیاده‌سازی در <code>fararest_api</code> را توضیح می‌دهد: احراز هویت، صدور JWT، و محاسبه دسترسی موثر در سه سطح <strong>Role + Plan + User Grants</strong>.</p>
+    <p><span class="badge">نسخه</span> 2026-05-12 <span class="badge">Scope</span> Auth / Accounts / Authorization</p>
+  </div>
+
+  <div class="card toc">
+    <h2>فهرست</h2>
+    <ol>
+      <li><a href="#overview">نمای کلی فلو</a></li>
+      <li><a href="#signup-defaults">ثبت‌نام کاربر و مقادیر پیش‌فرض (Role/Plan/Permission)</a></li>
+      <li><a href="#signin-flow">ورود، صدور توکن و MyAuthorization</a></li>
+      <li><a href="#role-plan-grant">منطق دسترسی در Role / Plan / User Grants</a></li>
+      <li><a href="#superadmin">تعریف SuperAdmin</a></li>
+      <li><a href="#org-staff">تعریف/ثبت‌نام کارمندان سازمان مشتری</a></li>
+      <li><a href="#staff-access">روش تخصیص دسترسی کارمندان سازمان</a></li>
+      <li><a href="#plan-expired">رفتار سیستم هنگام اتمام لایسنس پلن</a></li>
+      <li><a href="#api-index">فهرست APIهای درگیر</a></li>
+      <li><a href="#table-index">فهرست جدول‌های درگیر</a></li>
+    </ol>
+  </div>
+
+  <div class="card" id="overview">
+    <h2>1) نمای کلی فلو</h2>
+    <div class="mono">User Registers (Email/Mobile)
+  -> Default Role = User
+  -> JWT on successful login
+  -> Frontend calls GET /api/v1/Auth/MyAuthorization
+  -> EffectiveAuthorizationService computes permissions:
+     (RolePermissions UNION PlanPermissions UNION UserGrants) - UserRevokes
+  -> Frontend applies route/menu guards, Backend enforces permissions</div>
+    <p>نکته مهم: مرجع نهایی امنیت Backend است؛ فرانت صرفا برای UX از permission استفاده می‌کند.</p>
+  </div>
+
+  <div class="card" id="signup-defaults">
+    <h2>2) ثبت‌نام کاربر و مقادیر پیش‌فرض</h2>
+
+    <h3>2.1 ثبت‌نام با ایمیل</h3>
+    <p>فلو: کاربر با ایمیل ثبت‌نام می‌کند، OTP ایمیلی دریافت می‌کند، سپس تایید می‌کند و فعال می‌شود.</p>
+    <p><strong>APIهای درگیر:</strong></p>
+    <ul>
+      <li><code>POST /api/v1/Auth/RegisterWithEmailAsync</code></li>
+      <li><code>POST /api/v1/Auth/ConfirmEmailRegistrationAsync</code></li>
+      <li><code>POST /api/v1/Auth/ResendEmailActivationLinkAsync</code></li>
+      <li><code>GET /api/v1/Auth/ConfirmEmailRegistrationByLinkAsync</code></li>
+    </ul>
+    <p><strong>جداول درگیر:</strong> <code>AspNetUsers</code>، <code>ConfirmationCode</code>، <code>AspNetUserRoles</code></p>
+
+    <h3>2.2 ثبت‌نام با موبایل</h3>
+    <p>فلو: کاربر درخواست OTP پیامکی می‌دهد و با OTP ثبت‌نام را کامل می‌کند.</p>
+    <p><strong>APIهای درگیر:</strong></p>
+    <ul>
+      <li><code>POST /api/v1/Auth/StartPhoneRegistrationAsync</code></li>
+      <li><code>POST /api/v1/Auth/ResendPhoneRegistrationOtpAsync</code></li>
+      <li><code>POST /api/v1/Auth/CompletePhoneRegistrationAsync</code></li>
+    </ul>
+    <p><strong>جداول درگیر:</strong> <code>AspNetUsers</code>، <code>ConfirmationCode</code>، <code>AspNetUserRoles</code></p>
+
+    <h3>2.3 کاربر بعد از ثبت‌نام چه Role/Permission/Plan می‌گیرد؟</h3>
+    <table>
+      <thead><tr><th>مولفه</th><th>وضعیت فعلی سیستم</th><th>نحوه اعمال</th></tr></thead>
+      <tbody>
+        <tr><td>Role پیش‌فرض</td><td><code>User</code></td><td>در سرویس احراز هویت با <code>AddDefaultRoleToUserAsync</code> اعمال می‌شود.</td></tr>
+        <tr><td>Permission پیش‌فرض</td><td>مستقیم روی کاربر ثبت نمی‌شود؛ از Role + Plan محاسبه می‌شود.</td><td>از <code>accounts_role_permission</code> و <code>accounts_plan_permission</code> و ...</td></tr>
+        <tr><td>Plan پیش‌فرض</td><td>برای کاربر جدید endpoint ثبت‌نام فعلاً پلن مستقیم نمی‌سازد.</td><td>Plan می‌تواند بعداً توسط SuperAdmin از API مدیریت ثبت شود. Seed سیستم برای کاربر seed، پلن ENTERPRISE می‌گذارد.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" id="signin-flow">
+    <h2>3) ورود، صدور JWT و MyAuthorization</h2>
+    <h3>3.1 روش‌های ورود فعال</h3>
+    <ul>
+      <li><code>POST /api/v1/Auth/EmailPasswordLoginAsync</code></li>
+      <li><code>POST /api/v1/Auth/SendPhoneLoginOtpAsync</code> + <code>POST /api/v1/Auth/PhoneOtpLoginAsync</code></li>
+      <li><code>POST /api/v1/Auth/LoginWithPasswordAsync</code></li>
+      <li><code>POST /api/v1/Auth/SendOtpAsync</code> + <code>POST /api/v1/Auth/OtpLoginAsync</code></li>
+    </ul>
+    <p>در ورود موفق: JWT تولید می‌شود و نشست در <code>accounts_user_session</code> ثبت می‌شود.</p>
+
+    <h3>3.2 دریافت دسترسی موثر پس از Login</h3>
+    <p><strong>API اصلی فرانت:</strong> <code>GET /api/v1/Auth/MyAuthorizationAsync</code></p>
+    <p><strong>پاسخ:</strong></p>
+    <div class="mono">{
+  "userId": "guid",
+  "roles": ["User", "Admin"],
+  "permissions": ["home.view", "menu.home", "accounts.view"],
+  "permissionVersion": "16-char-hash"
+}</div>
+  </div>
+
+  <div class="card" id="role-plan-grant">
+    <h2>4) منطق دسترسی: Role / Plan / User Grants</h2>
+    <p>سرویس محاسبه: <code>EffectiveAuthorizationService</code></p>
+    <h3>4.1 ترتیب تقدم</h3>
+    <ol>
+      <li>Role permissions</li>
+      <li>Plan permissions (پلن‌های فعال و معتبر زمانی)</li>
+      <li>User direct grants</li>
+      <li>کسر User revokes</li>
+    </ol>
+    <div class="mono">Effective = (Role ∪ Plan ∪ Grant) - Revoke</div>
+
+    <h3>4.2 جداول درگیر</h3>
+    <ul>
+      <li><code>accounts_permission</code></li>
+      <li><code>accounts_role_permission</code></li>
+      <li><code>accounts_plan_permission</code></li>
+      <li><code>accounts_user_permission_grant</code></li>
+      <li><code>accounts_user_permission_revoke</code></li>
+      <li><code>accounts_user_plan_subscription</code></li>
+      <li><code>AspNetUsers</code>, <code>AspNetRoles</code>, <code>AspNetUserRoles</code></li>
+    </ul>
+
+    <h3>4.3 version و cache</h3>
+    <p><code>permissionVersion</code> از stampهای نقش/پلن/گرنت/ریووک/اشتراک کاربر hash می‌شود. cache با کلید version دار نگهداری می‌شود.</p>
+  </div>
+
+  <div class="card" id="superadmin">
+    <h2>5) تعریف SuperAdmin سیستم</h2>
+    <p>در وضعیت فعلی پروژه، SuperAdmin معمولاً از مسیر seed تعریف می‌شود (کاربر seed + تخصیص Roleهای User/Admin/SuperAdmin).</p>
+    <p><strong>نقش SuperAdmin</strong> از طریق <code>AspNetUserRoles</code> و role name = <code>SuperAdmin</code> اعمال می‌شود.</p>
+    <p><strong>APIهای مدیریتی ویژه SuperAdmin:</strong></p>
+    <ul>
+      <li><code>POST /api/admin/v1/AuthorizationAdmin/UpsertRolePermissionsAsync</code></li>
+      <li><code>POST /api/admin/v1/AuthorizationAdmin/UpsertPlanPermissionsAsync</code></li>
+      <li><code>POST /api/admin/v1/AuthorizationAdmin/UpsertUserPermissionGrantAsync</code></li>
+      <li><code>POST /api/admin/v1/AuthorizationAdmin/UpsertUserPermissionRevokeAsync</code></li>
+      <li><code>POST /api/admin/v1/AuthorizationAdmin/UpsertUserPlanSubscriptionAsync</code></li>
+    </ul>
+    <p>این APIها هم Role-based (<code>SuperAdmin</code>) و هم Permission-based (<code>admin.authz.manage</code>) محافظت می‌شوند.</p>
+  </div>
+
+  <div class="card" id="org-staff">
+    <h2>6) تعریف و ثبت‌نام کارمندان سازمان مشتری</h2>
+    <p>مدل داده‌ای سازمان و کارکنان در دامنه Accounts موجود است:</p>
+    <ul>
+      <li><code>accounts_organization</code> (سازمان)</li>
+      <li><code>accounts_membership</code> (عضویت کاربر در سازمان)</li>
+      <li><code>accounts_membership_groups</code> (گروه‌های عضویت)</li>
+      <li><code>accounts_membership_permissions</code> (مجوزهای سطح عضویت)</li>
+    </ul>
+    <p>فرآیند عملی ثبت کارمند سازمان به‌صورت معماری:</p>
+    <ol>
+      <li>کاربر (کارمند) با یکی از روش‌های Auth ثبت‌نام/ایجاد می‌شود.</li>
+      <li>برای او رکورد عضویت در <code>accounts_membership</code> ثبت می‌شود.</li>
+      <li>گروه و در صورت نیاز permissionهای عضویت به او نسبت داده می‌شود.</li>
+    </ol>
+    <p class="muted">نکته: در API فعلی این ریپو endpoint اختصاصی CRUD برای Membership هنوز به‌صورت عمومی در AuthController ارائه نشده و باید در فاز بعدی به‌صورت Admin/Organization API تکمیل شود.</p>
+  </div>
+
+  <div class="card" id="staff-access">
+    <h2>7) سطح دسترسی کارمندان سازمان با چه متدی انجام می‌شود؟</h2>
+    <p>در وضعیت فعلی سیستم دو لایه همزمان می‌توانند دخیل باشند:</p>
+    <ol>
+      <li>لایه سراسری AuthZ جدید: <code>Role + Plan + User Grants/Revoke</code> (خروجی <code>MyAuthorization</code>)</li>
+      <li>لایه سازمانی Accounts: <code>membership_groups</code> و <code>membership_permissions</code> (دامنه سازمان)</li>
+    </ol>
+    <p>برای enforce در endpointها از attribute زیر استفاده می‌شود:</p>
+    <ul>
+      <li><code>ApiCustomAuthorize</code> (Role based)</li>
+      <li><code>ApiPermissionAuthorize</code> (Permission based)</li>
+    </ul>
+    <p>نمونه عملی: <code>UsersController.AllPaginatedAsync</code> نیازمند permission <code>accounts.view</code> است.</p>
+  </div>
+
+  <div class="card" id="plan-expired">
+    <h2>8) اگر کاربر Role و User Grant دارد ولی پلنش تمام شده باشد چه می‌شود؟</h2>
+    <p>در محاسبه دسترسی موثر، فقط plan subscriptionهای فعال و معتبر زمانی لحاظ می‌شوند. پس با اتمام پلن:</p>
+    <ol>
+      <li>Plan permissions از خروجی حذف می‌شوند.</li>
+      <li>Role permissions همچنان باقی می‌مانند.</li>
+      <li>User direct grants همچنان باقی می‌مانند مگر revoke شده باشند.</li>
+    </ol>
+    <p>نتیجه: کاربر ممکن است بخشی از دسترسی را از دست بدهد (بخش plan-based) ولی دسترسی‌های role/grant را حفظ کند.</p>
+    <p class="muted">اگر سیاست کسب‌وکاری بخواهد «بدون پلن هیچ دسترسی ماژولی نداشته باشد»، باید یک gate سراسری policy اضافه شود تا plan active را پیش‌شرط اجباری کند.</p>
+  </div>
+
+  <div class="card" id="api-index">
+    <h2>9) فهرست APIهای درگیر</h2>
+    <table>
+      <thead><tr><th>حوزه</th><th>API</th><th>کاربرد</th></tr></thead>
+      <tbody>
+        <tr><td>Register</td><td>RegisterWithEmailAsync / StartPhoneRegistrationAsync / CompletePhoneRegistrationAsync</td><td>ثبت‌نام کاربر</td></tr>
+        <tr><td>Login</td><td>EmailPasswordLoginAsync / PhoneOtpLoginAsync / LoginWithPasswordAsync / OtpLoginAsync</td><td>ورود و دریافت JWT</td></tr>
+        <tr><td>Password Recovery</td><td>ForgotPasswordAsync / ResetPasswordWithOtpAsync</td><td>بازیابی رمز</td></tr>
+        <tr><td>Session & MFA</td><td>MySessionsAsync / RevokeSessionAsync / RevokeOtherSessionsAsync / MfaStatusAsync / SetMfaStatusAsync</td><td>امنیت حساب</td></tr>
+        <tr><td>Authorization</td><td>MyAuthorizationAsync</td><td>دریافت دسترسی موثر کاربر</td></tr>
+        <tr><td>SuperAdmin AuthZ</td><td>UpsertRolePermissionsAsync / UpsertPlanPermissionsAsync / UpsertUserPermissionGrantAsync / UpsertUserPermissionRevokeAsync / UpsertUserPlanSubscriptionAsync</td><td>مدیریت policyهای دسترسی</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" id="table-index">
+    <h2>10) فهرست جدول‌های درگیر</h2>
+    <table>
+      <thead><tr><th>گروه</th><th>جدول‌ها</th></tr></thead>
+      <tbody>
+        <tr><td>Identity</td><td>AspNetUsers, AspNetRoles, AspNetUserRoles, AspNetUserClaims, AspNetRoleClaims, AspNetUserLogins, AspNetUserTokens</td></tr>
+        <tr><td>Auth Runtime</td><td>ConfirmationCode, accounts_user_session, accounts_user_verification, accounts_user_totp_factor, accounts_security_feature, accounts_user_security_setting</td></tr>
+        <tr><td>Organization/Staff</td><td>accounts_organization, accounts_membership, accounts_membership_groups, accounts_membership_permissions, accounts_organization_security_setting</td></tr>
+        <tr><td>Authorization (New)</td><td>accounts_permission, accounts_role_permission, accounts_plan_permission, accounts_user_permission_grant, accounts_user_permission_revoke, accounts_user_plan_subscription</td></tr>
+        <tr><td>Plan Catalog</td><td>licenses_plan (و در مدل دامنه licenses_subscription برای اشتراک سازمانی)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

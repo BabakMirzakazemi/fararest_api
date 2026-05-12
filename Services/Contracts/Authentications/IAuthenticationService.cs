@@ -1,4 +1,5 @@
-﻿using Services.DTOs.Accounts.CompleteRegistration;
+using Services.DTOs.Accounts.Authorization;
+using Services.DTOs.Accounts.CompleteRegistration;
 using Services.DTOs.Accounts.Login;
 using Services.DTOs.Accounts.Mfa;
 using Services.DTOs.Accounts.Otp;
@@ -56,9 +57,12 @@ public interface IAuthenticationService
 
     Task SetMfaStatusAsync(SetMfaStatusRequest request, CancellationToken cancellationToken);
 
+    Task<CurrentUserAuthorizationResponse> GetMyAuthorizationAsync(CancellationToken cancellationToken);
+
     //Task ValidateCompleteRegistrationDataAsync(CompleteUserRegistrationRequest request, CancellationToken cancellationToken);
 
     Task SignOutAsync(CancellationToken cancellationToken);
 
     Task UpdatePasswordAsync(UpdatePasswordRequest input, CancellationToken cancellationToken);
 }
+

@@ -4,6 +4,7 @@ using Services.Contracts.Authentications;
 using Services.DTOs.Accounts.Login;
 using Services.DTOs.Accounts.Mfa;
 using Services.DTOs.Accounts.Otp;
+using Services.DTOs.Accounts.Authorization;
 using Services.DTOs.Accounts.Recovery;
 using Services.DTOs.Accounts.Registration;
 using Services.DTOs.Accounts.SendOtp;
@@ -101,5 +102,17 @@ namespace API.Controllers.Auth.v1
         [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
         public async Task SetMfaStatusAsync(SetMfaStatusRequest request, CancellationToken cancellationToken)
             => await authService.SetMfaStatusAsync(request, cancellationToken);
+
+        [HttpGet("[action]")]
+        [ApiCustomAuthorize(false,
+            RoleHelper.User,
+            RoleHelper.Admin,
+            RoleHelper.SuperAdmin,
+            RoleHelper.ThirdParty,
+            RoleHelper.FinanceManager,
+            RoleHelper.FinancePerformancer,
+            RoleHelper.Marketing)]
+        public async Task<CurrentUserAuthorizationResponse> MyAuthorizationAsync(CancellationToken cancellationToken)
+            => await authService.GetMyAuthorizationAsync(cancellationToken);
     }
 }

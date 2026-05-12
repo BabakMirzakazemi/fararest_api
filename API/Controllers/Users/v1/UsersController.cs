@@ -14,10 +14,12 @@ namespace API.Controllers.Users.v1
     public class UsersController (IUserService userService) : BaseUserApiController
     {
         [HttpPost("[action]")]
+        [ApiPermissionAuthorize("accounts.view")]
         public async Task<PagingDTO<UserListDTO>> AllPaginatedAsync(FilterUserRequest dto, CancellationToken cancellationToken)
                      => await userService.All(dto, cancellationToken);
 
         [HttpPost("[action]")]
+        [ApiPermissionAuthorize("accounts.view")]
         public async Task<CursorPagingDTO<UserListDTO>> AllCursorAsync(FilterUserCursorRequest dto, CancellationToken cancellationToken)
                      => await userService.AllByCursor(dto, cancellationToken);
     }

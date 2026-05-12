@@ -1,0 +1,332 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند کامل دیتابیس Fararest API - Identity + Accounts + Authorization</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --line: #d9e2ef;
+      --text: #12263a;
+      --muted: #4a6077;
+      --head: #0d1f33;
+      --soft: #eef4fb;
+      --accent: #0b63c9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(130deg, #f8fbff, #edf3fb);
+      color: var(--text);
+      font-family: Tahoma, "Segoe UI", sans-serif;
+    }
+    .wrap { max-width: 1550px; margin: 0 auto; padding: 20px 14px 28px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+    }
+    h1, h2, h3 { margin: 0 0 10px; color: var(--head); }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; border-right: 4px solid var(--accent); padding-right: 8px; }
+    h3 { font-size: 18px; margin-top: 2px; }
+    p, li { line-height: 2; margin: 0 0 8px; }
+    .muted { color: var(--muted); }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #b8d7ff;
+      background: #eef6ff;
+      color: #164d90;
+      font-size: 12px;
+      margin-left: 6px;
+    }
+    .toc a { color: #1253a4; text-decoration: none; }
+    .toc ol { margin: 8px 0 0; padding-right: 20px; }
+    .mono {
+      direction: ltr;
+      text-align: left;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      background: #f8fbff;
+      border: 1px solid #d9e6f7;
+      border-radius: 8px;
+      padding: 10px;
+      overflow: auto;
+      white-space: pre;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+      min-width: 1080px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      vertical-align: top;
+      line-height: 1.9;
+    }
+    th { background: var(--soft); }
+    .table-block { margin-top: 14px; }
+    code { direction:ltr; unicode-bidi: embed; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <h1>مستند کامل دیتابیس Fararest API</h1>
+    <p class="muted">پوشش: جداول Identity دات‌نت + جداول حوزه <code>accounts_*</code> + مدل جدید Authorization.</p>
+    <p>
+      <span class="badge">Schema Focus</span> Identity + Accounts + AuthZ
+      <span class="badge">Migration</span> <code>20260506140425_AuthzPermissionsModel</code>
+    </p>
+  </div>
+
+  <div class="card toc">
+    <h2>فهرست</h2>
+    <ol>
+      <li><a href="#identity">جداول Identity دات‌نت</a></li>
+      <li><a href="#accounts">جداول حوزه Accounts</a></li>
+      <li><a href="#authz">جداول Authorization جدید</a></li>
+    </ol>
+  </div>
+
+  <div class="card" id="identity">
+    <h2>1) جداول Identity دات‌نت</h2>
+
+    <div class="table-block">
+      <h3>جدول: AspNetUsers</h3>
+      <p><strong>کاربرد کلی جدول:</strong> موجودیت اصلی کاربر سیستم (هویت، امنیت، وضعیت حساب، اطلاعات ورود).</p>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/رابطه</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead>
+        <tbody>
+          <tr><td>Id</td><td>uuid</td><td>خیر</td><td>PK</td><td>شناسه یکتای کاربر برای تمام ارتباطات امنیتی.</td><td>ثبت ورود و نشست‌های کاربر با این شناسه.</td></tr>
+          <tr><td>UserName</td><td>varchar</td><td>بله</td><td>Index</td><td>نام کاربری لاگین یا شناسه نمایشی.</td><td><code>admin.main</code></td></tr>
+          <tr><td>Email</td><td>varchar</td><td>بله</td><td>Index</td><td>ایمیل کاربر برای لاگین/بازیابی.</td><td>ارسال لینک فعال‌سازی ایمیل.</td></tr>
+          <tr><td>PasswordHash</td><td>text</td><td>بله</td><td>-</td><td>هش رمز عبور (نه رمز خام).</td><td>اعتبارسنجی رمز در زمان login.</td></tr>
+          <tr><td>SecurityStamp</td><td>text</td><td>بله</td><td>-</td><td>برای invalidate کردن توکن‌های قدیمی.</td><td>بعد از تغییر رمز، توکن‌های قبلی نامعتبر شوند.</td></tr>
+          <tr><td>IsActive</td><td>bool</td><td>خیر</td><td>-</td><td>فعال/غیرفعال بودن حساب.</td><td>کاربر غیرفعال اجازه ورود ندارد.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: AspNetRoles</h3>
+      <p><strong>کاربرد کلی جدول:</strong> نگهداری نقش‌های کلان سیستم (User/Admin/SuperAdmin و ...).</p>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/رابطه</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead>
+        <tbody>
+          <tr><td>Id</td><td>uuid</td><td>خیر</td><td>PK</td><td>شناسه یکتای نقش.</td><td>اتصال در جدول <code>AspNetUserRoles</code>.</td></tr>
+          <tr><td>Name</td><td>varchar</td><td>خیر</td><td>Unique</td><td>نام نقش قابل استفاده در authorize.</td><td><code>SuperAdmin</code></td></tr>
+          <tr><td>Description</td><td>varchar</td><td>خیر</td><td>-</td><td>توضیح معنای کسب‌وکاری نقش.</td><td>«مدیر کل سامانه»</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: AspNetUserRoles</h3>
+      <p><strong>کاربرد کلی جدول:</strong> اتصال چند-به-چند کاربر و نقش.</p>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/رابطه</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead>
+        <tbody>
+          <tr><td>UserId</td><td>uuid</td><td>خیر</td><td>FK → AspNetUsers</td><td>کاربری که نقش می‌گیرد.</td><td>کاربر به نقش Admin وصل می‌شود.</td></tr>
+          <tr><td>RoleId</td><td>uuid</td><td>خیر</td><td>FK → AspNetRoles</td><td>نقش تخصیص‌داده‌شده.</td><td>افزودن دسترسی مدیریتی.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول‌ها: AspNetUserClaims / AspNetRoleClaims / AspNetUserLogins / AspNetUserTokens / AspNetUserClaims</h3>
+      <p><strong>کاربرد کلی جدول:</strong> نگهداری claim، لاگین خارجی، و توکن‌های امنیتی/فنی Identity.</p>
+      <table>
+        <thead><tr><th>جدول</th><th>کاربرد روشن</th><th>مثال کاربردی</th></tr></thead>
+        <tbody>
+          <tr><td>AspNetUserClaims</td><td>Claimهای مستقیم کاربر.</td><td>Claim سفارشی برای tenant.</td></tr>
+          <tr><td>AspNetRoleClaims</td><td>Claimهای متصل به نقش.</td><td>Claim سطح سازمانی روی Admin.</td></tr>
+          <tr><td>AspNetUserLogins</td><td>نگهداری provider خارجی.</td><td>ورود گوگل/مایکروسافت.</td></tr>
+          <tr><td>AspNetUserTokens</td><td>توکن‌های داخلی Identity.</td><td>توکن reset password.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" id="accounts">
+    <h2>2) جداول حوزه Accounts (accounts_*)</h2>
+    <p class="muted">این بخش جدول‌های عملیاتی عضویت، امنیت، OTP، نشست و تنظیمات امنیتی را پوشش می‌دهد.</p>
+
+    <div class="table-block">
+      <h3>جدول: accounts_organization</h3>
+      <p><strong>کاربرد کلی جدول:</strong> اطلاعات پایه سازمان/کسب‌وکار مالک سرویس.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>id</td><td>bigint</td><td>خیر</td><td>شناسه سازمان.</td><td>مرجع خرید لایسنس و کیف پول.</td></tr>
+        <tr><td>name</td><td>varchar(200)</td><td>خیر</td><td>نام تجاری سازمان.</td><td>«رستوران مرکزی»</td></tr>
+        <tr><td>owner_user_id</td><td>int?</td><td>بله</td><td>شناسه مالک اولیه سازمان در مدل legacy.</td><td>مالک اولیه در زمان ثبت‌نام.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_membership</h3>
+      <p><strong>کاربرد کلی جدول:</strong> عضویت کاربر در سازمان و وضعیت فعال/مالک بودن.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>organization_id</td><td>bigint</td><td>خیر</td><td>سازمان هدف عضویت.</td><td>عضو شعبه تهران.</td></tr>
+        <tr><td>user_id</td><td>int</td><td>خیر</td><td>شناسه کاربر (پل legacy).</td><td>کاربر صندوق.</td></tr>
+        <tr><td>is_owner</td><td>bool</td><td>خیر</td><td>مالک بودن کاربر در سازمان.</td><td>امکان مدیریت سطح بالا.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_membership_groups</h3>
+      <p><strong>کاربرد کلی جدول:</strong> اتصال عضویت به گروه/نقش سازمانی.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>membership_id</td><td>bigint</td><td>خیر</td><td>عضویت هدف.</td><td>عضویت کاربر در سازمان الف.</td></tr>
+        <tr><td>group_id</td><td>int</td><td>خیر</td><td>گروه تخصیصی.</td><td>گروه «حسابداری».</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_membership_permissions</h3>
+      <p><strong>کاربرد کلی جدول:</strong> Grant/deny مجوز در سطح عضویت سازمانی.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>membership_id</td><td>bigint</td><td>خیر</td><td>عضویت هدف.</td><td>کاربر سازمان الف.</td></tr>
+        <tr><td>permission_id</td><td>int</td><td>خیر</td><td>مجوزی که override می‌شود.</td><td>عدم دسترسی به delete.</td></tr>
+        <tr><td>is_granted</td><td>bool</td><td>خیر</td><td>اعطا/عدم اعطا.</td><td><code>false</code> برای محدودسازی.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_verification</h3>
+      <p><strong>کاربرد کلی جدول:</strong> مدیریت OTP و تاییدیه‌های امنیتی کاربر.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>channel</td><td>varchar(20)</td><td>خیر</td><td>کانال ارسال کد (sms/email).</td><td>ارسال OTP پیامکی.</td></tr>
+        <tr><td>purpose</td><td>varchar(50)</td><td>خیر</td><td>هدف OTP.</td><td>reset_password</td></tr>
+        <tr><td>otp_code_hash</td><td>char(64)</td><td>خیر</td><td>هش کد یکبار مصرف.</td><td>جلوگیری از ذخیره کد خام.</td></tr>
+        <tr><td>expires_at</td><td>timestamptz</td><td>خیر</td><td>انقضای کد.</td><td>اعتبار 2 دقیقه‌ای.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_session</h3>
+      <p><strong>کاربرد کلی جدول:</strong> مدیریت نشست‌های فعال کاربر و revoke جلسه.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>session_public_id</td><td>uuid</td><td>خیر</td><td>شناسه عمومی جلسه.</td><td>نمایش در لیست MySessions.</td></tr>
+        <tr><td>session_secret_hash</td><td>char(64)</td><td>خیر</td><td>اثر انگشت توکن.</td><td>خروج از یک دستگاه خاص.</td></tr>
+        <tr><td>revoked_at</td><td>timestamptz</td><td>بله</td><td>زمان ابطال.</td><td>پس از reset password.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_security_feature</h3>
+      <p><strong>کاربرد کلی جدول:</strong> کاتالوگ قابلیت‌های امنیتی (مثل MFA).</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>code</td><td>varchar(80)</td><td>خیر</td><td>کلید فنی فیچر.</td><td><code>MFA_REQUIRED</code></td></tr>
+        <tr><td>default_enabled</td><td>bool</td><td>خیر</td><td>وضعیت پیش‌فرض.</td><td>MFA پیش‌فرض خاموش.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_organization_security_setting</h3>
+      <p><strong>کاربرد کلی جدول:</strong> فعال/غیرفعال‌سازی فیچر امنیتی در سطح سازمان.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>organization_id</td><td>bigint</td><td>خیر</td><td>سازمان هدف.</td><td>اجباری شدن MFA برای یک سازمان.</td></tr>
+        <tr><td>feature_id</td><td>bigint</td><td>خیر</td><td>فیچر امنیتی.</td><td>اتصال به MFA.</td></tr>
+        <tr><td>is_enabled</td><td>bool</td><td>خیر</td><td>وضعیت فعال.</td><td>مقدار true.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_security_setting</h3>
+      <p><strong>کاربرد کلی جدول:</strong> تنظیم امنیتی per-user برای ویژگی‌های امنیتی.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>user_id</td><td>int</td><td>خیر</td><td>کاربر هدف.</td><td>فعال‌سازی MFA برای یک کاربر خاص.</td></tr>
+        <tr><td>feature_id</td><td>bigint</td><td>خیر</td><td>فیچر امنیتی.</td><td>MFA_REQUIRED</td></tr>
+        <tr><td>is_enabled</td><td>bool</td><td>خیر</td><td>وضعیت فعال.</td><td>true/false</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_totp_factor</h3>
+      <p><strong>کاربرد کلی جدول:</strong> نگهداری اطلاعات عامل TOTP برای MFA.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>secret_encrypted</td><td>bytea</td><td>خیر</td><td>کلید TOTP به‌شکل رمزنگاری‌شده.</td><td>اتصال اپ Google Authenticator.</td></tr>
+        <tr><td>status</td><td>varchar(20)</td><td>خیر</td><td>وضعیت عامل (active/disabled).</td><td>disabled بعد از لغو MFA.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_oauth_identity</h3>
+      <p><strong>کاربرد کلی جدول:</strong> لینک هویت OAuth خارجی به کاربر داخلی.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>provider</td><td>varchar(30)</td><td>خیر</td><td>ارائه‌دهنده هویت.</td><td>google</td></tr>
+        <tr><td>provider_subject</td><td>varchar(255)</td><td>خیر</td><td>شناسه یکتای کاربر در provider.</td><td>sub از Google ID token.</td></tr>
+        <tr><td>last_login_at</td><td>timestamptz</td><td>بله</td><td>آخرین ورود OAuth.</td><td>تحلیل رفتار ورود.</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card" id="authz">
+    <h2>3) جداول Authorization جدید</h2>
+
+    <div class="table-block">
+      <h3>جدول: accounts_permission</h3>
+      <p><strong>کاربرد کلی جدول:</strong> مرجع مرکزی کلیدهای permission برای route/menu/module action.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>key</td><td>varchar(120)</td><td>خیر</td><td>UNIQUE</td><td>کلید فنی بررسی دسترسی.</td><td><code>home.view</code>, <code>accounts.update</code></td></tr>
+        <tr><td>category</td><td>varchar(80)</td><td>خیر</td><td>-</td><td>گروه‌بندی منطقی مجوزها.</td><td><code>menu</code>, <code>crm</code></td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_role_permission</h3>
+      <p><strong>کاربرد کلی جدول:</strong> نگاشت پیش‌فرض مجوزهای نقش‌ها.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>role_id + permission_id</td><td>uuid + bigint</td><td>خیر</td><td>UNIQUE مرکب</td><td>جلوگیری از اتصال تکراری نقش و مجوز.</td><td>نقش User دارای home.view.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_plan_permission</h3>
+      <p><strong>کاربرد کلی جدول:</strong> نگاشت مجوزها بر اساس پلن خریداری‌شده.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>plan_id + permission_id</td><td>bigint + bigint</td><td>خیر</td><td>UNIQUE مرکب</td><td>هر پلن، مجموعه مجوز استاندارد خود را دارد.</td><td>پلن PRO دارای payments.view.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_permission_grant</h3>
+      <p><strong>کاربرد کلی جدول:</strong> اعطای مستقیم permission به کاربر (override مثبت).</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>user_id + permission_id</td><td>uuid + bigint</td><td>خیر</td><td>UNIQUE مرکب</td><td>یک grant تکراری برای کاربر ثبت نشود.</td><td>اعطای crm.view به یک User.</td></tr>
+        <tr><td>source</td><td>varchar(40)</td><td>خیر</td><td>-</td><td>منبع grant برای audit.</td><td>manual توسط SuperAdmin.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_permission_revoke</h3>
+      <p><strong>کاربرد کلی جدول:</strong> حذف مستقیم permission از کاربر (override منفی).</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>user_id + permission_id</td><td>uuid + bigint</td><td>خیر</td><td>UNIQUE مرکب</td><td>Revocation تکراری ثبت نشود.</td><td>حذف accounts.delete از کاربر خاص.</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_plan_subscription</h3>
+      <p><strong>کاربرد کلی جدول:</strong> تعیین پلن فعال هر کاربر و بازه زمانی اثرگذاری آن در محاسبه دسترسی.</p>
+      <table><thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح روشن</th><th>مثال کاربردی</th></tr></thead><tbody>
+        <tr><td>is_active</td><td>boolean</td><td>خیر</td><td>فعال/غیرفعال بودن اشتراک پلن کاربر.</td><td>غیرفعال‌سازی پلن پس از انقضا.</td></tr>
+        <tr><td>starts_at / ends_at</td><td>timestamptz</td><td>ends_at بله</td><td>کنترل بازه زمانی معتبر بودن پلن.</td><td>دسترسی Pro فقط تا تاریخ انقضا.</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند موجودیت‌های دیتابیس Fararest API - نسخه Authorization</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --line: #d9e2ef;
+      --text: #12263a;
+      --muted: #4a6077;
+      --head: #0d1f33;
+      --soft: #eef4fb;
+      --accent: #0b63c9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(130deg, #f8fbff, #edf3fb);
+      color: var(--text);
+      font-family: Tahoma, "Segoe UI", sans-serif;
+    }
+    .wrap { max-width: 1500px; margin: 0 auto; padding: 20px 14px 28px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+    }
+    h1, h2, h3, h4 { margin: 0 0 10px; color: var(--head); }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; border-right: 4px solid var(--accent); padding-right: 8px; }
+    h3 { font-size: 18px; margin-top: 2px; }
+    p, li { line-height: 2; margin: 0 0 8px; }
+    .muted { color: var(--muted); }
+    .mono {
+      direction: ltr;
+      text-align: left;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      background: #f8fbff;
+      border: 1px solid #d9e6f7;
+      border-radius: 8px;
+      padding: 10px;
+      overflow: auto;
+      white-space: pre;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #b8d7ff;
+      background: #eef6ff;
+      color: #164d90;
+      font-size: 12px;
+      margin-left: 6px;
+    }
+    .toc a { color: #1253a4; text-decoration: none; }
+    .toc ol { margin: 8px 0 0; padding-right: 20px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+      min-width: 980px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      vertical-align: top;
+      line-height: 1.9;
+    }
+    th { background: var(--soft); }
+    .table-block { margin-top: 14px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <h1>مستند موجودیت‌های دیتابیس Fararest API</h1>
+    <p class="muted">این نسخه برای پروژه جاری <strong>fararest_api</strong> تهیه شده و مدل جدید Authorization (Permission-Based + Plan-Based + User Override) را پوشش می‌دهد.</p>
+    <p>
+      <span class="badge">پروژه</span> ASP.NET Core + EF Core + Identity
+      <span class="badge">نسخه مهاجرت</span> <code>20260506140425_AuthzPermissionsModel</code>
+      <span class="badge">مسیر خروجی</span> <code>database-documents</code>
+    </p>
+  </div>
+
+  <div class="card toc">
+    <h2>فهرست</h2>
+    <ol>
+      <li><a href="#overview">نمای کلی</a></li>
+      <li><a href="#auth-core">هسته هویتی (Identity + Auth)</a></li>
+      <li><a href="#authz">مدل جدید Authorization</a></li>
+      <li><a href="#plan">ارتباط پلن و دسترسی</a></li>
+      <li><a href="#effective">منطق دسترسی موثر</a></li>
+    </ol>
+  </div>
+
+  <div class="card" id="overview">
+    <h2>نمای کلی</h2>
+    <p>در معماری جدید، دسترسی موثر کاربر بر اساس اجتماع نقش، پلن و Grant مستقیم و سپس حذف Revocation محاسبه می‌شود.</p>
+    <div class="mono">effective_permissions = (role_permissions UNION plan_permissions UNION user_grants) - user_revokes</div>
+    <h3>ERD متنی</h3>
+    <div class="mono">AspNetRoles (1) --< accounts_role_permission (N) >-- (1) accounts_permission
+licenses_plan (1) --< accounts_plan_permission (N) >-- (1) accounts_permission
+AspNetUsers (1) --< accounts_user_permission_grant (N) >-- (1) accounts_permission
+AspNetUsers (1) --< accounts_user_permission_revoke (N) >-- (1) accounts_permission
+AspNetUsers (1) --< accounts_user_plan_subscription (N) >-- (1) licenses_plan</div>
+  </div>
+
+  <div class="card" id="auth-core">
+    <h2>هسته هویتی (Identity + Auth)</h2>
+    <p class="muted">موجودیت‌های پایه احراز هویت و نشست کاربر که در پروژه فعال هستند:</p>
+
+    <div class="table-block">
+      <h3>جدول: AspNetUsers</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>Id</td><td>uuid</td><td>خیر</td><td>شناسه یکتای کاربر.</td></tr>
+          <tr><td>UserName / Email / Mobile</td><td>string</td><td>بله/خیر بسته به فیلد</td><td>هویت ورود و اطلاعات تماس کاربر.</td></tr>
+          <tr><td>IsActive</td><td>bool</td><td>خیر</td><td>وضعیت فعال بودن حساب.</td></tr>
+          <tr><td>SecurityStamp</td><td>string</td><td>بله</td><td>برای اعتبارسنجی توکن و invalidation امنیتی.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_session</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>session_public_id</td><td>uuid</td><td>خیر</td><td>شناسه عمومی نشست.</td></tr>
+          <tr><td>session_secret_hash</td><td>char(64)</td><td>خیر</td><td>هش توکن برای revoke/list (بدون نگهداری توکن خام).</td></tr>
+          <tr><td>auth_method</td><td>varchar(30)</td><td>خیر</td><td>روش ورود (password/otp/...)</td></tr>
+          <tr><td>issued_at / expires_at / revoked_at</td><td>timestamp with tz</td><td>revoked_at بله</td><td>چرخه عمر نشست.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" id="authz">
+    <h2>مدل جدید Authorization</h2>
+
+    <div class="table-block">
+      <h3>جدول: accounts_permission</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>id</td><td>bigint identity</td><td>خیر</td><td>PK</td><td>شناسه مجوز.</td></tr>
+          <tr><td>key</td><td>varchar(120)</td><td>خیر</td><td>UNIQUE</td><td>کلید فنی مجوز مثل <code>home.view</code>.</td></tr>
+          <tr><td>name</td><td>varchar(200)</td><td>خیر</td><td>-</td><td>نام نمایشی مجوز.</td></tr>
+          <tr><td>category</td><td>varchar(80)</td><td>خیر</td><td>-</td><td>دسته مجوز (menu/accounts/licenses/...)</td></tr>
+          <tr><td>is_active</td><td>boolean</td><td>خیر</td><td>-</td><td>فعال/غیرفعال بودن مجوز.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_role_permission</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>role_id</td><td>uuid</td><td>خیر</td><td>UQ(role_id, permission_id)</td><td>ارجاع به نقش Identity.</td></tr>
+          <tr><td>permission_id</td><td>bigint</td><td>خیر</td><td>UQ(role_id, permission_id)</td><td>ارجاع به مجوز.</td></tr>
+          <tr><td>updated_by_user_id</td><td>uuid</td><td>بله</td><td>-</td><td>ردپای تغییر توسط ادمین.</td></tr>
+          <tr><td>created_at / updated_at</td><td>timestamp with tz</td><td>خیر</td><td>-</td><td>Audit زمانی.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_permission_grant</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>user_id</td><td>uuid</td><td>خیر</td><td>UQ(user_id, permission_id)</td><td>کاربر هدف.</td></tr>
+          <tr><td>permission_id</td><td>bigint</td><td>خیر</td><td>UQ(user_id, permission_id)</td><td>مجوزی که مستقیم اعطا شده.</td></tr>
+          <tr><td>source</td><td>varchar(40)</td><td>خیر</td><td>-</td><td>منبع اعطا (manual/system/...)</td></tr>
+          <tr><td>notes</td><td>varchar(500)</td><td>بله</td><td>-</td><td>توضیح مدیریتی.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_permission_revoke</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>user_id</td><td>uuid</td><td>خیر</td><td>UQ(user_id, permission_id)</td><td>کاربر هدف.</td></tr>
+          <tr><td>permission_id</td><td>bigint</td><td>خیر</td><td>UQ(user_id, permission_id)</td><td>مجوزی که explicitly revoke شده.</td></tr>
+          <tr><td>notes</td><td>varchar(500)</td><td>بله</td><td>-</td><td>علت revoke.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" id="plan">
+    <h2>ارتباط پلن و دسترسی</h2>
+
+    <div class="table-block">
+      <h3>جدول: accounts_plan_permission</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>کلید/قید</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>plan_id</td><td>bigint</td><td>خیر</td><td>UQ(plan_id, permission_id)</td><td>پلن لایسنس.</td></tr>
+          <tr><td>permission_id</td><td>bigint</td><td>خیر</td><td>UQ(plan_id, permission_id)</td><td>مجوز مرتبط با پلن.</td></tr>
+          <tr><td>updated_by_user_id</td><td>uuid</td><td>بله</td><td>-</td><td>ردپای تغییر.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-block">
+      <h3>جدول: accounts_user_plan_subscription</h3>
+      <table>
+        <thead><tr><th>فیلد</th><th>نوع</th><th>Nullable</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>user_id</td><td>uuid</td><td>خیر</td><td>مالک اشتراک کاربری.</td></tr>
+          <tr><td>plan_id</td><td>bigint</td><td>خیر</td><td>پلن فعال/غیرفعال شده برای کاربر.</td></tr>
+          <tr><td>is_active</td><td>boolean</td><td>خیر</td><td>وضعیت فعال.</td></tr>
+          <tr><td>starts_at / ends_at</td><td>timestamp with tz</td><td>ends_at بله</td><td>بازه اثرگذاری پلن.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="muted">پلن‌های baseline seeded: <code>BASIC</code>, <code>PRO</code>, <code>ENTERPRISE</code>.</p>
+  </div>
+
+  <div class="card" id="effective">
+    <h2>منطق دسترسی موثر و API</h2>
+    <p>Endpoint عملیاتی سمت فرانت:</p>
+    <div class="mono">GET /api/v1/Auth/MyAuthorization
+{
+  "userId": "guid",
+  "roles": ["User", "Admin"],
+  "permissions": ["home.view", "menu.home", "accounts.view"],
+  "permissionVersion": "16-hex"
+}</div>
+    <p>سرویس محاسبه: <code>EffectiveAuthorizationService</code> با cache کوتاه‌مدت و version-based cache key.</p>
+    <p>سرویس مدیریت SuperAdmin: تغییر mappingهای Role/Plan و Grant/Revoke کاربر با ثبت فیلدهای audit.</p>
+  </div>
+
+</div>
+</body>
+</html>

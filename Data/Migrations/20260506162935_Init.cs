@@ -110,6 +110,61 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "accounts_permission",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    key = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false),
+                    name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    category = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts_permission", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "accounts_plan_permission",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    plan_id = table.Column<long>(type: "bigint", nullable: false),
+                    permission_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_by_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts_plan_permission", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "accounts_role_permission",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_by_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts_role_permission", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "accounts_security_feature",
                 columns: table => new
                 {
@@ -150,6 +205,66 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_accounts_user_oauth_identity", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "accounts_user_permission_grant",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_id = table.Column<long>(type: "bigint", nullable: false),
+                    source = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
+                    notes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_by_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts_user_permission_grant", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "accounts_user_permission_revoke",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_id = table.Column<long>(type: "bigint", nullable: false),
+                    notes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_by_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts_user_permission_revoke", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "accounts_user_plan_subscription",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    plan_id = table.Column<long>(type: "bigint", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    starts_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ends_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    updated_by_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts_user_plan_subscription", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -1361,6 +1476,41 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_accounts_permission_key",
+                table: "accounts_permission",
+                column: "key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_plan_permission_plan_id_permission_id",
+                table: "accounts_plan_permission",
+                columns: new[] { "plan_id", "permission_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_role_permission_role_id_permission_id",
+                table: "accounts_role_permission",
+                columns: new[] { "role_id", "permission_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_user_permission_grant_user_id_permission_id",
+                table: "accounts_user_permission_grant",
+                columns: new[] { "user_id", "permission_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_user_permission_revoke_user_id_permission_id",
+                table: "accounts_user_permission_revoke",
+                columns: new[] { "user_id", "permission_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_user_plan_subscription_user_id_plan_id_is_active",
+                table: "accounts_user_plan_subscription",
+                columns: new[] { "user_id", "plan_id", "is_active" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -1735,10 +1885,28 @@ namespace Data.Migrations
                 name: "accounts_organization_security_setting");
 
             migrationBuilder.DropTable(
+                name: "accounts_permission");
+
+            migrationBuilder.DropTable(
+                name: "accounts_plan_permission");
+
+            migrationBuilder.DropTable(
+                name: "accounts_role_permission");
+
+            migrationBuilder.DropTable(
                 name: "accounts_security_feature");
 
             migrationBuilder.DropTable(
                 name: "accounts_user_oauth_identity");
+
+            migrationBuilder.DropTable(
+                name: "accounts_user_permission_grant");
+
+            migrationBuilder.DropTable(
+                name: "accounts_user_permission_revoke");
+
+            migrationBuilder.DropTable(
+                name: "accounts_user_plan_subscription");
 
             migrationBuilder.DropTable(
                 name: "accounts_user_security_setting");

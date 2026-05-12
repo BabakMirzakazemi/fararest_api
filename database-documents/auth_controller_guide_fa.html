@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>راهنمای کامل AuthController - FaraRest API</title>
+  <style>
+    body { font-family: Tahoma, sans-serif; line-height: 1.9; margin: 24px; color: #222; background: #fafafa; }
+    h1, h2, h3 { color: #0f3d3e; }
+    .card { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+    code { background: #f2f2f2; padding: 2px 6px; border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: right; vertical-align: top; }
+    th { background: #f0f7f7; }
+    .note { background: #fff8e1; border: 1px solid #f6d28b; padding: 10px; border-radius: 8px; }
+    .ok { background: #eaf7ef; border: 1px solid #b7e1c1; padding: 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>راهنمای کامل متدهای <code>AuthController</code></h1>
+
+  <div class="card note">
+    <strong>هدف این فایل:</strong>
+    این راهنما توضیح می‌دهد هر متد بخش احراز هویت چه کاری انجام می‌دهد، چه ورودی‌هایی می‌گیرد، چرا این ورودی‌ها لازم هستند، و در چه سناریوهایی باید از آن استفاده کنید.
+  </div>
+
+  <div class="card">
+    <h2>آدرس پایه API</h2>
+    <p>تمام متدها زیر این مسیر هستند:</p>
+    <p><code>/api/v1/Auth/{ActionName}</code></p>
+  </div>
+
+  <div class="card">
+    <h2>الگوی کلی فلوهای Auth</h2>
+    <ul>
+      <li>ثبت‌نام ایمیلی یا موبایلی انجام می‌شود.</li>
+      <li>برای تایید هویت اولیه، OTP یا لینک فعال‌سازی استفاده می‌شود.</li>
+      <li>کاربر لاگین می‌کند و توکن می‌گیرد.</li>
+      <li>در سناریوهای امنیتی حساس، Session و MFA مدیریت می‌شوند.</li>
+    </ul>
+  </div>
+
+  <h2>1) متدهای ثبت‌نام و فعال‌سازی</h2>
+
+  <div class="card">
+    <h3><code>POST RegisterWithEmailAsync</code></h3>
+    <p><strong>کارکرد:</strong> شروع ثبت‌نام با ایمیل.</p>
+    <table>
+      <tr><th>فیلد ورودی</th><th>نوع</th><th>چرا لازم است؟</th></tr>
+      <tr><td><code>Email</code></td><td>string</td><td>شناسه اصلی کاربر در فلو ایمیلی.</td></tr>
+      <tr><td><code>Password</code></td><td>string</td><td>رمز عبور اصلی حساب.</td></tr>
+      <tr><td><code>ConfirmPassword</code></td><td>string</td><td>برای جلوگیری از اشتباه تایپی هنگام ثبت رمز.</td></tr>
+      <tr><td><code>FullName</code></td><td>string?</td><td>نمایش پروفایل و ارتباط بهتر در سیستم (اختیاری).</td></tr>
+    </table>
+    <p><strong>خروجی:</strong> <code>OtpChallengeResponse</code> شامل <code>UserId</code>، مقصد OTP و زمان انقضا.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST ConfirmEmailRegistrationAsync</code></h3>
+    <p><strong>کارکرد:</strong> تایید ثبت‌نام ایمیلی با OTP.</p>
+    <table>
+      <tr><th>فیلد</th><th>چرا لازم است؟</th></tr>
+      <tr><td><code>UserId</code></td><td>برای اینکه دقیقا همان کاربری تایید شود که فرآیند ثبت‌نام را شروع کرده.</td></tr>
+      <tr><td><code>Email</code></td><td>تطبیق امنیتی بین کاربر و مقصد OTP.</td></tr>
+      <tr><td><code>Otp</code></td><td>اثبات مالکیت ایمیل/فرآیند.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><code>GET ConfirmEmailRegistrationByLinkAsync</code></h3>
+    <p><strong>کارکرد:</strong> همان تایید ایمیل است ولی برای کلیک روی لینک.</p>
+    <p>سناریوی رایج: کاربر داخل ایمیل روی لینک فعال‌سازی کلیک می‌کند و پارامترها از QueryString ارسال می‌شوند.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST ResendEmailActivationLinkAsync</code></h3>
+    <p><strong>کارکرد:</strong> ارسال مجدد لینک/OTP فعال‌سازی ایمیل.</p>
+    <p>وقتی کاربر ایمیل قبلی را پیدا نمی‌کند یا OTP منقضی شده.</p>
+    <table>
+      <tr><th>فیلد</th><th>کاربرد</th></tr>
+      <tr><td><code>UserId</code></td><td>یافتن رکورد فرآیند ثبت‌نام.</td></tr>
+      <tr><td><code>Email</code></td><td>اطمینان از مقصد درست.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><code>POST StartPhoneRegistrationAsync</code></h3>
+    <p><strong>کارکرد:</strong> شروع ثبت‌نام موبایلی و ارسال OTP.</p>
+    <table>
+      <tr><th>فیلد</th><th>کاربرد</th></tr>
+      <tr><td><code>Mobile</code></td><td>شناسه اصلی در فلو موبایل.</td></tr>
+      <tr><td><code>FullName</code></td><td>اختیاری برای پروفایل اولیه.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><code>POST CompletePhoneRegistrationAsync</code></h3>
+    <p><strong>کارکرد:</strong> تکمیل ثبت‌نام موبایلی با OTP.</p>
+    <table>
+      <tr><th>فیلد</th><th>چرا لازم است؟</th></tr>
+      <tr><td><code>UserId</code></td><td>تعیین کاربر هدف.</td></tr>
+      <tr><td><code>Mobile</code></td><td>کنترل اینکه OTP برای همین شماره بوده.</td></tr>
+      <tr><td><code>Otp</code></td><td>تایید مالکیت شماره موبایل.</td></tr>
+    </table>
+  </div>
+
+  <h2>2) متدهای ورود</h2>
+
+  <div class="card">
+    <h3><code>POST EmailPasswordLoginAsync</code></h3>
+    <p><strong>ورودی:</strong> <code>Email</code> + <code>Password</code></p>
+    <p><strong>خروجی:</strong> <code>LoginResponse</code> شامل <code>Token</code>.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST SendPhoneLoginOtpAsync</code></h3>
+    <p>برای ورود موبایلی مرحله اول: OTP ارسال می‌شود.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST PhoneOtpLoginAsync</code></h3>
+    <p>برای ورود موبایلی مرحله دوم: <code>Mobile</code> + <code>Otp</code> و دریافت توکن.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST LoginWithPasswordAsync</code></h3>
+    <p>ورود بر اساس <code>UserId</code> + <code>Password</code>.</p>
+    <p>این متد معمولا در فلوهایی استفاده می‌شود که از قبل کاربر شناسایی شده (مثلا مرحله قبلی، اپ داخلی، یا حفظ شناسه کاربر در یک روند).</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST SendOtpAsync</code></h3>
+    <p>ارسال OTP عمومی برای کاربر شناخته‌شده (بر اساس <code>UserId</code> و <code>AccountId</code>).</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST OtpLoginAsync</code></h3>
+    <p>ورود OTP بر اساس <code>UserId</code> + <code>Otp</code>.</p>
+  </div>
+
+  <h2>3) متدهای بازیابی رمز</h2>
+
+  <div class="card">
+    <h3><code>POST ForgotPasswordAsync</code></h3>
+    <p><strong>کارکرد:</strong> شروع فرآیند فراموشی رمز.</p>
+    <p><strong>ورودی:</strong> حداقل یکی از <code>Email</code> یا <code>Mobile</code>.</p>
+    <p>چرا هر دو اختیاری هستند؟ چون ممکن است کاربر فقط یکی از این دو را به خاطر داشته باشد.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST ResetPasswordWithOtpAsync</code></h3>
+    <p><strong>کارکرد:</strong> تنظیم رمز جدید با OTP بازیابی.</p>
+    <table>
+      <tr><th>فیلد</th><th>کاربرد</th></tr>
+      <tr><td><code>Email/Mobile</code></td><td>یافتن حساب هدف.</td></tr>
+      <tr><td><code>Otp</code></td><td>اثبات اینکه واقعا صاحب حساب درخواست داده.</td></tr>
+      <tr><td><code>NewPassword</code></td><td>رمز جدید.</td></tr>
+      <tr><td><code>ConfirmNewPassword</code></td><td>کاهش خطای انسانی.</td></tr>
+    </table>
+  </div>
+
+  <h2>4) متدهای Session (توضیح ساده و مفصل)</h2>
+
+  <div class="card ok">
+    <h3>Session یعنی چه؟ (خیلی ساده)</h3>
+    <p>
+      هر بار شما با یک دستگاه/مرورگر وارد حساب می‌شوید، سیستم یک «نشست» یا Session ثبت می‌کند.
+      یعنی سیستم می‌داند شما الان از کدام موبایل یا لپ‌تاپ وارد هستید.
+    </p>
+    <p>
+      چرا مهم است؟ چون اگر حس کنید کسی با دستگاه دیگر وارد حسابتان شده، بتوانید همان دستگاه مشکوک را قطع کنید.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3><code>GET MySessionsAsync</code></h3>
+    <p><strong>کارکرد:</strong> نمایش لیست نشست‌های فعال کاربر.</p>
+    <p>اطلاعاتی مثل: دستگاه، مرورگر، IP، زمان آخر فعالیت، و اینکه کدام نشست «فعلی» است.</p>
+    <h4>چه زمانی استفاده کنیم؟</h4>
+    <ul>
+      <li>وقتی می‌خواهید بررسی کنید جایی ناخواسته لاگین نشده باشید.</li>
+      <li>وقتی گوشی عوض کردید و می‌خواهید نشست‌های قدیمی را مدیریت کنید.</li>
+      <li>وقتی تیم پشتیبانی از شما می‌خواهد نشست‌ها را چک کنید.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><code>POST RevokeSessionAsync</code></h3>
+    <p><strong>کارکرد:</strong> لغو یک نشست مشخص با <code>SessionPublicId</code>.</p>
+    <h4>سناریوهای واقعی:</h4>
+    <ul>
+      <li>در لیست نشست‌ها یک دستگاه ناشناس می‌بینید: فقط همان را قطع می‌کنید.</li>
+      <li>قبلا روی کافی‌نت وارد شده‌اید: همان نشست را revoke می‌کنید.</li>
+      <li>گوشی‌تان گم شده: نشست مربوط به همان گوشی را می‌بندید.</li>
+    </ul>
+    <p><strong>مزیت:</strong> لازم نیست کل نشست‌های خودتان را ببندید، فقط مورد مشکوک را می‌بندید.</p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST RevokeOtherSessionsAsync</code></h3>
+    <p><strong>کارکرد:</strong> همه نشست‌ها را می‌بندد به‌جز همین دستگاهی که الان از آن درخواست می‌زنید.</p>
+    <h4>چه زمانی عالی است؟</h4>
+    <ul>
+      <li>بعد از تغییر رمز عبور.</li>
+      <li>بعد از شک به نشت اطلاعات اکانت.</li>
+      <li>وقتی می‌خواهید یک «پاکسازی امنیتی سریع» انجام بدهید.</li>
+    </ul>
+    <p>
+      این متد در عمل مثل این است که بگویید: «فقط همین گوشی/لپ‌تاپ من معتبر بماند، بقیه همه خروج اجباری شوند».
+    </p>
+  </div>
+
+  <h2>5) متدهای MFA (توضیح ساده و مفصل)</h2>
+
+  <div class="card ok">
+    <h3>MFA چیست؟</h3>
+    <p>
+      MFA یعنی ورود دو مرحله‌ای. یعنی فقط دانستن رمز عبور کافی نیست و یک تایید دوم هم لازم است
+      (مثلا OTP). این کار جلوی خیلی از سوءاستفاده‌ها را می‌گیرد.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3><code>GET MfaStatusAsync</code></h3>
+    <p><strong>کارکرد:</strong> وضعیت MFA را نشان می‌دهد:</p>
+    <ul>
+      <li><code>IsEnabled</code>: الان MFA برای این کاربر فعال است یا نه.</li>
+      <li><code>IsRequiredByRole</code>: آیا به‌خاطر نقش کاربر (مثل Admin) MFA اجباری است یا نه.</li>
+    </ul>
+    <h4>سناریو:</h4>
+    <p>
+      در صفحه امنیت حساب، وقتی کاربر وارد می‌شود، ابتدا این متد فراخوانی می‌شود تا UI بداند
+      سوئیچ MFA چه وضعیتی داشته باشد و آیا قابل خاموش‌کردن هست یا نه.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3><code>POST SetMfaStatusAsync</code></h3>
+    <p><strong>کارکرد:</strong> فعال/غیرفعال کردن MFA با تایید OTP.</p>
+    <table>
+      <tr><th>فیلد</th><th>چرا لازم است؟</th></tr>
+      <tr><td><code>IsEnabled</code></td><td>وضعیت جدید (روشن/خاموش).</td></tr>
+      <tr><td><code>Otp</code></td><td>برای اینکه خودِ صاحب حساب دارد تنظیم امنیتی را عوض می‌کند.</td></tr>
+    </table>
+
+    <h4>چرا OTP هنگام تغییر MFA مهم است؟</h4>
+    <p>
+      اگر OTP نباشد، مهاجمی که لحظه‌ای به حساب دسترسی پیدا کرده می‌تواند MFA را خاموش کند.
+      OTP یک قفل دوم می‌گذارد که تغییر امنیتی حساس فقط با تایید واقعی انجام شود.
+    </p>
+
+    <h4>سناریوهای کاربردی:</h4>
+    <ul>
+      <li>کاربر عادی می‌خواهد امنیتش را بالاتر ببرد: MFA را روشن می‌کند.</li>
+      <li>کاربر گوشی‌اش عوض شده: بعد از بازیابی امن، MFA را دوباره تنظیم می‌کند.</li>
+      <li>ادمین سیستم: در نقش‌های حساس، MFA معمولا باید همیشه فعال بماند.</li>
+    </ul>
+  </div>
+
+  <h2>6) پاسخ‌های رایج</h2>
+
+  <div class="card">
+    <h3><code>LoginResponse</code></h3>
+    <p>توکن ورود + اطلاعات پایه کاربر (ایمیل/موبایل/نام).</p>
+
+    <h3><code>OtpChallengeResponse</code></h3>
+    <p>شناسه کاربر، مقصد OTP، و زمان انقضا.</p>
+
+    <h3><code>AccountSessionItemDto</code></h3>
+    <p>اطلاعات هر نشست برای نمایش در صفحه «دستگاه‌های فعال».</p>
+
+    <h3><code>MfaStatusResponse</code></h3>
+    <p>وضعیت فعال بودن MFA و اجباری بودن آن بر اساس نقش.</p>
+  </div>
+
+  <div class="card note">
+    <h2>نکات اجرایی پیشنهادی برای فرانت‌اند</h2>
+    <ul>
+      <li>بعد از لاگین موفق، همیشه توکن را امن نگهداری کنید.</li>
+      <li>در صفحه امنیت حساب، <code>MySessionsAsync</code> و <code>MfaStatusAsync</code> را همزمان بگیرید.</li>
+      <li>بعد از تغییر رمز یا گزارش رفتار مشکوک، دکمه «خروج از سایر دستگاه‌ها» را برجسته نمایش بدهید.</li>
+      <li>برای عملیات حساس، خطاها را کاربرپسند و بدون افشای اطلاعات امنیتی نمایش دهید.</li>
+    </ul>
+  </div>
+
+</body>
+</html>

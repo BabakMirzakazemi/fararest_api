@@ -404,6 +404,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IDataInitializer, RoleDataInitializer>();
         services.AddScoped<IDataInitializer, UserDataInitializer>();
+        services.AddScoped<IDataInitializer, AuthorizationDataInitializer>();
         return services;
     }
 }

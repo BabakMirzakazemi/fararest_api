@@ -10,6 +10,7 @@ using Services.Contracts.Authentications;
 using Services.Contracts.Notifiers;
 using Services.Contracts.Repositories;
 using Services.DTOs.Accounts.CompleteRegistration;
+using Services.DTOs.Accounts.Authorization;
 using Services.DTOs.Accounts.Login;
 using Services.DTOs.Accounts.Mfa;
 using Services.DTOs.Accounts.Otp;
@@ -33,6 +34,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
     private const string MfaFeatureCode = "MFA_REQUIRED";
 
     private readonly IJwtService _jwtService;
+    private readonly IEffectiveAuthorizationService _effectiveAuthorizationService;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IUserContext _userContext;
@@ -47,6 +49,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
 
     public AuthenticationService(
         IJwtService jwtService,
+        IEffectiveAuthorizationService effectiveAuthorizationService,
         ISenderService senderService,
         UserManager<User> userManager,
         SignInManager<User> signInManager,
@@ -60,6 +63,7 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         IOptionsSnapshot<SiteSettings> siteSettings)
     {
         _jwtService = jwtService;
+        _effectiveAuthorizationService = effectiveAuthorizationService;
         _senderService = senderService;
         _userManager = userManager;
         _signInManager = signInManager;
@@ -542,6 +546,9 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
             await _userSecuritySettingRepository.UpdateAsync(setting, cancellationToken);
         }
     }
+
+    public async Task<CurrentUserAuthorizationResponse> GetMyAuthorizationAsync(CancellationToken cancellationToken)
+        => await _effectiveAuthorizationService.GetEffectiveAuthorizationAsync(_userContext.UserId, cancellationToken);
 
     public async Task SignOutAsync(CancellationToken cancellationToken)
     {

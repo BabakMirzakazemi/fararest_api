@@ -169,6 +169,29 @@ Always provide:
 3. How it was verified
 4. Any risks/follow-ups
 
+## Mandatory HTML Documentation Versioning Rules
+These rules are mandatory for every future change and are part of Definition of Done for related changes.
+
+1. Database entity change documentation:
+   - Trigger condition: any change in `Entities/**` and/or EF entity configuration/migration that changes database shape or semantics.
+   - Output folder: `database-documents/`
+   - File naming pattern: `database-document-v{N}.html`
+   - Versioning rule: never overwrite previous versions; create a new file with next sequential version (`v1`, `v2`, `v3`, ...).
+   - Content rule: follow the same content style as `database-documents/fararest-api-authz-entities-v2.html`.
+   - Scope rule: document the full database entities model (not only the changed entity), while clearly highlighting what changed in this version.
+
+2. Program flow change documentation:
+   - Trigger condition: any behavior change in auth, authorization, business flow, endpoint behavior, service orchestration, or business rules.
+   - Output folder: `flow-documents/`
+   - File naming pattern: `flow-documents-v{N}.html`
+   - Versioning rule: never overwrite previous versions; create a new file with next sequential version (`v1`, `v2`, `v3`, ...).
+   - Content rule: include latest end-to-end flow behavior and explicitly list impacted APIs and tables per section.
+
+3. Operational rule:
+   - The latest version number (`N`) must be discovered from existing files in the target folder and incremented by 1.
+   - If no prior versioned file exists, start from `v1`.
+   - Creating these files is mandatory whenever the trigger conditions above are met.
+
 ---
 If this file conflicts with direct maintainer instructions in a task, maintainer instructions win for that task.
 
