@@ -192,6 +192,97 @@ These rules are mandatory for every future change and are part of Definition of 
    - If no prior versioned file exists, start from `v1`.
    - Creating these files is mandatory whenever the trigger conditions above are met.
 
+# Graphify Project Context
+
+This repository is a .NET project.
+
+Graphify has already been initialized for this repository and should be used as the primary project understanding and token-saving layer.
+
+## Graphify Outputs
+
+The Graphify output directory is:
+
+- `graphify-out/graph.json`
+- `graphify-out/GRAPH_REPORT.md`
+- `graphify-out/graph.html`
+- `graphify-out/manifest.json`
+
+## Graphify Refresh Command
+
+When Graphify data is missing, outdated, or stale, refresh it from the repository root with:
+
+```bash
+python -m graphify update .
+```
+
+Important environment note:
+- In this repository environment, direct `graphify` command may not be available on PATH.
+- Always use: `python -m graphify ...`
+
+## Graphify-First Rules
+
+1. Before opening raw source files, inspect Graphify outputs first.
+2. Use graph data to identify:
+   - relevant files
+   - symbols
+   - dependencies
+   - upstream/downstream impact
+3. Open only the minimum required code snippets after graph-based narrowing.
+4. If Graphify answers the question sufficiently, do not read additional source files.
+
+## Token Optimization Rules
+
+1. Prefer:
+   - `graphify-out/GRAPH_REPORT.md`
+   - `graphify-out/graph.json`
+   - symbol/edge-level graph queries
+   - focused snippets
+2. Avoid:
+   - full repository scans
+   - full file dumps
+   - re-reading unchanged files
+   - broad recursive searches unless graph data is insufficient
+3. Keep context compact and task-focused.
+
+## .NET Project Understanding Rules (via Graphify)
+
+For architecture understanding, use Graphify to map:
+- Controllers
+- Services
+- Repositories
+- Interfaces and DI bindings
+- Middleware
+- EF Core DbContext and model relationships
+- API route-to-service relationships
+- Shared libraries and cross-layer dependencies
+- Test coverage relationships (if test projects exist)
+
+## Graph Freshness Rules
+
+1. Refresh graph after meaningful code changes affecting structure, symbols, or dependencies.
+2. Re-run:
+   - `python -m graphify update .`
+3. Treat graph as stale when commit changes significantly or graph output timestamp is old.
+
+## Required Response Format For Future Coding Tasks
+
+For each task, report in this order:
+1. Graph Context
+   - relevant modules
+   - symbols
+   - dependencies
+   - impacted layers
+2. Plan
+   - concise minimal steps
+3. Changes
+   - affected files only
+   - short explanation
+4. Impact Analysis
+   - upstream/downstream effects
+   - related tests to run
+5. Token Optimization Note
+   - what files/context were intentionally not loaded
+
 ---
 If this file conflicts with direct maintainer instructions in a task, maintainer instructions win for that task.
 
