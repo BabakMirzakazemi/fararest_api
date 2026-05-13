@@ -82,8 +82,12 @@ app
     .UseRequestContextEnrichment()
     // Adds rate limiting and health endpoints (/health/live, /health/ready).
     .UsePerformancePipeline()
-    .UseCustomExceptionHandler()
-    .UseHttpsRedirection()
+    .UseCustomExceptionHandler();
+
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
+
+app
     .UseSession()
     //.UseCustomStaticFiles()
     .UseHsts(app.Environment)
