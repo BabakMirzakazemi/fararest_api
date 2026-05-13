@@ -555,6 +555,26 @@ public class AuthenticationService : IAuthenticationService, IScopedDependency
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == _userContext.UserId, cancellationToken)
             ?? throw new NotFoundException(ApplicationMessages.UserNotFound);
 
+        var currentSessionHash = GetCurrentBearerHash();
+        if (!string.IsNullOrWhiteSpace(currentSessionHash))
+        {
+            var currentSession = await _sessionRepository.Table
+                .TagWith("Auth.LogoutCurrentSession")
+                .FirstOrDefaultAsync(
+                    x => x.UserId == MapUserIdToLegacyInt(user.Id)
+                        && x.SessionSecretHash == currentSessionHash
+                        && x.RevokedAt == null,
+                    cancellationToken);
+
+            if (currentSession != null)
+            {
+                currentSession.RevokedAt = DateTimeOffset.UtcNow;
+                currentSession.RevokeReason = "user_logout";
+                currentSession.UpdatedAt = DateTimeOffset.UtcNow;
+                await _sessionRepository.UpdateAsync(currentSession, cancellationToken);
+            }
+        }
+
         await _signInManager.SignOutAsync();
     }
 

@@ -15,11 +15,36 @@
               "type": "juggl_view",
               "state": {},
               "pinned": true,
+              "icon": "lucide-ghost",
+              "title": "juggl_view"
+            }
+          },
+          {
+            "id": "2db88155375c2d79",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "juggl_view",
+              "state": {},
+              "pinned": true,
               "icon": "lucide-file",
               "title": "Juggl"
             }
+          },
+          {
+            "id": "43a5397c332b636b",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Drawing 2026-05-13 15.40.09.excalidraw.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Drawing 2026-05-13 15.40.09.excalidraw"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -222,11 +247,13 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "44d1fe391eb8f41c",
+  "active": "87fc8587eb90c4f7",
   "lastOpenFiles": [
+    "Excalidraw/Drawing 2026-05-13 15.40.09.excalidraw.md",
+    "Untitled 1.base",
+    "fararest.md",
     "Excalidraw/Drawing 2026-05-13 11.43.22.excalidraw.md",
     "Untitled.base",
-    "fararest.md",
     "Excalidraw",
     "Excalidraw/Drawing 2026-05-13 11.03.09.excalidraw.md",
     "GRAPH_REPORT.md",
@@ -237,7 +264,6 @@
     "cache/ast/ff06564862b170ff5114bd52db84d0148ecf6ad0057470bf61b008f026da4a49.json",
     "cache/ast/fedc36fbd76020e07505c68c4275ab1d1b2f85eb25933b18bb8f6a42040fa16f.json",
     "cache/ast/f9e14d6a179d654ef5fab0b2ee0e4f2a76ee36ee83c28a4b94779f5854c5187f.json",
-    "cache/ast/f75f96f7226f4dd169a9032ca88a499e61b717cac13ba7be17ba05e0e775cf34.json",
     "Untitled.canvas",
     "2026-05-12.md",
     "fararest api.md",

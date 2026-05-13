@@ -3,6 +3,7 @@ using Common.Exceptions;
 using Common.Utilities.Extensions;
 using Common.Utilities.Helpers;
 using Data;
+using Entities.Accounts;
 using Entities.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,9 +23,11 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Services.Contracts.Authentications;
 using Services.Contracts.Caching;
+using Services.Contracts.Repositories;
 using Services.DataInitializer;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using WebFramework.HealthChecks;
 using WebFramework.Infrastructure.Caching;
@@ -298,6 +301,7 @@ public static class ServiceCollectionExtensions
                     var signInManager = context.HttpContext.RequestServices.GetRequiredService<SignInManager<User>>();
                     var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                     var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<User>>();
+                    var sessionRepository = context.HttpContext.RequestServices.GetRequiredService<IRepository<AccountUserSession>>();
 
 
                     var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
@@ -346,6 +350,38 @@ public static class ServiceCollectionExtensions
                     if (validatedUser == null)
                     {
                         context.Fail("Token security stamp is not valid.");
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(jwtSecurityToken.RawData))
+                    {
+                        context.Fail("Security token raw data is missing.");
+                        return;
+                    }
+
+                    var tokenHash = ComputeSha256(jwtSecurityToken.RawData);
+                    var legacyUserId = MapUserIdToLegacyInt(userId);
+                    var session = await sessionRepository.TableNoTracking
+                        .TagWith("Auth.ValidateSession")
+                        .FirstOrDefaultAsync(
+                            x => x.UserId == legacyUserId && x.SessionSecretHash == tokenHash,
+                            context.HttpContext.RequestAborted);
+
+                    if (session == null)
+                    {
+                        context.Fail("Active session was not found for this token.");
+                        return;
+                    }
+
+                    if (session.RevokedAt.HasValue)
+                    {
+                        context.Fail("Session has been revoked.");
+                        return;
+                    }
+
+                    if (session.ExpiresAt <= DateTimeOffset.UtcNow)
+                    {
+                        context.Fail("Session has expired.");
                         return;
                     }
                 },
@@ -406,5 +442,14 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDataInitializer, UserDataInitializer>();
         services.AddScoped<IDataInitializer, AuthorizationDataInitializer>();
         return services;
+    }
+
+    private static int MapUserIdToLegacyInt(Guid userId)
+        => Math.Abs(BitConverter.ToInt32(userId.ToByteArray(), 0));
+
+    private static string ComputeSha256(string input)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
+        return Convert.ToHexString(bytes).ToLowerInvariant();
     }
 }

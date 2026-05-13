@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند فلو احراز هویت و مدیریت نشست - نسخه 2</title>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --line:#d9e2ef; --text:#12263a; --muted:#4a6077; --head:#0d1f33; --soft:#eef4fb; --accent:#0b63c9; }
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(130deg,#f8fbff,#edf3fb);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
+    .wrap{max-width:1450px;margin:0 auto;padding:20px 14px 28px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;overflow-x:auto}
+    h1,h2,h3{margin:0 0 10px;color:var(--head)}h1{font-size:24px}h2{font-size:20px;border-right:4px solid var(--accent);padding-right:8px}h3{font-size:17px}
+    p,li{line-height:2;margin:0 0 8px}.muted{color:var(--muted)}
+    .mono{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:12px;background:#f8fbff;border:1px solid #d9e6f7;border-radius:8px;padding:10px;white-space:pre;overflow:auto}
+    .badge{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid #b8d7ff;background:#eef6ff;color:#164d90;font-size:12px;margin-left:6px}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;min-width:960px}th,td{border:1px solid var(--line);padding:9px;vertical-align:top;line-height:1.9}th{background:var(--soft)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>مستند فلو احراز هویت و مدیریت نشست</h1>
+    <p class="muted">این نسخه رفتار جدید خروج کاربر، ابطال نشست جاری، و اعتبارسنجی نشست در زمان بررسی JWT را توضیح می‌دهد.</p>
+    <p><span class="badge">نسخه</span> v2 <span class="badge">تاریخ</span> 2026-05-13 <span class="badge">Scope</span> Auth / Session / Logout</p>
+  </div>
+
+  <div class="card">
+    <h2>1) نمای کلی رفتار جدید</h2>
+    <div class="mono">Login موفق
+  -> JWT صادر می‌شود
+  -> fingerprint هش‌شده توکن در accounts_user_session ذخیره می‌شود
+  -> هر درخواست دارای JWT
+     -> OnTokenValidated
+     -> چک user active + security stamp
+     -> چک وجود session بر اساس hash توکن
+     -> چک revoked نبودن session
+     -> چک expiry نشست
+  -> Logout
+     -> session جاری revoke می‌شود
+     -> cookie توکن حذف می‌شود</div>
+    <p><strong>APIهای درگیر:</strong> <code>POST /api/v1/Auth/LoginWithPasswordAsync</code>، <code>POST /api/v1/Auth/EmailPasswordLoginAsync</code>، <code>POST /api/v1/Auth/OtpLoginAsync</code>، <code>POST /api/v1/Auth/PhoneOtpLoginAsync</code>، <code>POST /api/v1/Auth/LogoutAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_user_session</code>، <code>AspNetUsers</code></p>
+  </div>
+
+  <div class="card">
+    <h2>2) فلو ورود و ثبت نشست</h2>
+    <p>در ورود موفق، علاوه بر تولید JWT، یک رکورد نشست با <code>SessionSecretHash</code> ساخته می‌شود. این هش از خود access token گرفته می‌شود و خود توکن خام در دیتابیس ذخیره نمی‌شود.</p>
+    <table>
+      <thead><tr><th>فیلد نشست</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>session_public_id</code></td><td>شناسه عمومی نشست برای نمایش و revoke دستی</td></tr>
+        <tr><td><code>session_secret_hash</code></td><td>هش SHA-256 از access token</td></tr>
+        <tr><td><code>issued_at</code> / <code>last_seen_at</code> / <code>expires_at</code></td><td>زمان‌های امنیتی نشست</td></tr>
+        <tr><td><code>revoked_at</code> / <code>revoke_reason</code></td><td>وضعیت ابطال نشست</td></tr>
+      </tbody>
+    </table>
+    <p><strong>APIهای درگیر:</strong> endpointهای login فعال</p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_user_session</code></p>
+  </div>
+
+  <div class="card">
+    <h2>3) فلو Logout نشست جاری</h2>
+    <p>API جدید <code>POST /api/v1/Auth/LogoutAsync</code> برای کاربر احراز هویت‌شده، نشست جاری را بر اساس bearer token جاری پیدا می‌کند، آن را با دلیل <code>user_logout</code> revoke می‌کند، سپس cookie توکن سایت را حذف می‌کند.</p>
+    <p>این رفتار باعث می‌شود همان access token از درخواست بعدی دیگر نتواند از لایه اعتبارسنجی JWT عبور کند.</p>
+    <p><strong>APIهای درگیر:</strong> <code>POST /api/v1/Auth/LogoutAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_user_session</code></p>
+  </div>
+
+  <div class="card">
+    <h2>4) فلو مدیریت نشست‌ها</h2>
+    <h3>4.1 مشاهده نشست‌ها</h3>
+    <p><code>GET /api/v1/Auth/MySessionsAsync</code> نشست‌های revoke نشده کاربر را برمی‌گرداند و با <code>IsCurrentSession</code> نشست جاری را مشخص می‌کند.</p>
+    <h3>4.2 revoke یک نشست مشخص</h3>
+    <p><code>POST /api/v1/Auth/RevokeSessionAsync</code> با <code>sessionPublicId</code> یک نشست مشخص را revoke می‌کند.</p>
+    <h3>4.3 revoke سایر نشست‌ها</h3>
+    <p><code>POST /api/v1/Auth/RevokeOtherSessionsAsync</code> همه نشست‌های دیگر کاربر به‌جز نشست جاری را revoke می‌کند.</p>
+    <p><strong>APIهای درگیر:</strong> <code>GET /api/v1/Auth/MySessionsAsync</code>، <code>POST /api/v1/Auth/RevokeSessionAsync</code>، <code>POST /api/v1/Auth/RevokeOtherSessionsAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_user_session</code></p>
+  </div>
+
+  <div class="card">
+    <h2>5) فلو اعتبارسنجی JWT بعد از این تغییر</h2>
+    <p>در <code>OnTokenValidated</code> علاوه بر چک‌های قبلی، این کنترل‌ها انجام می‌شود:</p>
+    <ol>
+      <li>raw token موجود باشد.</li>
+      <li>هش توکن محاسبه شود.</li>
+      <li>نشست متناظر برای همان user و همان hash پیدا شود.</li>
+      <li>نشست revoke نشده باشد.</li>
+      <li>نشست منقضی نشده باشد.</li>
+    </ol>
+    <p>در نتیجه اگر نشست revoke شود، همان access token در اولین request بعدی fail می‌شود؛ حتی اگر زمان انقضای JWT هنوز نرسیده باشد.</p>
+    <p><strong>APIهای درگیر:</strong> همه endpointهای محافظت‌شده با JWT</p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_user_session</code>، <code>AspNetUsers</code></p>
+  </div>
+
+  <div class="card">
+    <h2>6) تفاوت نسخه 2 با نسخه 1</h2>
+    <table>
+      <thead><tr><th>موضوع</th><th>نسخه 1</th><th>نسخه 2</th></tr></thead>
+      <tbody>
+        <tr><td>Logout API</td><td>نداشت</td><td><code>LogoutAsync</code> اضافه شد</td></tr>
+        <tr><td>Logout service</td><td>فقط <code>SignOutAsync</code> سطح Identity</td><td>revoke نشست جاری + sign out</td></tr>
+        <tr><td>JWT validation</td><td>نشست revoke شده را چک نمی‌کرد</td><td>session hash / revoked / expiry را چک می‌کند</td></tr>
+        <tr><td>اثر revoke session</td><td>غیر فوری و وابسته به expire شدن JWT</td><td>فوری در request بعدی</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

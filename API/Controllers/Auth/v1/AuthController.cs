@@ -11,6 +11,7 @@ using Services.DTOs.Accounts.SendOtp;
 using Services.DTOs.Accounts.Sessions;
 using Services.DTOs.Accounts.ValidateOtp;
 using WebFramework.Api;
+using WebFramework.Configuration;
 using WebFramework.Filters;
 
 namespace API.Controllers.Auth.v1
@@ -92,6 +93,14 @@ namespace API.Controllers.Auth.v1
         [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
         public async Task RevokeOtherSessionsAsync(CancellationToken cancellationToken)
             => await authService.RevokeOtherSessionsAsync(cancellationToken);
+
+        [HttpPost("[action]")]
+        [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
+        public async Task LogoutAsync(CancellationToken cancellationToken)
+        {
+            await authService.SignOutAsync(cancellationToken);
+            CookieManager.Remove(HttpContext, CookieManager.CookieKeys.SiteJwtToken);
+        }
 
         [HttpGet("[action]")]
         [ApiCustomAuthorize(false, RoleHelper.User, RoleHelper.Admin, RoleHelper.SuperAdmin)]
