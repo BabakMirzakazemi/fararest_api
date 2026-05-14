@@ -117,6 +117,7 @@ namespace Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     key = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false),
                     name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    PersianName = table.Column<string>(type: "text", nullable: false),
                     category = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),

@@ -19,7 +19,7 @@ public class AuthorizationDataInitializer(
     public void InitializeData()
     {
         var now = DateTimeOffset.UtcNow;
-        var allPermissions = new List<(string Key, string Name, string Category)>(AuthorizationCatalog.Permissions.Length);
+        var allPermissions = new List<(string Key, string Name,string PersianName, string Category)>(AuthorizationCatalog.Permissions.Length);
         var seenPermissionKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var permission in AuthorizationCatalog.Permissions)
@@ -36,6 +36,7 @@ public class AuthorizationDataInitializer(
             if (permissionByKey.TryGetValue(item.Key, out var existing))
             {
                 existing.Name = item.Name;
+                existing.PersianName = item.PersianName;
                 existing.Category = item.Category;
                 existing.IsActive = true;
                 existing.UpdatedAt = now;
@@ -46,6 +47,7 @@ public class AuthorizationDataInitializer(
             {
                 Key = item.Key,
                 Name = item.Name,
+                PersianName = item.PersianName,
                 Category = item.Category,
                 IsActive = true,
                 CreatedAt = now,
