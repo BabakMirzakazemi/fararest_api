@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند فلوی مقداردهی اولیه مجوزها - نسخه 3</title>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --line:#d9e2ef; --text:#12263a; --muted:#4a6077; --head:#0d1f33; --soft:#eef4fb; --accent:#0b63c9; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: linear-gradient(130deg, #f8fbff, #edf3fb); color: var(--text); font-family: Tahoma, "Segoe UI", sans-serif; }
+    .wrap { max-width: 1450px; margin: 0 auto; padding: 20px 14px 28px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 14px; overflow-x: auto; }
+    h1, h2, h3 { margin: 0 0 10px; color: var(--head); }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; border-right: 4px solid var(--accent); padding-right: 8px; }
+    p, li { line-height: 2; margin: 0 0 8px; }
+    .muted { color: var(--muted); }
+    .mono { direction: ltr; text-align: left; font-family: Consolas, "Courier New", monospace; font-size: 12px; background: #f8fbff; border: 1px solid #d9e6f7; border-radius: 8px; padding: 10px; white-space: pre; overflow: auto; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; border: 1px solid #b8d7ff; background: #eef6ff; color: #164d90; font-size: 12px; margin-left: 6px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; min-width: 960px; }
+    th, td { border: 1px solid var(--line); padding: 9px; vertical-align: top; line-height: 1.9; }
+    th { background: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>مستند فلوی مقداردهی اولیه مجوزها</h1>
+    <p class="muted">این نسخه رفتار جدید مقداردهی اولیه مجوزها را در زمان startup توضیح می‌دهد تا وجود permission تکراری باعث خطای EF Core و توقف اجرای برنامه نشود.</p>
+    <p><span class="badge">نسخه</span> v3 <span class="badge">تاریخ</span> 2026-05-14 <span class="badge">Scope</span> Auth / Authorization Seed</p>
+  </div>
+
+  <div class="card">
+    <h2>1) نمای کلی رفتار جدید</h2>
+    <div class="mono">Program startup
+  -> InitializeDatabase
+  -> AuthorizationDataInitializer
+  -> load catalog permissions
+  -> ignore duplicate permission keys in memory
+  -> upsert tracked permissions without forcing Update on Added entities
+  -> save permissions
+  -> map role permissions
+  -> map plan permissions
+  -> ensure seed user plan</div>
+    <p><strong>APIهای درگیر:</strong> بدون endpoint جدید؛ این رفتار در startup برنامه قبل از سرویس‌دهی API اجرا می‌شود.</p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_permission</code>، <code>accounts_role_permission</code>، <code>accounts_plan_permission</code>، <code>accounts_user_plan_subscription</code>، <code>license_plan</code></p>
+  </div>
+
+  <div class="card">
+    <h2>2) جزئیات تغییر در seed مجوزها</h2>
+    <p>در نسخه جدید، catalog مجوزها قبل از هرگونه upsert از نظر <code>permission key</code> یکتا می‌شود. اگر یک کلید تکراری در تعریف‌های حافظه وجود داشته باشد، فقط اولین تعریف پردازش می‌شود و startup ادامه پیدا می‌کند.</p>
+    <p>همچنین وقتی یک permission یا plan از دیتابیس با query tracked خوانده شده باشد، تغییرات آن فقط روی همان entity اعمال می‌شود و دیگر <code>Repository.Update</code> روی آن صدا زده نمی‌شود. این کار از تغییر state اشتباه برای entityهای تازه‌ساخته‌شده با کلید موقت جلوگیری می‌کند.</p>
+    <p><strong>APIهای درگیر:</strong> ندارد</p>
+    <p><strong>جدول‌های درگیر:</strong> <code>accounts_permission</code>، <code>license_plan</code></p>
+  </div>
+
+  <div class="card">
+    <h2>3) علت خطای نسخه قبل</h2>
+    <table>
+      <thead><tr><th>مرحله</th><th>رفتار قبلی</th><th>نتیجه</th></tr></thead>
+      <tbody>
+        <tr><td>خواندن catalog</td><td>وجود key تکراری مانند <code>menu.modian</code> بدون guard</td><td>یک permission جدید در حافظه ساخته می‌شد و دوباره همان key پردازش می‌شد</td></tr>
+        <tr><td>به‌روزرسانی permission</td><td>روی entity tracked یا تازه‌اضافه‌شده، <code>Update</code> صدا زده می‌شد</td><td>EF Core تلاش می‌کرد entity با <code>Id</code> موقت را به حالت <code>Modified</code> ببرد</td></tr>
+        <tr><td>startup</td><td>خطای <code>InvalidOperationException</code></td><td>برنامه قبل از بالا آمدن کامل متوقف می‌شد</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>4) تفاوت نسخه 3 با نسخه 2</h2>
+    <table>
+      <thead><tr><th>موضوع</th><th>نسخه 2</th><th>نسخه 3</th></tr></thead>
+      <tbody>
+        <tr><td>seed مجوزها</td><td>در برابر key تکراری مقاوم نبود</td><td>permission keyهای تکراری را در حافظه نادیده می‌گیرد</td></tr>
+        <tr><td>به‌روزرسانی entity tracked</td><td><code>Update</code> اجباری روی entity صدا زده می‌شد</td><td>تغییرات tracked به‌صورت طبیعی توسط EF ذخیره می‌شود</td></tr>
+        <tr><td>startup authz</td><td>ممکن بود با خطای temporary key متوقف شود</td><td>startup پایدارتر شده و seed کامل اجرا می‌شود</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -19,7 +19,16 @@ public class AuthorizationDataInitializer(
     public void InitializeData()
     {
         var now = DateTimeOffset.UtcNow;
-        var allPermissions = AuthorizationCatalog.Permissions;
+        var allPermissions = new List<(string Key, string Name, string Category)>(AuthorizationCatalog.Permissions.Length);
+        var seenPermissionKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var permission in AuthorizationCatalog.Permissions)
+        {
+            if (!seenPermissionKeys.Add(permission.Key))
+                continue;
+
+            allPermissions.Add(permission);
+        }
 
         var permissionByKey = permissionRepository.Table.ToDictionary(x => x.Key, StringComparer.OrdinalIgnoreCase);
         foreach (var item in allPermissions)
@@ -30,7 +39,6 @@ public class AuthorizationDataInitializer(
                 existing.Category = item.Category;
                 existing.IsActive = true;
                 existing.UpdatedAt = now;
-                permissionRepository.Update(existing, saveNow: false);
                 continue;
             }
 
@@ -88,7 +96,6 @@ public class AuthorizationDataInitializer(
         plan.Tier = tier;
         plan.IsActive = true;
         plan.UpdatedAt = now;
-        planRepository.Update(plan, saveNow: false);
     }
 
     private void MapRolePermissions(string roleName, IReadOnlyCollection<string> permissionKeys, DateTimeOffset now)
