@@ -1,16 +1,16 @@
-# Graph Report - main  (2026-05-13)
+# Graph Report - main  (2026-05-17)
 
 ## Corpus Check
-- 1692 files · ~216,595 words
+- 1710 files · ~226,341 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 11886 nodes · 10733 edges · 1631 communities (1527 shown, 104 thin omitted)
+- 12002 nodes · 10862 edges · 1642 communities (1535 shown, 107 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cade6d73`
+- Built from commit: `fc12a5f0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -603,6 +603,7 @@
 - [[_COMMUNITY_Community 585|Community 585]]
 - [[_COMMUNITY_Community 586|Community 586]]
 - [[_COMMUNITY_Community 587|Community 587]]
+- [[_COMMUNITY_Community 588|Community 588]]
 - [[_COMMUNITY_Community 589|Community 589]]
 - [[_COMMUNITY_Community 590|Community 590]]
 - [[_COMMUNITY_Community 591|Community 591]]
@@ -1586,6 +1587,16 @@
 - [[_COMMUNITY_Community 1569|Community 1569]]
 - [[_COMMUNITY_Community 1570|Community 1570]]
 - [[_COMMUNITY_Community 1571|Community 1571]]
+- [[_COMMUNITY_Community 1572|Community 1572]]
+- [[_COMMUNITY_Community 1573|Community 1573]]
+- [[_COMMUNITY_Community 1574|Community 1574]]
+- [[_COMMUNITY_Community 1575|Community 1575]]
+- [[_COMMUNITY_Community 1576|Community 1576]]
+- [[_COMMUNITY_Community 1577|Community 1577]]
+- [[_COMMUNITY_Community 1578|Community 1578]]
+- [[_COMMUNITY_Community 1579|Community 1579]]
+- [[_COMMUNITY_Community 1580|Community 1580]]
+- [[_COMMUNITY_Community 1581|Community 1581]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `AuthenticationService` - 56 edges
@@ -1611,131 +1622,131 @@
 - `RegularExpression` --references--> `string`  [EXTRACTED]
   Common/Utilities/Helpers/Assert.cs → WebFramwork/Swagger/UnauthorizedResponsesOperationFilter.cs
 
-## Communities (1631 total, 104 thin omitted)
+## Communities (1642 total, 107 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
 Nodes (7): DbContext, Dependencies, Downstream Relationships, Inherits, Note, Repository, Upstream Relationships
 
+### Community 1 - "Community 1"
+Cohesion: 0.04
+Nodes (20): AccountPermissionConfiguration, AccountPlanPermissionConfiguration, AccountRolePermissionConfiguration, AccountUserPermissionGrantConfiguration, AccountUserPermissionRevokeConfiguration, AccountUserPlanSubscriptionConfiguration, ConfirmationCodeConfiguration, EmailConfiguration (+12 more)
+
 ### Community 2 - "Community 2"
-Cohesion: 0.13
+Cohesion: 0.11
 Nodes (3): AuthenticationService, IAuthenticationService, IHttpContextAccessor
 
 ### Community 3 - "Community 3"
-Cohesion: 0.14
-Nodes (31): BaseEntity, CrmCustomer, CrmCustomerFinancialSummary, CrmCustomerInterest, CrmCustomerLedger, CrmCustomerLoyalty, CrmCustomerNote, CrmDiscountCampaign (+23 more)
-
-### Community 4 - "Community 4"
-Cohesion: 0.06
-Nodes (13): ConfirmationCodeConfiguration, EmailConfiguration, EmailDocumentConfiguration, EmailSharedInformationConfiguration, RoleConfiguration, UserConfiguration, UserRoleConfiguration, CrmCommonConfiguration (+5 more)
+Cohesion: 0.11
+Nodes (39): AccountPermission, AccountPlanPermission, AccountRolePermission, AccountUserPermissionGrant, AccountUserPermissionRevoke, AccountUserPlanSubscription, BaseEntity, CrmCustomer (+31 more)
 
 ### Community 5 - "Community 5"
+Cohesion: 0.09
+Nodes (5): ApplicationDbContext, EntityAdminService, IEntityAdminService, MethodInfo, Type
+
+### Community 6 - "Community 6"
 Cohesion: 0.07
 Nodes (29): Agent Output Format (for PRs/Task reports), Business Requirements Source, Change Safety Rules, code:bash (python -m graphify update .), Done Criteria (Definition of Done), Example A: Add a new use-case (feature), Example B: Add a new entity field persisted in DB, Example C: Authentication/Authorization changes (+21 more)
 
-### Community 6 - "Community 6"
-Cohesion: 0.15
-Nodes (4): ApplicationDbContext, EntityAdminService, MethodInfo, Type
-
 ### Community 9 - "Community 9"
+Cohesion: 0.14
+Nodes (20): AbstractValidator, CompletePhoneRegistrationRequestValidator, ConfirmEmailRegistrationRequestValidator, EmailPasswordLoginRequestValidator, ForgotPasswordRequestValidator, PhoneOtpLoginRequestValidator, RegisterWithEmailRequestValidator, ResendEmailActivationLinkRequestValidator (+12 more)
+
+### Community 10 - "Community 10"
 Cohesion: 0.1
 Nodes (9): RoleViewDTO, BaseDTO, BoolResultDto, IBaseDTO, IHaveCustomMapping, EmailReceiverDTO, SentEmailDTO, Services.DTOs.Users (+1 more)
 
-### Community 10 - "Community 10"
-Cohesion: 0.13
-Nodes (7): Error(), IOperationCatalogService, OperationCatalogService, IReadOnlyList, IServiceProvider, JsonSerializerOptions, OperationCatalogSecuritySettings
-
 ### Community 11 - "Community 11"
+Cohesion: 0.14
+Nodes (7): UserContext, UserService, CachingSettings, IDataInitializer, IScopedDependency, IUserContext, IUserService
+
+### Community 12 - "Community 12"
+Cohesion: 0.1
+Nodes (9): LogoutModel, DeleteModel, IndexModel, IEntityAdminService, PageModel, AdminPanel.Pages, IndexModel, AdminPanel.Pages (+1 more)
+
+### Community 13 - "Community 13"
 Cohesion: 0.11
 Nodes (7): Func, AssemblyHelper, List, PropertyValidator, NationalCodeValidator, PasswordValidator, PhoneNumberValidator
 
-### Community 12 - "Community 12"
-Cohesion: 0.11
-Nodes (12): AccountPermission, AccountPermissionConfiguration, AccountPlanPermission, AccountPlanPermissionConfiguration, AccountRolePermission, AccountRolePermissionConfiguration, AccountUserPermissionGrant, AccountUserPermissionGrantConfiguration (+4 more)
+### Community 14 - "Community 14"
+Cohesion: 0.14
+Nodes (6): Error(), IOperationCatalogService, OperationCatalogService, IReadOnlyList, IServiceProvider, OperationCatalogSecuritySettings
 
-### Community 13 - "Community 13"
+### Community 15 - "Community 15"
 Cohesion: 0.16
 Nodes (5): ConcurrentDictionary, DbCommandInterceptor, SimpleRateLimitMiddleware, SlowQueryLoggingInterceptor, QueryTuningSettings
-
-### Community 16 - "Community 16"
-Cohesion: 0.21
-Nodes (15): AbstractValidator, CompletePhoneRegistrationRequestValidator, ConfirmEmailRegistrationRequestValidator, EmailPasswordLoginRequestValidator, ForgotPasswordRequestValidator, PhoneOtpLoginRequestValidator, RegisterWithEmailRequestValidator, ResendEmailActivationLinkRequestValidator (+7 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.12
 Nodes (7): IRoleService, IUserService, RoleService, IMapper, IRepository, IRoleService, Repository
 
-### Community 18 - "Community 18"
+### Community 19 - "Community 19"
+Cohesion: 0.12
+Nodes (7): Migration, Data.Migrations, Init, Data.Migrations, Init, AddEpisodicMemory, Data.Migrations
+
+### Community 20 - "Community 20"
 Cohesion: 0.12
 Nodes (10): AccountOrganizationSecuritySetting, AccountOrganizationSecuritySettingConfiguration, AccountSecurityFeature, AccountSecurityFeatureConfiguration, AccountUserOauthIdentity, AccountUserOauthIdentityConfiguration, AccountUserSecuritySetting, AccountUserSecuritySettingConfiguration (+2 more)
 
-### Community 19 - "Community 19"
+### Community 21 - "Community 21"
+Cohesion: 0.14
+Nodes (12): EpisodeDto, EpisodeListItemDto, EpisodeReferenceDto, EpisodeReferenceInput, GetImportantEpisodesRequest, GetRecentEpisodesRequest, RecordEpisodeRequest, SearchEpisodesRequest (+4 more)
+
+### Community 22 - "Community 22"
 Cohesion: 0.16
 Nodes (6): AuthorizationDataInitializer, RoleDataInitializer, UserDataInitializer, IDataInitializer, RoleManager, UserManager
 
-### Community 20 - "Community 20"
+### Community 23 - "Community 23"
+Cohesion: 0.13
+Nodes (3): BaseAdminApiController, AuthorizationAdminController, EpisodesController
+
+### Community 24 - "Community 24"
 Cohesion: 0.16
 Nodes (6): ILogger, ISenderService, IWebHostEnvironment, CustomExceptionHandlerMiddleware, SenderService, RequestDelegate
 
-### Community 21 - "Community 21"
-Cohesion: 0.14
-Nodes (8): JwtService, UserContext, IDataInitializer, IJwtService, IScopedDependency, IUserContext, SignInManager, SiteSettings
-
-### Community 22 - "Community 22"
+### Community 26 - "Community 26"
 Cohesion: 0.14
 Nodes (8): AuthorizationCatalog, ApplicationMessages, ApplicationPropertyPersianName, DataInitializerDefaultValues, RegexHelper, string, Entities.Users, RoleHelper
 
-### Community 23 - "Community 23"
-Cohesion: 0.23
-Nodes (3): UserService, CachingSettings, IUserService
-
-### Community 24 - "Community 24"
-Cohesion: 0.15
-Nodes (5): IOperationCatalogService, IndexModel, InvokeModel, AdminPanel.Pages, IndexModel
-
-### Community 25 - "Community 25"
+### Community 28 - "Community 28"
 Cohesion: 0.15
 Nodes (9): AdminPanelAuthenticationSettings, AdminPanelSecuritySettings, Contains, Dependencies, Downstream Relationships, Note, OperationCatalogSecuritySettings, References (+1 more)
 
-### Community 27 - "Community 27"
+### Community 29 - "Community 29"
 Cohesion: 0.18
 Nodes (7): AdminPanelServiceCollectionExtensions, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 28 - "Community 28"
-Cohesion: 0.17
-Nodes (6): LogoutModel, PageModel, AdminPanel.Pages, ErrorModel, AdminPanel.Pages, PrivacyModel
-
-### Community 29 - "Community 29"
-Cohesion: 0.2
-Nodes (4): ActionFilterAttribute, ApiCustomAuthorize, ApiResultFilterAttribute, FluentValidationFilterAttribute
-
-### Community 33 - "Community 33"
+### Community 32 - "Community 32"
 Cohesion: 0.18
 Nodes (3): CookieManager, SessionManager, Dictionary
 
-### Community 34 - "Community 34"
-Cohesion: 0.17
-Nodes (11): Definition of Done, Skillهای ریپویی, Workflow انجام تسک, دستورالعمل‌های سلسله‌مراتبی, سیاست کیفیت و Warning, فرمان‌های پیشنهادی برای بررسی محلی, قوانین وابستگی لایه‌ها (غیرقابل مذاکره), قوانین پیاده‌سازی (+3 more)
+### Community 33 - "Community 33"
+Cohesion: 0.2
+Nodes (4): ActionFilterAttribute, ApiCustomAuthorize, ApiResultFilterAttribute, FluentValidationFilterAttribute
 
 ### Community 35 - "Community 35"
 Cohesion: 0.17
-Nodes (11): Actors and Permissions, AUTH Business Spec, Business Rules, Core Use Cases, Data Contracts, Events and Side Effects, Non-Functional Requirements, Open Questions (+3 more)
+Nodes (11): Definition of Done, Skillهای ریپویی, Workflow انجام تسک, دستورالعمل‌های سلسله‌مراتبی, سیاست کیفیت و Warning, فرمان‌های پیشنهادی برای بررسی محلی, قوانین وابستگی لایه‌ها (غیرقابل مذاکره), قوانین پیاده‌سازی (+3 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.18
-Nodes (5): bool, IOperationFilter, ApplySummariesOperationFilter, RemoveVersionParameters, UnauthorizedResponsesOperationFilter
+Cohesion: 0.17
+Nodes (11): Actors and Permissions, AUTH Business Spec, Business Rules, Core Use Cases, Data Contracts, Events and Side Effects, Non-Functional Requirements, Open Questions (+3 more)
 
-### Community 37 - "Community 37"
-Cohesion: 0.18
-Nodes (4): Assert, CodeGenerator, RegularExpression, Random
-
-### Community 39 - "Community 39"
+### Community 38 - "Community 38"
 Cohesion: 0.22
 Nodes (3): CrudController, Ok(), IServiceRepository
 
-### Community 41 - "Community 41"
+### Community 39 - "Community 39"
 Cohesion: 0.27
 Nodes (6): Add-UniqueName(), Escape-YamlValue(), Get-NodeFolder(), New-NoteContent(), Normalize-PathValue(), To-WikiCsv()
+
+### Community 40 - "Community 40"
+Cohesion: 0.18
+Nodes (4): Assert, CodeGenerator, RegularExpression, Random
+
+### Community 41 - "Community 41"
+Cohesion: 0.18
+Nodes (5): bool, IOperationFilter, ApplySummariesOperationFilter, RemoveVersionParameters, UnauthorizedResponsesOperationFilter
 
 ### Community 42 - "Community 42"
 Cohesion: 0.18
@@ -1877,2001 +1888,2009 @@ Nodes (9): Contains, Dependencies, Downstream Relationships, Inherits, Method, N
 Cohesion: 0.28
 Nodes (3): AdminPanelAuthenticationSettings, AdminPanelAuthService, IAdminPanelAuthService
 
-### Community 79 - "Community 79"
+### Community 80 - "Community 80"
+Cohesion: 0.19
+Nodes (4): LoginInput, LoginModel, AdminPanel.Pages, ErrorModel
+
+### Community 81 - "Community 81"
 Cohesion: 0.25
 Nodes (3): ApplicationDefaultSettings, ListModel, int
 
-### Community 80 - "Community 80"
-Cohesion: 0.22
-Nodes (3): DeleteModel, IndexModel, IEntityAdminService
-
 ### Community 82 - "Community 82"
 Cohesion: 0.22
-Nodes (5): BaseAdminApiController, BaseCommonController, BaseThirdPartyController, BaseUserApiController, ControllerBase
+Nodes (3): IOperationCatalogService, IndexModel, InvokeModel
+
+### Community 83 - "Community 83"
+Cohesion: 0.42
+Nodes (3): DistributedAppCacheService, JsonSerializerOptions, long
 
 ### Community 84 - "Community 84"
 Cohesion: 0.22
-Nodes (8): AuthController, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
-
-### Community 85 - "Community 85"
-Cohesion: 0.22
-Nodes (8): AuthorizationAdminController, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (5): BaseAdminApiController, BaseCommonController, BaseThirdPartyController, BaseUserApiController, ControllerBase
 
 ### Community 86 - "Community 86"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UsersController
+Nodes (8): AuthController, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 87 - "Community 87"
 Cohesion: 0.22
-Nodes (8): AccountMembershipConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AuthorizationAdminController, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 88 - "Community 88"
 Cohesion: 0.22
-Nodes (8): AccountMembershipGroupConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UsersController
 
 ### Community 89 - "Community 89"
 Cohesion: 0.22
-Nodes (8): AccountMembershipPermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountMembershipConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 90 - "Community 90"
 Cohesion: 0.22
-Nodes (8): AccountOrganizationConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountMembershipGroupConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 91 - "Community 91"
 Cohesion: 0.22
-Nodes (8): AccountOrganizationSecuritySettingConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountMembershipPermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 92 - "Community 92"
 Cohesion: 0.22
-Nodes (8): AccountPermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountOrganizationConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 93 - "Community 93"
 Cohesion: 0.22
-Nodes (8): AccountPlanPermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountOrganizationSecuritySettingConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 94 - "Community 94"
 Cohesion: 0.22
-Nodes (8): AccountRolePermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountPermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 95 - "Community 95"
 Cohesion: 0.22
-Nodes (8): AccountSecurityFeatureConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountPlanPermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 96 - "Community 96"
 Cohesion: 0.22
-Nodes (8): AccountUserOauthIdentityConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountRolePermissionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 97 - "Community 97"
 Cohesion: 0.22
-Nodes (8): AccountUserPermissionGrantConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountSecurityFeatureConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 98 - "Community 98"
 Cohesion: 0.22
-Nodes (8): AccountUserPermissionRevokeConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserOauthIdentityConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 99 - "Community 99"
 Cohesion: 0.22
-Nodes (8): AccountUserPlanSubscriptionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserPermissionGrantConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 100 - "Community 100"
 Cohesion: 0.22
-Nodes (8): AccountUserSecuritySettingConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserPermissionRevokeConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 101 - "Community 101"
 Cohesion: 0.22
-Nodes (8): AccountUserSessionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserPlanSubscriptionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 102 - "Community 102"
 Cohesion: 0.22
-Nodes (8): AccountUserTotpFactorConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserSecuritySettingConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 103 - "Community 103"
 Cohesion: 0.22
-Nodes (8): AccountUserVerificationConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserSessionConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 104 - "Community 104"
 Cohesion: 0.22
-Nodes (8): CategoryConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserTotpFactorConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 105 - "Community 105"
 Cohesion: 0.22
-Nodes (8): ConfirmationCodeConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AccountUserVerificationConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 106 - "Community 106"
 Cohesion: 0.22
-Nodes (8): Contains, CoreCountyConfiguration, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): CategoryConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 107 - "Community 107"
 Cohesion: 0.22
-Nodes (8): Contains, CoreProvinceConfiguration, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): ConfirmationCodeConfiguration, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 108 - "Community 108"
 Cohesion: 0.22
-Nodes (8): Contains, CrmCommonConfiguration, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, CoreCountyConfiguration, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 109 - "Community 109"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, EmailConfiguration, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, CoreProvinceConfiguration, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 110 - "Community 110"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, EmailDocumentConfiguration, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, CrmCommonConfiguration, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 111 - "Community 111"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, EmailSharedInformationConfiguration, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, EmailConfiguration, Inherits, Method, Note, Upstream Relationships
 
 ### Community 112 - "Community 112"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseBillingCycleConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, EmailDocumentConfiguration, Inherits, Method, Note, Upstream Relationships
 
 ### Community 113 - "Community 113"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseModuleConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, EmailSharedInformationConfiguration, Inherits, Method, Note, Upstream Relationships
 
 ### Community 114 - "Community 114"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseModulePermissionConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseBillingCycleConfiguration, Method, Note, Upstream Relationships
 
 ### Community 115 - "Community 115"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseModuleConfiguration, Method, Note, Upstream Relationships
 
 ### Community 116 - "Community 116"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanModuleConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseModulePermissionConfiguration, Method, Note, Upstream Relationships
 
 ### Community 117 - "Community 117"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanPriceConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanConfiguration, Method, Note, Upstream Relationships
 
 ### Community 118 - "Community 118"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseSubscriptionConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanModuleConfiguration, Method, Note, Upstream Relationships
 
 ### Community 119 - "Community 119"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, MenuExtraConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanPriceConfiguration, Method, Note, Upstream Relationships
 
 ### Community 120 - "Community 120"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, MenuUnitConfiguration, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LicenseSubscriptionConfiguration, Method, Note, Upstream Relationships
 
 ### Community 121 - "Community 121"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PaymentOperationConfiguration, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, MenuExtraConfiguration, Method, Note, Upstream Relationships
 
 ### Community 122 - "Community 122"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PaymentWalletConfiguration, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, MenuUnitConfiguration, Method, Note, Upstream Relationships
 
 ### Community 123 - "Community 123"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PaymentWalletEntryConfiguration, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PaymentOperationConfiguration, Upstream Relationships
 
 ### Community 124 - "Community 124"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PostConfiguration, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PaymentWalletConfiguration, Upstream Relationships
 
 ### Community 125 - "Community 125"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, RoleConfiguration, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PaymentWalletEntryConfiguration, Upstream Relationships
 
 ### Community 126 - "Community 126"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, SupportConfiguration, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PostConfiguration, Upstream Relationships
 
 ### Community 127 - "Community 127"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UserConfiguration
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, RoleConfiguration, Upstream Relationships
 
 ### Community 128 - "Community 128"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UserRoleConfiguration
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, SupportConfiguration, Upstream Relationships
 
 ### Community 129 - "Community 129"
 Cohesion: 0.22
-Nodes (8): ApiResultFilterAttribute, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UserConfiguration
 
 ### Community 130 - "Community 130"
 Cohesion: 0.22
-Nodes (8): ApplicationDbContext (2), Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UserRoleConfiguration
 
 ### Community 131 - "Community 131"
 Cohesion: 0.22
-Nodes (8): ApplicationDbContextModelSnapshot, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): ApiResultFilterAttribute, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 132 - "Community 132"
 Cohesion: 0.22
-Nodes (8): ApplySummariesOperationFilter, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): ApplicationDbContext (2), Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 133 - "Community 133"
 Cohesion: 0.22
-Nodes (8): AppTelemetry, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): ApplicationDbContextModelSnapshot, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 134 - "Community 134"
 Cohesion: 0.22
-Nodes (8): AssemblyHelper.FindMyAssemblies(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): ApplySummariesOperationFilter, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 135 - "Community 135"
 Cohesion: 0.22
-Nodes (8): AssemblyHelper, Contains, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
+Nodes (8): AppTelemetry, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 136 - "Community 136"
 Cohesion: 0.22
-Nodes (8): AuthorizationDataInitializer, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AssemblyHelper.FindMyAssemblies(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 137 - "Community 137"
 Cohesion: 0.22
-Nodes (8): AutofacModule, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AssemblyHelper, Contains, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
 
 ### Community 138 - "Community 138"
 Cohesion: 0.22
-Nodes (8): BaseDTO, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AuthorizationDataInitializer, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 139 - "Community 139"
 Cohesion: 0.22
-Nodes (8): CodeGenerator, Contains, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
+Nodes (8): AutofacModule, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 140 - "Community 140"
 Cohesion: 0.22
-Nodes (8): Contains, CookieManager, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
+Nodes (8): BaseDTO, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 141 - "Community 141"
 Cohesion: 0.22
-Nodes (8): Contains, CustomExceptionHandlerMiddleware, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
+Nodes (8): CodeGenerator, Contains, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
 
 ### Community 142 - "Community 142"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, DatabaseSqlObjectsInstaller.EnsureLicenseSellableTablesAsync(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): Contains, CookieManager, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
 
 ### Community 143 - "Community 143"
 Cohesion: 0.22
-Nodes (8): Contains, DatabaseSqlObjectsInstaller, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
+Nodes (8): Contains, CustomExceptionHandlerMiddleware, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
 
 ### Community 144 - "Community 144"
 Cohesion: 0.22
-Nodes (8): Contains, DateTimeHelper, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
+Nodes (8): Calls, Calls, DatabaseSqlObjectsInstaller.EnsureLicenseSellableTablesAsync(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 145 - "Community 145"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, DistributedAppCacheService.RemoveAsync(), Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): Contains, DatabaseSqlObjectsInstaller, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
 
 ### Community 146 - "Community 146"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, DistributedCacheHealthCheck, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, DateTimeHelper, Dependencies, Downstream Relationships, Method, Note, References, Upstream Relationships
 
 ### Community 147 - "Community 147"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, EmailReceiverDTO, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, DistributedAppCacheService.RemoveAsync(), Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 148 - "Community 148"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, EntityAdminService.BuildLookupLabel(), Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, DistributedCacheHealthCheck, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 149 - "Community 149"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, EntityAdminService.ParseKeyToken(), Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, EmailReceiverDTO, Inherits, Method, Note, Upstream Relationships
 
 ### Community 150 - "Community 150"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, ErrorModel, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, EntityAdminService.BuildLookupLabel(), Method, Note, Upstream Relationships
 
 ### Community 151 - "Community 151"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, FluentValidationFilterAttribute, Inherits, Method, Note, Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, EntityAdminService.ParseKeyToken(), Method, Note, Upstream Relationships
 
 ### Community 152 - "Community 152"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, IDataInitializer (2), Inherits, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, ErrorModel, Inherits, Method, Note, Upstream Relationships
 
 ### Community 153 - "Community 153"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, IdentityExtensions, Method, Note, References, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, FluentValidationFilterAttribute, Inherits, Method, Note, Upstream Relationships
 
 ### Community 154 - "Community 154"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Init, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, IDataInitializer (2), Inherits, Method, Note, Upstream Relationships
 
 ### Community 155 - "Community 155"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LoginModel, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, IdentityExtensions, Method, Note, References, Upstream Relationships
 
 ### Community 156 - "Community 156"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LogoutModel, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Init, Method, Note, Upstream Relationships
 
 ### Community 157 - "Community 157"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LowercaseContractResolver, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LoginModel, Method, Note, Upstream Relationships
 
 ### Community 158 - "Community 158"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, MessageBuilder, Method, Note, References, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LogoutModel, Method, Note, Upstream Relationships
 
 ### Community 159 - "Community 159"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, NationalCodeValidator, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, LowercaseContractResolver, Method, Note, Upstream Relationships
 
 ### Community 160 - "Community 160"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PhoneNumberValidator, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, MessageBuilder, Method, Note, References, Upstream Relationships
 
 ### Community 161 - "Community 161"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PrivacyModel, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, NationalCodeValidator, Note, Upstream Relationships
 
 ### Community 162 - "Community 162"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, RemoveVersionParameters, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PhoneNumberValidator, Upstream Relationships
 
 ### Community 163 - "Community 163"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, RoleViewDTO, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, PrivacyModel, Upstream Relationships
 
 ### Community 164 - "Community 164"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, SecurityHelper, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, RemoveVersionParameters, Upstream Relationships
 
 ### Community 165 - "Community 165"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, SentEmailDTO, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, RoleViewDTO, Upstream Relationships
 
 ### Community 166 - "Community 166"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.AddOtlpExporterIfConfigured(), Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, SecurityHelper, Upstream Relationships
 
 ### Community 167 - "Community 167"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, ServiceCollectionExtensions, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, SentEmailDTO, Upstream Relationships
 
 ### Community 168 - "Community 168"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.RegisterOpenTelemetry(), Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.AddOtlpExporterIfConfigured(), Upstream Relationships
 
 ### Community 169 - "Community 169"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, SessionManager, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, ServiceCollectionExtensions, Upstream Relationships
 
 ### Community 170 - "Community 170"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, SetVersionInPaths, Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.RegisterOpenTelemetry(), Upstream Relationships
 
 ### Community 171 - "Community 171"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, SimpleRateLimitMiddleware, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, SessionManager, Upstream Relationships
 
 ### Community 172 - "Community 172"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, TypeExtensions.FindInterfacesThatClosesCore(), Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, SetVersionInPaths, Upstream Relationships
 
 ### Community 173 - "Community 173"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UserListDTO
+Nodes (8): Contains, Dependencies, Downstream Relationships, Method, Note, References, SimpleRateLimitMiddleware, Upstream Relationships
 
 ### Community 174 - "Community 174"
 Cohesion: 0.22
-Nodes (8): AuthenticationService.CreateOrUpdateSessionAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, TypeExtensions.FindInterfacesThatClosesCore(), Upstream Relationships
 
 ### Community 175 - "Community 175"
 Cohesion: 0.22
-Nodes (8): AuthenticationService.GetCurrentBearerHash(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships, UserListDTO
 
 ### Community 176 - "Community 176"
 Cohesion: 0.22
-Nodes (8): AuthenticationService.GetOrCreateConfirmationCodeAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): AuthenticationService.CreateOrUpdateSessionAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 177 - "Community 177"
 Cohesion: 0.22
-Nodes (8): AuthenticationService.RevokeAllUserSessionsAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): AuthenticationService.GetCurrentBearerHash(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 178 - "Community 178"
 Cohesion: 0.22
-Nodes (8): AuthenticationService.SendActivationEmailAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): AuthenticationService.GetOrCreateConfirmationCodeAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 179 - "Community 179"
 Cohesion: 0.22
-Nodes (8): AuthenticationService.SendRecoveryOtpAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
+Nodes (8): AuthenticationService.RevokeAllUserSessionsAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 180 - "Community 180"
 Cohesion: 0.22
-Nodes (8): AuthorizationManagementService, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AuthenticationService.SendActivationEmailAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 181 - "Community 181"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, IAdminPanelAuthService, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AuthenticationService.SendRecoveryOtpAsync(), Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
 ### Community 182 - "Community 182"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, IEntityAdminService, Inherits, Method, Note, Upstream Relationships
+Nodes (8): AuthorizationManagementService, Contains, Dependencies, Downstream Relationships, Inherits, Method, Note, Upstream Relationships
 
 ### Community 183 - "Community 183"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, IOperationCatalogService, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, IAdminPanelAuthService, Inherits, Method, Note, Upstream Relationships
 
 ### Community 184 - "Community 184"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, IRoleService, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, IEntityAdminService, Inherits, Method, Note, Upstream Relationships
 
 ### Community 185 - "Community 185"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, IUserService, Method, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, IOperationCatalogService, Method, Note, Upstream Relationships
 
 ### Community 186 - "Community 186"
 Cohesion: 0.22
-Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, NoOpAppCacheService, Note, Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, IRoleService, Method, Note, Upstream Relationships
 
 ### Community 187 - "Community 187"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.Delete(), Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, IUserService, Method, Note, Upstream Relationships
 
 ### Community 188 - "Community 188"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.DeleteAsync(), Upstream Relationships
+Nodes (8): Contains, Dependencies, Downstream Relationships, Inherits, Method, NoOpAppCacheService, Note, Upstream Relationships
 
 ### Community 189 - "Community 189"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.TryGetPropertyValueAsGuid(), Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.Delete(), Upstream Relationships
 
 ### Community 190 - "Community 190"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.Update(), Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.DeleteAsync(), Upstream Relationships
 
 ### Community 191 - "Community 191"
 Cohesion: 0.22
-Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.UpdateRange(), Upstream Relationships
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.TryGetPropertyValueAsGuid(), Upstream Relationships
 
 ### Community 192 - "Community 192"
 Cohesion: 0.22
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.Update(), Upstream Relationships
+
+### Community 193 - "Community 193"
+Cohesion: 0.22
+Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, Repository.UpdateRange(), Upstream Relationships
+
+### Community 194 - "Community 194"
+Cohesion: 0.22
 Nodes (8): Calls, Calls, Dependencies, Downstream Relationships, Method, Note, SenderService.SendEmailAsync(), Upstream Relationships
 
-### Community 198 - "Community 198"
+### Community 197 - "Community 197"
 Cohesion: 0.32
 Nodes (3): ApplicationDbContext, Data, IdentityDbContext
+
+### Community 198 - "Community 198"
+Cohesion: 0.29
+Nodes (4): JwtService, IJwtService, SignInManager, SiteSettings
 
 ### Community 199 - "Community 199"
 Cohesion: 0.39
 Nodes (3): EffectiveAuthorizationService, IEffectiveAuthorizationService, TimeSpan
 
-### Community 200 - "Community 200"
+### Community 201 - "Community 201"
 Cohesion: 0.25
 Nodes (7): AuthController.ConfirmEmailRegistrationAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 201 - "Community 201"
+### Community 202 - "Community 202"
 Cohesion: 0.25
 Nodes (7): AuthController.ConfirmEmailRegistrationByLinkAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 202 - "Community 202"
+### Community 203 - "Community 203"
 Cohesion: 0.25
 Nodes (7): BaseAdminApiController (2), Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 203 - "Community 203"
+### Community 204 - "Community 204"
 Cohesion: 0.25
 Nodes (7): BaseCommonController, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 204 - "Community 204"
+### Community 205 - "Community 205"
 Cohesion: 0.25
 Nodes (7): BaseThirdPartyController, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 205 - "Community 205"
+### Community 206 - "Community 206"
 Cohesion: 0.25
 Nodes (7): BaseUserApiController (2), Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 206 - "Community 206"
+### Community 207 - "Community 207"
 Cohesion: 0.25
 Nodes (7): AccountMembership, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 207 - "Community 207"
+### Community 208 - "Community 208"
 Cohesion: 0.25
 Nodes (7): AccountMembershipGroup, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 208 - "Community 208"
+### Community 209 - "Community 209"
 Cohesion: 0.25
 Nodes (7): AccountMembershipPermission, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 209 - "Community 209"
+### Community 210 - "Community 210"
 Cohesion: 0.25
 Nodes (7): AccountOrganization, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 210 - "Community 210"
+### Community 211 - "Community 211"
 Cohesion: 0.25
 Nodes (7): AccountOrganizationSecuritySetting, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 211 - "Community 211"
+### Community 212 - "Community 212"
 Cohesion: 0.25
 Nodes (7): AccountPermission, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 212 - "Community 212"
+### Community 213 - "Community 213"
 Cohesion: 0.25
 Nodes (7): AccountPlanPermission, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 213 - "Community 213"
+### Community 214 - "Community 214"
 Cohesion: 0.25
 Nodes (7): AccountRolePermission, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 214 - "Community 214"
+### Community 215 - "Community 215"
 Cohesion: 0.25
 Nodes (7): AccountSecurityFeature, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 215 - "Community 215"
+### Community 216 - "Community 216"
 Cohesion: 0.25
 Nodes (7): AccountUserOauthIdentity, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 216 - "Community 216"
+### Community 217 - "Community 217"
 Cohesion: 0.25
 Nodes (7): AccountUserPermissionGrant, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 217 - "Community 217"
+### Community 218 - "Community 218"
 Cohesion: 0.25
 Nodes (7): AccountUserPermissionRevoke, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 218 - "Community 218"
+### Community 219 - "Community 219"
 Cohesion: 0.25
 Nodes (7): AccountUserPlanSubscription, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 219 - "Community 219"
+### Community 220 - "Community 220"
 Cohesion: 0.25
 Nodes (7): AccountUserSecuritySetting, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 220 - "Community 220"
+### Community 221 - "Community 221"
 Cohesion: 0.25
 Nodes (7): AccountUserSession, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 221 - "Community 221"
+### Community 222 - "Community 222"
 Cohesion: 0.25
 Nodes (7): AccountUserTotpFactor, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 222 - "Community 222"
+### Community 223 - "Community 223"
 Cohesion: 0.25
 Nodes (7): AccountUserVerification, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 223 - "Community 223"
+### Community 224 - "Community 224"
 Cohesion: 0.25
 Nodes (7): BaseDocumentEntity, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 224 - "Community 224"
+### Community 225 - "Community 225"
 Cohesion: 0.25
 Nodes (7): BaseEntity (2), Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 225 - "Community 225"
+### Community 226 - "Community 226"
 Cohesion: 0.25
 Nodes (7): Category, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 226 - "Community 226"
+### Community 227 - "Community 227"
 Cohesion: 0.25
 Nodes (7): ConfirmationCode, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 227 - "Community 227"
+### Community 228 - "Community 228"
 Cohesion: 0.25
 Nodes (7): Contains, CoreCounty, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 228 - "Community 228"
+### Community 229 - "Community 229"
 Cohesion: 0.25
 Nodes (7): Contains, CoreProvince, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 229 - "Community 229"
+### Community 230 - "Community 230"
 Cohesion: 0.25
 Nodes (7): Contains, CrmCustomer, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 230 - "Community 230"
+### Community 231 - "Community 231"
 Cohesion: 0.25
 Nodes (7): Contains, CrmCustomerFinancialSummary, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 231 - "Community 231"
+### Community 232 - "Community 232"
 Cohesion: 0.25
 Nodes (7): Contains, CrmCustomerInterest, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 232 - "Community 232"
+### Community 233 - "Community 233"
 Cohesion: 0.25
 Nodes (7): Contains, CrmCustomerLedger, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 233 - "Community 233"
+### Community 234 - "Community 234"
 Cohesion: 0.25
 Nodes (7): Contains, CrmCustomerLoyalty, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 234 - "Community 234"
+### Community 235 - "Community 235"
 Cohesion: 0.25
 Nodes (7): Contains, CrmCustomerNote, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 235 - "Community 235"
+### Community 236 - "Community 236"
 Cohesion: 0.25
 Nodes (7): Contains, CrmDiscountCampaign, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 236 - "Community 236"
+### Community 237 - "Community 237"
 Cohesion: 0.25
 Nodes (7): Contains, CrmDiscountCampaignItemRule, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 237 - "Community 237"
+### Community 238 - "Community 238"
 Cohesion: 0.25
 Nodes (7): Contains, CrmDiscountCampaignTargetCustomer, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 238 - "Community 238"
+### Community 239 - "Community 239"
 Cohesion: 0.25
 Nodes (7): Contains, CrmDiscountCampaignUsage, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 239 - "Community 239"
+### Community 240 - "Community 240"
 Cohesion: 0.25
 Nodes (7): Contains, CrmDiscountCoupon, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 240 - "Community 240"
+### Community 241 - "Community 241"
 Cohesion: 0.25
 Nodes (7): Contains, CrmInterestTag, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 241 - "Community 241"
+### Community 242 - "Community 242"
 Cohesion: 0.25
 Nodes (7): Contains, CrmLoyaltyTier, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 242 - "Community 242"
+### Community 243 - "Community 243"
 Cohesion: 0.25
 Nodes (7): Contains, CrmOrganizationPhone, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 243 - "Community 243"
+### Community 244 - "Community 244"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EditModel.GetValue(), Method, Note, Upstream Relationships
 
-### Community 244 - "Community 244"
+### Community 245 - "Community 245"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EditModel.OnGetAsync(), Method, Note, Upstream Relationships
 
-### Community 245 - "Community 245"
+### Community 246 - "Community 246"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Email, Inherits, Note, Upstream Relationships
 
-### Community 246 - "Community 246"
+### Community 247 - "Community 247"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, EmailDocument, Inherits, Note, Upstream Relationships
 
-### Community 247 - "Community 247"
+### Community 248 - "Community 248"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, EmailSharedInformation, Inherits, Note, Upstream Relationships
 
-### Community 248 - "Community 248"
+### Community 249 - "Community 249"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IEntity (2), Inherits, Note, Upstream Relationships
 
-### Community 249 - "Community 249"
+### Community 250 - "Community 250"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Item, Note, Upstream Relationships
 
-### Community 250 - "Community 250"
+### Community 251 - "Community 251"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicenseBillingCycle, Note, Upstream Relationships
 
-### Community 251 - "Community 251"
+### Community 252 - "Community 252"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicenseModule, Note, Upstream Relationships
 
-### Community 252 - "Community 252"
+### Community 253 - "Community 253"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicenseModulePermission, Note, Upstream Relationships
 
-### Community 253 - "Community 253"
+### Community 254 - "Community 254"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlan, Note, Upstream Relationships
 
-### Community 254 - "Community 254"
+### Community 255 - "Community 255"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanModule, Note, Upstream Relationships
 
-### Community 255 - "Community 255"
+### Community 256 - "Community 256"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicensePlanPrice, Note, Upstream Relationships
 
-### Community 256 - "Community 256"
+### Community 257 - "Community 257"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LicenseSubscription, Note, Upstream Relationships
 
-### Community 257 - "Community 257"
+### Community 258 - "Community 258"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, ListModel.BuildColumns(), Method, Note, Upstream Relationships
 
-### Community 258 - "Community 258"
+### Community 259 - "Community 259"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, ListModel.OnGet(), Method, Note, Upstream Relationships
 
-### Community 259 - "Community 259"
+### Community 260 - "Community 260"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuDigitalMenu, Note, Upstream Relationships
 
-### Community 260 - "Community 260"
+### Community 261 - "Community 261"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuDigitalMenuMetrics, Note, Upstream Relationships
 
-### Community 261 - "Community 261"
+### Community 262 - "Community 262"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuDigitalMenuProfile, Note, Upstream Relationships
 
-### Community 262 - "Community 262"
+### Community 263 - "Community 263"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuDigitalMenuScheduleException, Note, Upstream Relationships
 
-### Community 263 - "Community 263"
+### Community 264 - "Community 264"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuDigitalMenuScheduleWeekly, Note, Upstream Relationships
 
-### Community 264 - "Community 264"
+### Community 265 - "Community 265"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuDigitalMenuVisit, Note, Upstream Relationships
 
-### Community 265 - "Community 265"
+### Community 266 - "Community 266"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuIngredient, Note, Upstream Relationships
 
-### Community 266 - "Community 266"
+### Community 267 - "Community 267"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuIngredientComponent, Note, Upstream Relationships
 
-### Community 267 - "Community 267"
+### Community 268 - "Community 268"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuItemIngredient, Note, Upstream Relationships
 
-### Community 268 - "Community 268"
+### Community 269 - "Community 269"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, MenuUnit, Note, Upstream Relationships
 
-### Community 269 - "Community 269"
+### Community 270 - "Community 270"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, PaymentOperation, Upstream Relationships
 
-### Community 270 - "Community 270"
+### Community 271 - "Community 271"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, PaymentWallet, Upstream Relationships
 
-### Community 271 - "Community 271"
+### Community 272 - "Community 272"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, PaymentWalletEntry, Upstream Relationships
 
-### Community 272 - "Community 272"
+### Community 273 - "Community 273"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, Role, Upstream Relationships
 
-### Community 273 - "Community 273"
+### Community 274 - "Community 274"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Note, References, RoleHelper, Upstream Relationships
 
-### Community 274 - "Community 274"
+### Community 275 - "Community 275"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SupportTicket, Upstream Relationships
 
-### Community 275 - "Community 275"
+### Community 276 - "Community 276"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SupportTicketAttachment, Upstream Relationships
 
-### Community 276 - "Community 276"
+### Community 277 - "Community 277"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SupportTicketEvent, Upstream Relationships
 
-### Community 277 - "Community 277"
+### Community 278 - "Community 278"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SupportTicketMessage, Upstream Relationships
 
-### Community 278 - "Community 278"
+### Community 279 - "Community 279"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SupportTicketMetrics, Upstream Relationships
 
-### Community 279 - "Community 279"
+### Community 280 - "Community 280"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships, User
 
-### Community 280 - "Community 280"
+### Community 281 - "Community 281"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships, UserRole
 
-### Community 281 - "Community 281"
+### Community 282 - "Community 282"
 Cohesion: 0.25
 Nodes (7): AdminPanelAuthService.HasAdminAccess(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 282 - "Community 282"
+### Community 283 - "Community 283"
 Cohesion: 0.25
 Nodes (7): AdminPanelAuthService.SignInWithEmailPasswordAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 283 - "Community 283"
+### Community 284 - "Community 284"
 Cohesion: 0.25
 Nodes (7): AdminPanelServiceCollectionExtensions.AddAdminPanelInfrastructure(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 284 - "Community 284"
+### Community 285 - "Community 285"
 Cohesion: 0.25
 Nodes (7): AdminPanelServiceCollectionExtensions.RegisterMarkedServices(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 285 - "Community 285"
+### Community 286 - "Community 286"
 Cohesion: 0.25
 Nodes (7): AI Agent Rules (VS Code + GPT-5.3-Codex), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 286 - "Community 286"
+### Community 287 - "Community 287"
 Cohesion: 0.25
 Nodes (7): ApiCustomAuthorize.OnActionExecuting(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 287 - "Community 287"
+### Community 288 - "Community 288"
 Cohesion: 0.25
 Nodes (7): ApiCustomAuthorize.OnActionExecutionAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 288 - "Community 288"
+### Community 289 - "Community 289"
 Cohesion: 0.25
 Nodes (7): ApiCustomAuthorize.UnAuthorize(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 289 - "Community 289"
+### Community 290 - "Community 290"
 Cohesion: 0.25
 Nodes (7): ApiResult, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 290 - "Community 290"
+### Community 291 - "Community 291"
 Cohesion: 0.25
 Nodes (7): AppException, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 291 - "Community 291"
+### Community 292 - "Community 292"
 Cohesion: 0.25
 Nodes (7): ApplicationBuilderExtensions, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 292 - "Community 292"
+### Community 293 - "Community 293"
 Cohesion: 0.25
 Nodes (7): ApplicationDbContext.SaveChanges(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 293 - "Community 293"
+### Community 294 - "Community 294"
 Cohesion: 0.25
 Nodes (7): ApplicationDbContext.SaveChangesAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 294 - "Community 294"
+### Community 295 - "Community 295"
 Cohesion: 0.25
 Nodes (7): ApplicationDbContext._cleanString(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 295 - "Community 295"
+### Community 296 - "Community 296"
 Cohesion: 0.25
 Nodes (7): ApplicationDefaultSettings, Contains, Dependencies, Downstream Relationships, Note, References, Upstream Relationships
 
-### Community 296 - "Community 296"
+### Community 297 - "Community 297"
 Cohesion: 0.25
 Nodes (7): ApplicationMessages, Contains, Dependencies, Downstream Relationships, Note, References, Upstream Relationships
 
-### Community 297 - "Community 297"
+### Community 298 - "Community 298"
 Cohesion: 0.25
 Nodes (7): ApplicationPropertyPersianName, Contains, Dependencies, Downstream Relationships, Note, References, Upstream Relationships
 
-### Community 298 - "Community 298"
+### Community 299 - "Community 299"
 Cohesion: 0.25
 Nodes (7): AssemblyHelper.FindAllTypes(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 299 - "Community 299"
+### Community 300 - "Community 300"
 Cohesion: 0.25
 Nodes (7): AssemblyHelper.LoadAllBinDirectoryAssemblies(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 300 - "Community 300"
+### Community 301 - "Community 301"
 Cohesion: 0.25
 Nodes (7): Assert, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 301 - "Community 301"
+### Community 302 - "Community 302"
 Cohesion: 0.25
 Nodes (7): AUTH Business Spec, Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 302 - "Community 302"
+### Community 303 - "Community 303"
 Cohesion: 0.25
 Nodes (7): AuthorizationDataInitializer.EnsurePlan(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 303 - "Community 303"
+### Community 304 - "Community 304"
 Cohesion: 0.25
 Nodes (7): AuthorizationDataInitializer.EnsureSeedUserPlan(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 304 - "Community 304"
+### Community 305 - "Community 305"
 Cohesion: 0.25
 Nodes (7): AuthorizationDataInitializer.InitializeData(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 305 - "Community 305"
+### Community 306 - "Community 306"
 Cohesion: 0.25
 Nodes (7): AuthorizationDataInitializer.MapPlanPermissions(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 306 - "Community 306"
+### Community 307 - "Community 307"
 Cohesion: 0.25
 Nodes (7): AuthorizationDataInitializer.MapRolePermissions(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 307 - "Community 307"
+### Community 308 - "Community 308"
 Cohesion: 0.25
 Nodes (7): AutofacModule.cs, Contains, Dependencies, Downstream Relationships, Imports, Note, Upstream Relationships
 
-### Community 308 - "Community 308"
+### Community 309 - "Community 309"
 Cohesion: 0.25
 Nodes (7): AutoMapperConfiguration.AddCustomMappingProfile(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 309 - "Community 309"
+### Community 310 - "Community 310"
 Cohesion: 0.25
 Nodes (7): AutoMapperConfiguration.InitializeAutoMapper(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 310 - "Community 310"
+### Community 311 - "Community 311"
 Cohesion: 0.25
 Nodes (7): AutoMapperConfiguration, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 311 - "Community 311"
+### Community 312 - "Community 312"
 Cohesion: 0.25
 Nodes (7): BadRequestException, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 312 - "Community 312"
+### Community 313 - "Community 313"
 Cohesion: 0.25
 Nodes (7): BaseDTO.CastToDerivedClass(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 313 - "Community 313"
+### Community 314 - "Community 314"
 Cohesion: 0.25
 Nodes (7): BaseDTO.CreateMappings(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 314 - "Community 314"
+### Community 315 - "Community 315"
 Cohesion: 0.25
 Nodes (7): BaseDTO.CustomMappings(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 315 - "Community 315"
+### Community 316 - "Community 316"
 Cohesion: 0.25
 Nodes (7): BaseDTO.ToEntity(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 316 - "Community 316"
+### Community 317 - "Community 317"
 Cohesion: 0.25
 Nodes (7): Business Docs Index, Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 317 - "Community 317"
+### Community 318 - "Community 318"
 Cohesion: 0.25
 Nodes (7): Business Spec (2), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 318 - "Community 318"
+### Community 319 - "Community 319"
 Cohesion: 0.25
 Nodes (7): Business Spec (3), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 319 - "Community 319"
+### Community 320 - "Community 320"
 Cohesion: 0.25
 Nodes (7): Business Spec (4), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 320 - "Community 320"
+### Community 321 - "Community 321"
 Cohesion: 0.25
 Nodes (7): Business Spec (5), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 321 - "Community 321"
+### Community 322 - "Community 322"
 Cohesion: 0.25
 Nodes (7): Business Spec (6), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 322 - "Community 322"
+### Community 323 - "Community 323"
 Cohesion: 0.25
 Nodes (7): Business Spec (7), Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 323 - "Community 323"
+### Community 324 - "Community 324"
 Cohesion: 0.25
 Nodes (7): Business Spec, Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 324 - "Community 324"
+### Community 325 - "Community 325"
 Cohesion: 0.25
 Nodes (7): Calculator.CalculateProjectRemainTime(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 325 - "Community 325"
+### Community 326 - "Community 326"
 Cohesion: 0.25
 Nodes (7): Calculator.CalculateProjectRemainTimeLabel(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 326 - "Community 326"
+### Community 327 - "Community 327"
 Cohesion: 0.25
 Nodes (7): Calculator.CalculateProjectTime(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 327 - "Community 327"
+### Community 328 - "Community 328"
 Cohesion: 0.25
 Nodes (7): Calculator.CalculateRequiredPricePercent(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 328 - "Community 328"
+### Community 329 - "Community 329"
 Cohesion: 0.25
 Nodes (7): Calculator.CalculateTotalPricePercent(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 329 - "Community 329"
+### Community 330 - "Community 330"
 Cohesion: 0.25
 Nodes (7): Calculator, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 330 - "Community 330"
+### Community 331 - "Community 331"
 Cohesion: 0.25
 Nodes (7): CaptchaHelper, Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 331 - "Community 331"
+### Community 332 - "Community 332"
 Cohesion: 0.25
 Nodes (7): CI recommendation, Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
-### Community 332 - "Community 332"
+### Community 333 - "Community 333"
 Cohesion: 0.25
 Nodes (7): CompletePhoneRegistrationRequestValidator, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 333 - "Community 333"
+### Community 334 - "Community 334"
 Cohesion: 0.25
 Nodes (7): ConfirmEmailRegistrationRequestValidator, Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 334 - "Community 334"
+### Community 335 - "Community 335"
 Cohesion: 0.25
 Nodes (7): Calls, CookieManager.Remove(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 335 - "Community 335"
+### Community 336 - "Community 336"
 Cohesion: 0.25
 Nodes (7): Calls, CookieManager.RemoveAllCookie(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 336 - "Community 336"
+### Community 337 - "Community 337"
 Cohesion: 0.25
 Nodes (7): Calls, CrudController.Delete(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 337 - "Community 337"
+### Community 338 - "Community 338"
 Cohesion: 0.25
 Nodes (7): Calls, CrudController.Get(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 338 - "Community 338"
+### Community 339 - "Community 339"
 Cohesion: 0.25
 Nodes (7): Contains, CustomMappingProfile, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships
 
-### Community 339 - "Community 339"
+### Community 340 - "Community 340"
 Cohesion: 0.25
 Nodes (7): Calls, DatabaseSqlObjectsInstaller.ApplyAsync(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 340 - "Community 340"
+### Community 341 - "Community 341"
 Cohesion: 0.25
 Nodes (7): Calls, DatabaseSqlObjectsInstaller.ExecuteSqlScriptAsync(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 341 - "Community 341"
+### Community 342 - "Community 342"
 Cohesion: 0.25
 Nodes (7): Calls, DatabaseSqlObjectsInstaller.NormalizeSql(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 342 - "Community 342"
+### Community 343 - "Community 343"
 Cohesion: 0.25
 Nodes (7): Calls, DatabaseSqlObjectsInstaller.ReadEmbeddedSql(), Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 343 - "Community 343"
+### Community 344 - "Community 344"
 Cohesion: 0.25
 Nodes (7): Contains, DataInitializerDefaultValues, Dependencies, Downstream Relationships, Note, References, Upstream Relationships
 
-### Community 344 - "Community 344"
+### Community 345 - "Community 345"
 Cohesion: 0.25
 Nodes (7): Contains, DateTimeExtensions, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 345 - "Community 345"
+### Community 346 - "Community 346"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, DistributedAppCacheService.GetAsync(), Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 346 - "Community 346"
+### Community 347 - "Community 347"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, DistributedAppCacheService.IsInFailureCooldown(), Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 347 - "Community 347"
+### Community 348 - "Community 348"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, DistributedAppCacheService.MarkBackendUnavailable(), Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 348 - "Community 348"
+### Community 349 - "Community 349"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, DistributedAppCacheService.SetAsync(), Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 349 - "Community 349"
+### Community 350 - "Community 350"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, EmailPasswordLoginRequestValidator, Inherits, Note, Upstream Relationships
 
-### Community 350 - "Community 350"
+### Community 351 - "Community 351"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, EmailReceiverWithIdDTO, Inherits, Note, Upstream Relationships
 
-### Community 351 - "Community 351"
+### Community 352 - "Community 352"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.ApplyDefaultOrder(), Method, Note, Upstream Relationships
 
-### Community 352 - "Community 352"
+### Community 353 - "Community 353"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.ApplySearch(), Method, Note, Upstream Relationships
 
-### Community 353 - "Community 353"
+### Community 354 - "Community 354"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.AsNoTracking(), Method, Note, Upstream Relationships
 
-### Community 354 - "Community 354"
+### Community 355 - "Community 355"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.BuildEntityDescriptors(), Method, Note, Upstream Relationships
 
-### Community 355 - "Community 355"
+### Community 356 - "Community 356"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.BuildKeyToken(), Method, Note, Upstream Relationships
 
-### Community 356 - "Community 356"
+### Community 357 - "Community 357"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.Count(), Method, Note, Upstream Relationships
 
-### Community 357 - "Community 357"
+### Community 358 - "Community 358"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.CreatePropertyDescriptor(), Method, Note, Upstream Relationships
 
-### Community 358 - "Community 358"
+### Community 359 - "Community 359"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.DeleteAsync(), Method, Note, Upstream Relationships
 
-### Community 359 - "Community 359"
+### Community 360 - "Community 360"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.FindAsync(), Method, Note, Upstream Relationships
 
-### Community 360 - "Community 360"
+### Community 361 - "Community 361"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.FindByKey(), Method, Note, Upstream Relationships
 
-### Community 361 - "Community 361"
+### Community 362 - "Community 362"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.FormatValue(), Method, Note, Upstream Relationships
 
-### Community 362 - "Community 362"
+### Community 363 - "Community 363"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.GetForeignKeyOptionsAsync(), Method, Note, Upstream Relationships
 
-### Community 363 - "Community 363"
+### Community 364 - "Community 364"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.GetManagedEntity(), Method, Note, Upstream Relationships
 
-### Community 364 - "Community 364"
+### Community 365 - "Community 365"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.GetPage(), Method, Note, Upstream Relationships
 
-### Community 365 - "Community 365"
+### Community 366 - "Community 366"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.GetQueryable(), Method, Note, Upstream Relationships
 
-### Community 366 - "Community 366"
+### Community 367 - "Community 367"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.GuessDisplayProperty(), Method, Note, Upstream Relationships
 
-### Community 367 - "Community 367"
+### Community 368 - "Community 368"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.IsEditable(), Method, Note, Upstream Relationships
 
-### Community 368 - "Community 368"
+### Community 369 - "Community 369"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.IsSimpleType(), Method, Note, Upstream Relationships
 
-### Community 369 - "Community 369"
+### Community 370 - "Community 370"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.SaveAsync(), Method, Note, Upstream Relationships
 
-### Community 370 - "Community 370"
+### Community 371 - "Community 371"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EntityAdminService.TryConvert(), Method, Note, Upstream Relationships
 
-### Community 371 - "Community 371"
+### Community 372 - "Community 372"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, EnumExtensions, Method, Note, Upstream Relationships
 
-### Community 372 - "Community 372"
+### Community 373 - "Community 373"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EnumExtensions.ToDictionary(), Method, Note, Upstream Relationships
 
-### Community 373 - "Community 373"
+### Community 374 - "Community 374"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EnumExtensions.ToDisplay(), Method, Note, Upstream Relationships
 
-### Community 374 - "Community 374"
+### Community 375 - "Community 375"
 Cohesion: 0.25
 Nodes (7): Calls, Contains, Dependencies, Downstream Relationships, Error(), Note, Upstream Relationships
 
-### Community 375 - "Community 375"
+### Community 376 - "Community 376"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, FilterUserCursorRequest, Inherits, Note, Upstream Relationships
 
-### Community 376 - "Community 376"
+### Community 377 - "Community 377"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, FilterUserRequest, Inherits, Note, Upstream Relationships
 
-### Community 377 - "Community 377"
+### Community 378 - "Community 378"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, FluentErrorResponseBuilder, Method, Note, Upstream Relationships
 
-### Community 378 - "Community 378"
+### Community 379 - "Community 379"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, FluentValidationExtensions, Method, Note, Upstream Relationships
 
-### Community 379 - "Community 379"
+### Community 380 - "Community 380"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, ForgotPasswordRequestValidator, Inherits, Note, Upstream Relationships
 
-### Community 380 - "Community 380"
+### Community 381 - "Community 381"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, GetAdminsPaginatedRequest, Inherits, Note, Upstream Relationships
 
-### Community 381 - "Community 381"
+### Community 382 - "Community 382"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, HttpRequestExtensions, Method, Note, Upstream Relationships
 
-### Community 382 - "Community 382"
+### Community 383 - "Community 383"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IdentityConfigurationExtensions, Method, Note, Upstream Relationships
 
-### Community 383 - "Community 383"
+### Community 384 - "Community 384"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, IdentityExtensions.FindFirstValue(), Method, Note, Upstream Relationships
 
-### Community 384 - "Community 384"
+### Community 385 - "Community 385"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, IdentityExtensions.GetUserId(), Method, Note, Upstream Relationships
 
-### Community 385 - "Community 385"
+### Community 386 - "Community 386"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, IdentityExtensions.GetUserName(), Method, Note, Upstream Relationships
 
-### Community 386 - "Community 386"
+### Community 387 - "Community 387"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IHaveCustomMapping, Method, Note, Upstream Relationships
 
-### Community 387 - "Community 387"
+### Community 388 - "Community 388"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Init (2), Method, Note, Upstream Relationships
 
-### Community 388 - "Community 388"
+### Community 389 - "Community 389"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, LogicException, Note, Upstream Relationships
 
-### Community 389 - "Community 389"
+### Community 390 - "Community 390"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, ModelBuilderExtensions.AddDefaultValues(), Note, Upstream Relationships
 
-### Community 390 - "Community 390"
+### Community 391 - "Community 391"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, ModelBuilderExtensions.AddDefaultValueSqlConvention(), Note, Upstream Relationships
 
-### Community 391 - "Community 391"
+### Community 392 - "Community 392"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, ModelBuilderExtensions.AddSequentialGuidForIdConvention(), Note, Upstream Relationships
 
-### Community 392 - "Community 392"
+### Community 393 - "Community 393"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, ModelBuilderExtensions, Note, Upstream Relationships
 
-### Community 393 - "Community 393"
+### Community 394 - "Community 394"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, Imports, Inherits, Module, Note, Upstream Relationships
 
-### Community 394 - "Community 394"
+### Community 395 - "Community 395"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, NotFoundException, Upstream Relationships
 
-### Community 395 - "Community 395"
+### Community 396 - "Community 396"
 Cohesion: 0.25
 Nodes (7): Calls, Contains, Dependencies, Downstream Relationships, Note, Ok(), Upstream Relationships
 
-### Community 396 - "Community 396"
+### Community 397 - "Community 397"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.DiscoverOperations(), Upstream Relationships
 
-### Community 397 - "Community 397"
+### Community 398 - "Community 398"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.GetOperation(), Upstream Relationships
 
-### Community 398 - "Community 398"
+### Community 399 - "Community 399"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.InvokeAsync(), Upstream Relationships
 
-### Community 399 - "Community 399"
+### Community 400 - "Community 400"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.IsOperationSafeShape(), Upstream Relationships
 
-### Community 400 - "Community 400"
+### Community 401 - "Community 401"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.IsRequired(), Upstream Relationships
 
-### Community 401 - "Community 401"
+### Community 402 - "Community 402"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.SerializeResult(), Upstream Relationships
 
-### Community 402 - "Community 402"
+### Community 403 - "Community 403"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, OperationCatalogService.TryConvert(), Upstream Relationships
 
-### Community 403 - "Community 403"
+### Community 404 - "Community 404"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, OperationResult, Upstream Relationships
 
-### Community 404 - "Community 404"
+### Community 405 - "Community 405"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, PagingDTO, Upstream Relationships
 
-### Community 405 - "Community 405"
+### Community 406 - "Community 406"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, PhoneOtpLoginRequestValidator, Upstream Relationships
 
-### Community 406 - "Community 406"
+### Community 407 - "Community 407"
 Cohesion: 0.25
 Nodes (7): Contains, Contains, Dependencies, Downstream Relationships, Note, Practical Examples, Upstream Relationships
 
-### Community 407 - "Community 407"
+### Community 408 - "Community 408"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, PublicEnumAttribute, Upstream Relationships
 
-### Community 408 - "Community 408"
+### Community 409 - "Community 409"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, QueryableExtensions, Upstream Relationships
 
-### Community 409 - "Community 409"
+### Community 410 - "Community 410"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.GetTypesAssignableFrom(), Upstream Relationships
 
-### Community 410 - "Community 410"
+### Community 411 - "Community 411"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.GetTypesHasAttribute(), Upstream Relationships
 
-### Community 411 - "Community 411"
+### Community 412 - "Community 412"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.HasAttribute(), Upstream Relationships
 
-### Community 412 - "Community 412"
+### Community 413 - "Community 413"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.IsCustomReferenceType(), Upstream Relationships
 
-### Community 413 - "Community 413"
+### Community 414 - "Community 414"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.IsCustomType(), Upstream Relationships
 
-### Community 414 - "Community 414"
+### Community 415 - "Community 415"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.IsCustomValueType(), Upstream Relationships
 
-### Community 415 - "Community 415"
+### Community 416 - "Community 416"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper.IsInheritFrom(), Upstream Relationships
 
-### Community 416 - "Community 416"
+### Community 417 - "Community 417"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, ReflectionHelper, Upstream Relationships
 
-### Community 417 - "Community 417"
+### Community 418 - "Community 418"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Note, References, RegexHelper, Upstream Relationships
 
-### Community 418 - "Community 418"
+### Community 419 - "Community 419"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, RegisterWithEmailRequestValidator, Upstream Relationships
 
-### Community 419 - "Community 419"
+### Community 420 - "Community 420"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Note, References, RegularExpression, Upstream Relationships
 
-### Community 420 - "Community 420"
+### Community 421 - "Community 421"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, RequestContextEnrichmentMiddleware, Upstream Relationships
 
-### Community 421 - "Community 421"
+### Community 422 - "Community 422"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, RequestTelemetryMiddleware.InvokeAsync(), Upstream Relationships
 
-### Community 422 - "Community 422"
+### Community 423 - "Community 423"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, RequestTelemetryMiddleware.IsExcludedPath(), Upstream Relationships
 
-### Community 423 - "Community 423"
+### Community 424 - "Community 424"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, RequestTelemetryMiddleware, Upstream Relationships
 
-### Community 424 - "Community 424"
+### Community 425 - "Community 425"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, ResendEmailActivationLinkRequestValidator, Upstream Relationships
 
-### Community 425 - "Community 425"
+### Community 426 - "Community 426"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, ResendPhoneRegistrationOtpRequestValidator, Upstream Relationships
 
-### Community 426 - "Community 426"
+### Community 427 - "Community 427"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, ResetPasswordWithOtpRequestValidator, Upstream Relationships
 
-### Community 427 - "Community 427"
+### Community 428 - "Community 428"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, RevokeSessionRequestValidator, Upstream Relationships
 
-### Community 428 - "Community 428"
+### Community 429 - "Community 429"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SecurityHelper.ConfigureAesFromPassword(), Upstream Relationships
 
-### Community 429 - "Community 429"
+### Community 430 - "Community 430"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SecurityHelper.Decrypt(), Upstream Relationships
 
-### Community 430 - "Community 430"
+### Community 431 - "Community 431"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SecurityHelper.Encrypt(), Upstream Relationships
 
-### Community 431 - "Community 431"
+### Community 432 - "Community 432"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SecurityHelper.ResolveDefaultEncryptionKey(), Upstream Relationships
 
-### Community 432 - "Community 432"
+### Community 433 - "Community 433"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SendPhoneLoginOtpRequestValidator, Upstream Relationships
 
-### Community 433 - "Community 433"
+### Community 434 - "Community 434"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, SerilogConfiguration, Upstream Relationships
 
-### Community 434 - "Community 434"
+### Community 435 - "Community 435"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.AddPerformanceInfrastructure(), Upstream Relationships
 
-### Community 435 - "Community 435"
+### Community 436 - "Community 436"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.IsExcludedTelemetryPath(), Upstream Relationships
 
-### Community 436 - "Community 436"
+### Community 437 - "Community 437"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.ParseOtlpProtocol(), Upstream Relationships
 
-### Community 437 - "Community 437"
+### Community 438 - "Community 438"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceCollectionExtensions.RegisterDistributedCache(), Upstream Relationships
 
-### Community 438 - "Community 438"
+### Community 439 - "Community 439"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, SetMfaStatusRequestValidator, Upstream Relationships
 
-### Community 439 - "Community 439"
+### Community 440 - "Community 440"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SimpleRateLimitMiddleware.BuildClientKey(), Upstream Relationships
 
-### Community 440 - "Community 440"
+### Community 441 - "Community 441"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SimpleRateLimitMiddleware.InvokeAsync(), Upstream Relationships
 
-### Community 441 - "Community 441"
+### Community 442 - "Community 442"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.NonQueryExecuted(), Upstream Relationships
 
-### Community 442 - "Community 442"
+### Community 443 - "Community 443"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.NonQueryExecuting(), Upstream Relationships
 
-### Community 443 - "Community 443"
+### Community 444 - "Community 444"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.ReaderExecuted(), Upstream Relationships
 
-### Community 444 - "Community 444"
+### Community 445 - "Community 445"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.ReaderExecuting(), Upstream Relationships
 
-### Community 445 - "Community 445"
+### Community 446 - "Community 446"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.ScalarExecuted(), Upstream Relationships
 
-### Community 446 - "Community 446"
+### Community 447 - "Community 447"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.ScalarExecuting(), Upstream Relationships
 
-### Community 447 - "Community 447"
+### Community 448 - "Community 448"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.StartTiming(), Upstream Relationships
 
-### Community 448 - "Community 448"
+### Community 449 - "Community 449"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SlowQueryLoggingInterceptor.StopAndLogIfSlow(), Upstream Relationships
 
-### Community 449 - "Community 449"
+### Community 450 - "Community 450"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, StartPhoneRegistrationRequestValidator, Upstream Relationships
 
-### Community 450 - "Community 450"
+### Community 451 - "Community 451"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, StringExtensions.CleanString(), Upstream Relationships
 
-### Community 451 - "Community 451"
+### Community 452 - "Community 452"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, StringExtensions.Fa2En(), Upstream Relationships
 
-### Community 452 - "Community 452"
+### Community 453 - "Community 453"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, StringExtensions.FixPersianChars(), Upstream Relationships
 
-### Community 453 - "Community 453"
+### Community 454 - "Community 454"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, StringExtensions, Upstream Relationships
 
-### Community 454 - "Community 454"
+### Community 455 - "Community 455"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, StringExtensions.NullIfEmpty(), Upstream Relationships
 
-### Community 455 - "Community 455"
+### Community 456 - "Community 456"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, SwaggerConfigurationExtensions, Upstream Relationships
 
-### Community 456 - "Community 456"
+### Community 457 - "Community 457"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, TypeExtensions.FindInterfacesThatClose(), Upstream Relationships
 
-### Community 457 - "Community 457"
+### Community 458 - "Community 458"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, TypeExtensions.IsConcrete(), Upstream Relationships
 
-### Community 458 - "Community 458"
+### Community 459 - "Community 459"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, TypeExtensions, Upstream Relationships
 
-### Community 459 - "Community 459"
+### Community 460 - "Community 460"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships, UserIdDTOValidator
 
-### Community 460 - "Community 460"
+### Community 461 - "Community 461"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UtilConvertor.ContainProperty()
 
-### Community 461 - "Community 461"
+### Community 462 - "Community 462"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UtilConvertor.GetPropertiesName()
 
-### Community 462 - "Community 462"
+### Community 463 - "Community 463"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UtilConvertor
 
-### Community 463 - "Community 463"
+### Community 464 - "Community 464"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UtilConvertor.ToObject()
 
-### Community 464 - "Community 464"
+### Community 465 - "Community 465"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UtilConvertor.TryGetJObject()
 
-### Community 465 - "Community 465"
+### Community 466 - "Community 466"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, ValidationHelper
 
-### Community 466 - "Community 466"
+### Community 467 - "Community 467"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, WebApplicationBuilderExtensions
 
-### Community 467 - "Community 467"
+### Community 468 - "Community 468"
 Cohesion: 0.25
 Nodes (7): Contains, Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships, Workflow
 
-### Community 468 - "Community 468"
+### Community 469 - "Community 469"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IRepository (2), Method, Note, Upstream Relationships
 
-### Community 469 - "Community 469"
+### Community 470 - "Community 470"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.AddDefaultRoleToUserAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 470 - "Community 470"
+### Community 471 - "Community 471"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.BuildEmailActivationLink(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 471 - "Community 471"
+### Community 472 - "Community 472"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.BuildLoginResponse(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 472 - "Community 472"
+### Community 473 - "Community 473"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.CompletePhoneRegistrationAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 473 - "Community 473"
+### Community 474 - "Community 474"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ComputeSha256(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 474 - "Community 474"
+### Community 475 - "Community 475"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ConfirmEmailRegistrationAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 475 - "Community 475"
+### Community 476 - "Community 476"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.CreateUserAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 476 - "Community 476"
+### Community 477 - "Community 477"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.EmailPasswordLoginAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 477 - "Community 477"
+### Community 478 - "Community 478"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.EnsureMfaFeatureAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 478 - "Community 478"
+### Community 479 - "Community 479"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.FindUserByIdentifierAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 479 - "Community 479"
+### Community 480 - "Community 480"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ForgotPasswordAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 480 - "Community 480"
+### Community 481 - "Community 481"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.GenerateOtp(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 481 - "Community 481"
+### Community 482 - "Community 482"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.GetMfaStatusAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 482 - "Community 482"
+### Community 483 - "Community 483"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.GetMySessionsAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 483 - "Community 483"
+### Community 484 - "Community 484"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.HasRecentActivationEmail(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 484 - "Community 484"
+### Community 485 - "Community 485"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.HasRecentPhoneRegistrationOtp(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 485 - "Community 485"
+### Community 486 - "Community 486"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.MapUserIdToLegacyInt(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 486 - "Community 486"
+### Community 487 - "Community 487"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.OtpLoginAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 487 - "Community 487"
+### Community 488 - "Community 488"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ParseDeviceType(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 488 - "Community 488"
+### Community 489 - "Community 489"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.PasswordLoginAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 489 - "Community 489"
+### Community 490 - "Community 490"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.PhoneOtpLoginAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 490 - "Community 490"
+### Community 491 - "Community 491"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.RegisterWithEmailAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 491 - "Community 491"
+### Community 492 - "Community 492"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ResendEmailActivationLinkAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 492 - "Community 492"
+### Community 493 - "Community 493"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ResendPhoneRegistrationOtpAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 493 - "Community 493"
+### Community 494 - "Community 494"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.ResetPasswordWithOtpAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 494 - "Community 494"
+### Community 495 - "Community 495"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.RevokeOtherSessionsAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 495 - "Community 495"
+### Community 496 - "Community 496"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.RevokeSessionAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 496 - "Community 496"
+### Community 497 - "Community 497"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.SendOtpAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 497 - "Community 497"
+### Community 498 - "Community 498"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.SendPhoneLoginOtpAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 498 - "Community 498"
+### Community 499 - "Community 499"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.SetMfaStatusAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 499 - "Community 499"
+### Community 500 - "Community 500"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.StartPhoneRegistrationAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 500 - "Community 500"
+### Community 501 - "Community 501"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.UpdatePasswordAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 501 - "Community 501"
+### Community 502 - "Community 502"
 Cohesion: 0.25
 Nodes (7): AuthenticationService.UpdateUserAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 502 - "Community 502"
+### Community 503 - "Community 503"
 Cohesion: 0.25
 Nodes (7): AuthorizationCatalog, Contains, Dependencies, Downstream Relationships, Note, References, Upstream Relationships
 
-### Community 503 - "Community 503"
+### Community 504 - "Community 504"
 Cohesion: 0.25
 Nodes (7): AuthorizationManagementService.ResolvePermissionIdAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 504 - "Community 504"
+### Community 505 - "Community 505"
 Cohesion: 0.25
 Nodes (7): AuthorizationManagementService.ResolvePermissionIdsAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 505 - "Community 505"
+### Community 506 - "Community 506"
 Cohesion: 0.25
 Nodes (7): AuthorizationManagementService.UpsertPlanPermissionsAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 506 - "Community 506"
+### Community 507 - "Community 507"
 Cohesion: 0.25
 Nodes (7): AuthorizationManagementService.UpsertRolePermissionsAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 507 - "Community 507"
+### Community 508 - "Community 508"
 Cohesion: 0.25
 Nodes (7): AuthorizationManagementService.UpsertUserPermissionGrantAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 508 - "Community 508"
+### Community 509 - "Community 509"
 Cohesion: 0.25
 Nodes (7): AuthorizationManagementService.UpsertUserPermissionRevokeAsync(), Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships
 
-### Community 509 - "Community 509"
+### Community 510 - "Community 510"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EffectiveAuthorizationService.BuildAuthorizationCacheKey(), Method, Note, Upstream Relationships
 
-### Community 510 - "Community 510"
+### Community 511 - "Community 511"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EffectiveAuthorizationService.ComputePermissionVersionAsync(), Method, Note, Upstream Relationships
 
-### Community 511 - "Community 511"
+### Community 512 - "Community 512"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EffectiveAuthorizationService.GetEffectiveAuthorizationAsync(), Method, Note, Upstream Relationships
 
-### Community 512 - "Community 512"
+### Community 513 - "Community 513"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, EffectiveAuthorizationService.InvalidateUserAuthorizationAsync(), Method, Note, Upstream Relationships
 
-### Community 513 - "Community 513"
+### Community 514 - "Community 514"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IAppCacheService (2), Method, Note, Upstream Relationships
 
-### Community 514 - "Community 514"
+### Community 515 - "Community 515"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, IAppCacheService, Inherits, Note, References, Upstream Relationships
 
-### Community 515 - "Community 515"
+### Community 516 - "Community 516"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IAuthenticationService, Method, Note, Upstream Relationships
 
-### Community 516 - "Community 516"
+### Community 517 - "Community 517"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IAuthorizationManagementService, Method, Note, Upstream Relationships
 
-### Community 517 - "Community 517"
+### Community 518 - "Community 518"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, IEffectiveAuthorizationService (2), Inherits, Note, References, Upstream Relationships
 
-### Community 518 - "Community 518"
+### Community 519 - "Community 519"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IEffectiveAuthorizationService, Method, Note, Upstream Relationships
 
-### Community 519 - "Community 519"
+### Community 520 - "Community 520"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, IJwtService (2), Inherits, Note, References, Upstream Relationships
 
-### Community 520 - "Community 520"
+### Community 521 - "Community 521"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IJwtService, Method, Note, Upstream Relationships
 
-### Community 521 - "Community 521"
+### Community 522 - "Community 522"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, Inherits, IRepository, Note, References, Upstream Relationships
 
-### Community 522 - "Community 522"
+### Community 523 - "Community 523"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, Inherits, ISenderService (2), Note, References, Upstream Relationships
 
-### Community 523 - "Community 523"
+### Community 524 - "Community 524"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, ISenderService, Method, Note, Upstream Relationships
 
-### Community 524 - "Community 524"
+### Community 525 - "Community 525"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, Inherits, IServiceRepository (2), Note, References, Upstream Relationships
 
-### Community 525 - "Community 525"
+### Community 526 - "Community 526"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, IServiceRepository, Method, Note, Upstream Relationships
 
-### Community 526 - "Community 526"
+### Community 527 - "Community 527"
 Cohesion: 0.25
 Nodes (7): Dependencies, Downstream Relationships, Inherits, IUserContext (2), Note, References, Upstream Relationships
 
-### Community 527 - "Community 527"
+### Community 528 - "Community 528"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, JwtService.GenerateAsync(), Method, Note, Upstream Relationships
 
-### Community 528 - "Community 528"
+### Community 529 - "Community 529"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, JwtService.GetClaimsAsync(), Method, Note, Upstream Relationships
 
-### Community 529 - "Community 529"
+### Community 530 - "Community 530"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.Add(), Upstream Relationships
 
-### Community 530 - "Community 530"
+### Community 531 - "Community 531"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.AddAsync(), Upstream Relationships
 
-### Community 531 - "Community 531"
+### Community 532 - "Community 532"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.AddRange(), Upstream Relationships
 
-### Community 532 - "Community 532"
+### Community 533 - "Community 533"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.AddRangeAsync(), Upstream Relationships
 
-### Community 533 - "Community 533"
+### Community 534 - "Community 534"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.Attach(), Upstream Relationships
 
-### Community 534 - "Community 534"
+### Community 535 - "Community 535"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.BuildSeekPredicate(), Upstream Relationships
 
-### Community 535 - "Community 535"
+### Community 536 - "Community 536"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.CreatePage(), Upstream Relationships
 
-### Community 536 - "Community 536"
+### Community 537 - "Community 537"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.DeleteById(), Upstream Relationships
 
-### Community 537 - "Community 537"
+### Community 538 - "Community 538"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.DeleteByIdAsync(), Upstream Relationships
 
-### Community 538 - "Community 538"
+### Community 539 - "Community 539"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.DeleteRange(), Upstream Relationships
 
-### Community 539 - "Community 539"
+### Community 540 - "Community 540"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.DeleteRangeAsync(), Upstream Relationships
 
-### Community 540 - "Community 540"
+### Community 541 - "Community 541"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.EncodeCursorValue(), Upstream Relationships
 
-### Community 541 - "Community 541"
+### Community 542 - "Community 542"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.GetById(), Upstream Relationships
 
-### Community 542 - "Community 542"
+### Community 543 - "Community 543"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.GetByIdAsync(), Upstream Relationships
 
-### Community 543 - "Community 543"
+### Community 544 - "Community 544"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.GetPrimaryKey(), Upstream Relationships
 
-### Community 544 - "Community 544"
+### Community 545 - "Community 545"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.LoadCollection(), Upstream Relationships
 
-### Community 545 - "Community 545"
+### Community 546 - "Community 546"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.LoadCollectionAsync(), Upstream Relationships
 
-### Community 546 - "Community 546"
+### Community 547 - "Community 547"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.LoadReference(), Upstream Relationships
 
-### Community 547 - "Community 547"
+### Community 548 - "Community 548"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.LoadReferenceAsync(), Upstream Relationships
 
-### Community 548 - "Community 548"
+### Community 549 - "Community 549"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.NormalizeCursorPageSize(), Upstream Relationships
 
-### Community 549 - "Community 549"
+### Community 550 - "Community 550"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.SaveChanges(), Upstream Relationships
 
-### Community 550 - "Community 550"
+### Community 551 - "Community 551"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.SaveChangesAsync(), Upstream Relationships
 
-### Community 551 - "Community 551"
+### Community 552 - "Community 552"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.SelectBy(), Upstream Relationships
 
-### Community 552 - "Community 552"
+### Community 553 - "Community 553"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.SelectByAsync(), Upstream Relationships
 
-### Community 553 - "Community 553"
+### Community 554 - "Community 554"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.SelectByCursorAsync(), Upstream Relationships
 
-### Community 554 - "Community 554"
+### Community 555 - "Community 555"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.TryDecodeCursorValue(), Upstream Relationships
 
-### Community 555 - "Community 555"
+### Community 556 - "Community 556"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.TryGetPropertyValue(), Upstream Relationships
 
-### Community 556 - "Community 556"
+### Community 557 - "Community 557"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.UpdateAsync(), Upstream Relationships
 
-### Community 557 - "Community 557"
+### Community 558 - "Community 558"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.UpdateCustomPropertiesAsync(), Upstream Relationships
 
-### Community 558 - "Community 558"
+### Community 559 - "Community 559"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Repository.UpdateRangeAsync(), Upstream Relationships
 
-### Community 559 - "Community 559"
+### Community 560 - "Community 560"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SenderService.BuildMailMessage(), Upstream Relationships
 
-### Community 560 - "Community 560"
+### Community 561 - "Community 561"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, SenderService.SendEmailWithAttachmentAsync(), Upstream Relationships
 
-### Community 561 - "Community 561"
+### Community 562 - "Community 562"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.Create(), Upstream Relationships
 
-### Community 562 - "Community 562"
+### Community 563 - "Community 563"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.Get(), Upstream Relationships
 
-### Community 563 - "Community 563"
+### Community 564 - "Community 564"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.MapToSelectDto(), Upstream Relationships
 
-### Community 564 - "Community 564"
+### Community 565 - "Community 565"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.RequireKey(), Upstream Relationships
 
-### Community 565 - "Community 565"
+### Community 566 - "Community 566"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.Update(), Upstream Relationships
 
-### Community 566 - "Community 566"
+### Community 567 - "Community 567"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.UpdateCustomProperties(), Upstream Relationships
 
-### Community 567 - "Community 567"
+### Community 568 - "Community 568"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, ServiceRepository.UpdateProperty(), Upstream Relationships
 
-### Community 568 - "Community 568"
+### Community 569 - "Community 569"
 Cohesion: 0.25
 Nodes (7): Contains, Dependencies, Downstream Relationships, Inherits, Note, Upstream Relationships, UserContext
 
-### Community 569 - "Community 569"
+### Community 570 - "Community 570"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.AddAsync()
 
-### Community 570 - "Community 570"
+### Community 571 - "Community 571"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.All()
 
-### Community 571 - "Community 571"
+### Community 572 - "Community 572"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.AllByCursor()
 
-### Community 572 - "Community 572"
+### Community 573 - "Community 573"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.BuildUsersCursorListCacheKey()
 
-### Community 573 - "Community 573"
+### Community 574 - "Community 574"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.BuildUsersListCacheKey()
 
-### Community 574 - "Community 574"
+### Community 575 - "Community 575"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.DeleteAsync()
 
-### Community 575 - "Community 575"
+### Community 576 - "Community 576"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.DeleteByIdAsync()
 
-### Community 576 - "Community 576"
+### Community 577 - "Community 577"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.GetUsersListCacheVersionAsync()
 
-### Community 577 - "Community 577"
+### Community 578 - "Community 578"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.RefreshUsersListCacheVersionAsync()
 
-### Community 578 - "Community 578"
+### Community 579 - "Community 579"
 Cohesion: 0.25
 Nodes (7): Calls, Dependencies, Downstream Relationships, Method, Note, Upstream Relationships, UserService.UpdateAsync()
 
-### Community 579 - "Community 579"
+### Community 580 - "Community 580"
 Cohesion: 0.25
 Nodes (7): CI recommendation, code:powershell (powershell -ExecutionPolicy Bypass -File .\tools\Check-Warni), code:powershell (powershell -ExecutionPolicy Bypass -File .\tools\Check-Warni), code:powershell (powershell -ExecutionPolicy Bypass -File .\tools\Check-Warni), Suggested cleanup order, Why staged?, Workflow
 
 ### Community 581 - "Community 581"
 Cohesion: 0.29
-Nodes (4): Attribute, PublicEnumAttribute, ApiPermissionAuthorizeAttribute, IAsyncActionFilter
+Nodes (6): CachingSettings, ObservabilitySettings, PerformanceSettings, QueryTuningSettings, RateLimitingSettings, TelemetrySettings
 
 ### Community 582 - "Community 582"
 Cohesion: 0.29
-Nodes (6): CachingSettings, ObservabilitySettings, PerformanceSettings, QueryTuningSettings, RateLimitingSettings, TelemetrySettings
+Nodes (4): AppException, BadRequestException, LogicException, NotFoundException
 
 ### Community 583 - "Community 583"
 Cohesion: 0.29
-Nodes (4): AppException, BadRequestException, LogicException, NotFoundException
-
-### Community 584 - "Community 584"
-Cohesion: 0.29
 Nodes (4): CoreCounty, CoreCountyConfiguration, CoreProvince, CoreProvinceConfiguration
 
-### Community 587 - "Community 587"
+### Community 588 - "Community 588"
 Cohesion: 0.29
-Nodes (4): GetAdminsPaginatedRequest, EmailReceiverWithIdDTO, PagingRequest, FilterUserRequest
+Nodes (4): Attribute, PublicEnumAttribute, ApiPermissionAuthorizeAttribute, IAsyncActionFilter
 
 ### Community 589 - "Community 589"
 Cohesion: 0.29
@@ -7181,325 +7200,349 @@ Nodes (6): Dependencies, Downstream Relationships, Note, References, Upstream Re
 Cohesion: 0.29
 Nodes (6): Contains, Dependencies, Downstream Relationships, Note, Upstream Relationships, UserService.cs
 
-### Community 1419 - "Community 1419"
+### Community 1416 - "Community 1416"
+Cohesion: 0.29
+Nodes (6): Episodic Memory Playbook, الگوهای پیشنهادی tag, جستجو قبل از اقدام, مراحل ثبت episode, هدف, چه چیزهایی episode نیستند
+
+### Community 1417 - "Community 1417"
 Cohesion: 0.33
 Nodes (5): IdentitySettings, JwtSettings, MailSettings, SeqSettings, SiteSettings
 
-### Community 1422 - "Community 1422"
-Cohesion: 0.33
-Nodes (3): Migration, Data.Migrations, Init
-
-### Community 1423 - "Community 1423"
+### Community 1421 - "Community 1421"
 Cohesion: 0.33
 Nodes (3): BaseUserApiController, API.Controllers.Users.v1, UsersController
 
 ### Community 1424 - "Community 1424"
 Cohesion: 0.33
-Nodes (5): AI Agent Rules (VS Code + GPT-5.3-Codex), Codex Customization (Applied), Notes, Quick check in VS Code, Warning Gate (Staged Quality)
+Nodes (5): Episodic Memory, Graph Memory, Memory Model, Semantic Memory, رابطه بین سه حافظه
 
 ### Community 1425 - "Community 1425"
 Cohesion: 0.33
-Nodes (5): AccountStatus.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AI Agent Rules (VS Code + GPT-5.3-Codex), Codex Customization (Applied), Notes, Quick check in VS Code, Warning Gate (Staged Quality)
 
 ### Community 1426 - "Community 1426"
 Cohesion: 0.33
-Nodes (5): BankAccountStatus.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Build / Verify, EF Core, Episodic Memory APIs, Graphify, Tooling Notes
 
 ### Community 1427 - "Community 1427"
 Cohesion: 0.33
-Nodes (5): Dependencies, DocumentStatus.cs, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AccountStatus.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1428 - "Community 1428"
 Cohesion: 0.33
-Nodes (5): Dependencies, DocumentType.cs, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): BankAccountStatus.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1429 - "Community 1429"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, EmailStatus.cs, Note, Upstream Relationships
+Nodes (5): Dependencies, DocumentStatus.cs, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1430 - "Community 1430"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Entities.AssemblyInfo.cs, Note, Upstream Relationships
+Nodes (5): Dependencies, DocumentType.cs, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1431 - "Community 1431"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Entities.GlobalUsings.g.cs, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, EmailStatus.cs, Note, Upstream Relationships
 
 ### Community 1432 - "Community 1432"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, PaymentDocumentType.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Entities.AssemblyInfo.cs, Note, Upstream Relationships
 
 ### Community 1433 - "Community 1433"
 Cohesion: 0.33
-Nodes (5): AccountSessionDtos.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Entities.GlobalUsings.g.cs, Note, Upstream Relationships
 
 ### Community 1434 - "Community 1434"
 Cohesion: 0.33
-Nodes (5): AdminPanel.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, PaymentDocumentType.cs, Upstream Relationships
 
 ### Community 1435 - "Community 1435"
 Cohesion: 0.33
-Nodes (5): AdminPanel.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AccountSessionDtos.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1436 - "Community 1436"
 Cohesion: 0.33
-Nodes (5): AdminPanel.RazorAssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AdminPanel.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1437 - "Community 1437"
 Cohesion: 0.33
-Nodes (5): API.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AdminPanel.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1438 - "Community 1438"
 Cohesion: 0.33
-Nodes (5): API.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AdminPanel.RazorAssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1439 - "Community 1439"
 Cohesion: 0.33
-Nodes (5): API.MvcApplicationPartsAssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): API.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1440 - "Community 1440"
 Cohesion: 0.33
-Nodes (5): AuthorizationManagementDtos.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): API.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1441 - "Community 1441"
 Cohesion: 0.33
-Nodes (5): Common.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): API.MvcApplicationPartsAssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1442 - "Community 1442"
 Cohesion: 0.33
-Nodes (5): Common.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): AuthorizationManagementDtos.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1443 - "Community 1443"
 Cohesion: 0.33
-Nodes (5): CompletePhoneRegistrationRequest.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Common.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1444 - "Community 1444"
 Cohesion: 0.33
-Nodes (5): CompleteUserRegistrationRequest.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Common.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1445 - "Community 1445"
 Cohesion: 0.33
-Nodes (5): ConfirmEmailRegistrationRequest.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): CompletePhoneRegistrationRequest.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1446 - "Community 1446"
 Cohesion: 0.33
-Nodes (5): CurrentUserAuthorizationResponse.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): CompleteUserRegistrationRequest.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1447 - "Community 1447"
 Cohesion: 0.33
-Nodes (5): Data.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): ConfirmEmailRegistrationRequest.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1448 - "Community 1448"
 Cohesion: 0.33
-Nodes (5): Data.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): CurrentUserAuthorizationResponse.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1449 - "Community 1449"
 Cohesion: 0.33
-Nodes (5): DbCloneRunner.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Data.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1450 - "Community 1450"
 Cohesion: 0.33
-Nodes (5): DbCloneRunner.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
+Nodes (5): Data.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1451 - "Community 1451"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, EmailPasswordLoginRequest.cs, Note, Upstream Relationships
+Nodes (5): DbCloneRunner.AssemblyInfo.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1452 - "Community 1452"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, ForgotPasswordRequest.cs, Note, Upstream Relationships
+Nodes (5): DbCloneRunner.GlobalUsings.g.cs, Dependencies, Downstream Relationships, Note, Upstream Relationships
 
 ### Community 1453 - "Community 1453"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, GlobalUsing.cs (2), Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, EmailPasswordLoginRequest.cs, Note, Upstream Relationships
 
 ### Community 1454 - "Community 1454"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, GlobalUsing.cs, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, ForgotPasswordRequest.cs, Note, Upstream Relationships
 
 ### Community 1455 - "Community 1455"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Initialize-Database.ps1, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, GlobalUsing.cs (2), Note, Upstream Relationships
 
 ### Community 1456 - "Community 1456"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, LICENSE.md, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, GlobalUsing.cs, Note, Upstream Relationships
 
 ### Community 1457 - "Community 1457"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, LoginResponse.cs, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Initialize-Database.ps1, Note, Upstream Relationships
 
 ### Community 1458 - "Community 1458"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, MfaDtos.cs, Note, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, LICENSE.md, Note, Upstream Relationships
 
 ### Community 1459 - "Community 1459"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, OtpChallengeResponse.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, LoginResponse.cs, Note, Upstream Relationships
 
 ### Community 1460 - "Community 1460"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, PasswordLoginRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, MfaDtos.cs, Note, Upstream Relationships
 
 ### Community 1461 - "Community 1461"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, PhoneOtpLoginRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, OtpChallengeResponse.cs, Upstream Relationships
 
 ### Community 1462 - "Community 1462"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Program.cs (2), Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, PasswordLoginRequest.cs, Upstream Relationships
 
 ### Community 1463 - "Community 1463"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Program.cs (3), Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, PhoneOtpLoginRequest.cs, Upstream Relationships
 
 ### Community 1464 - "Community 1464"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Program.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, Program.cs (2), Upstream Relationships
 
 ### Community 1465 - "Community 1465"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, RegisterWithEmailRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, Program.cs (3), Upstream Relationships
 
 ### Community 1466 - "Community 1466"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, ResendEmailActivationLinkRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, Program.cs, Upstream Relationships
 
 ### Community 1467 - "Community 1467"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, ResendPhoneRegistrationOtpRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, RegisterWithEmailRequest.cs, Upstream Relationships
 
 ### Community 1468 - "Community 1468"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, ResetPasswordWithOtpRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, ResendEmailActivationLinkRequest.cs, Upstream Relationships
 
 ### Community 1469 - "Community 1469"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, SendOtpRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, ResendPhoneRegistrationOtpRequest.cs, Upstream Relationships
 
 ### Community 1470 - "Community 1470"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, SendOtpResponse.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, ResetPasswordWithOtpRequest.cs, Upstream Relationships
 
 ### Community 1471 - "Community 1471"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, SendPhoneLoginOtpRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, SendOtpRequest.cs, Upstream Relationships
 
 ### Community 1472 - "Community 1472"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Sentry.Attributes.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, SendOtpResponse.cs, Upstream Relationships
 
 ### Community 1473 - "Community 1473"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Services.AssemblyInfo.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, SendPhoneLoginOtpRequest.cs, Upstream Relationships
 
 ### Community 1474 - "Community 1474"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Services.GlobalUsings.g.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, Sentry.Attributes.cs, Upstream Relationships
 
 ### Community 1475 - "Community 1475"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, site.js, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, Services.AssemblyInfo.cs, Upstream Relationships
 
 ### Community 1476 - "Community 1476"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, StartAuthenticationResponse.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, Services.GlobalUsings.g.cs, Upstream Relationships
 
 ### Community 1477 - "Community 1477"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, StartPhoneRegistrationRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, site.js, Upstream Relationships
 
 ### Community 1478 - "Community 1478"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, UpdatePasswordRequest.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, StartAuthenticationResponse.cs, Upstream Relationships
 
 ### Community 1479 - "Community 1479"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, UpdatePasswordResponse.cs, Upstream Relationships
+Nodes (5): Dependencies, Downstream Relationships, Note, StartPhoneRegistrationRequest.cs, Upstream Relationships
 
 ### Community 1480 - "Community 1480"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Upstream Relationships, ValidateOtpRequest.cs
+Nodes (5): Dependencies, Downstream Relationships, Note, UpdatePasswordRequest.cs, Upstream Relationships
 
 ### Community 1481 - "Community 1481"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Upstream Relationships, WebFramwork.AssemblyInfo.cs
+Nodes (5): Dependencies, Downstream Relationships, Note, UpdatePasswordResponse.cs, Upstream Relationships
 
 ### Community 1482 - "Community 1482"
 Cohesion: 0.33
-Nodes (5): Dependencies, Downstream Relationships, Note, Upstream Relationships, WebFramwork.GlobalUsings.g.cs
+Nodes (5): Dependencies, Downstream Relationships, Note, Upstream Relationships, ValidateOtpRequest.cs
+
+### Community 1483 - "Community 1483"
+Cohesion: 0.33
+Nodes (5): Dependencies, Downstream Relationships, Note, Upstream Relationships, WebFramwork.AssemblyInfo.cs
 
 ### Community 1484 - "Community 1484"
-Cohesion: 0.4
-Nodes (3): ApplicationDbContextModelSnapshot, Data.Migrations, ModelSnapshot
+Cohesion: 0.33
+Nodes (5): Dependencies, Downstream Relationships, Note, Upstream Relationships, WebFramwork.GlobalUsings.g.cs
 
 ### Community 1485 - "Community 1485"
 Cohesion: 0.4
-Nodes (3): Entities.Items, Item, PostConfiguration
+Nodes (3): ApplicationDbContextModelSnapshot, Data.Migrations, ModelSnapshot
 
 ### Community 1486 - "Community 1486"
 Cohesion: 0.4
 Nodes (3): Category, CategoryConfiguration, Entities.Categories
 
-### Community 1488 - "Community 1488"
+### Community 1487 - "Community 1487"
+Cohesion: 0.4
+Nodes (3): Entities.Items, Item, PostConfiguration
+
+### Community 1489 - "Community 1489"
 Cohesion: 0.5
 Nodes (3): ApiResult, MetaModel, ValidationError
 
-### Community 1489 - "Community 1489"
-Cohesion: 0.4
-Nodes (4): Editing Rules, Local Goals, Output Notes, Verification
-
 ### Community 1490 - "Community 1490"
 Cohesion: 0.4
-Nodes (4): Business Docs Index, Domains, How To Use, Template
+Nodes (4): Agent Memory Rules, قوانین کیفیت, چه زمانی episode ثبت شود, چه زمانی episode جستجو شود
 
 ### Community 1491 - "Community 1491"
 Cohesion: 0.4
-Nodes (4): code:dataview (TABLE type, source_file, community), Dataview, Folders, Graphify Obsidian Export
+Nodes (4): Feature جدید, Project Notes, لایه‌بندی, هدف
 
 ### Community 1492 - "Community 1492"
 Cohesion: 0.4
-Nodes (4): Authentication Change Checklist, Local Rules, Safety Rules, Verification
+Nodes (4): Episodic Memory Skill, خروجی مورد انتظار, عدم استفاده, ورودی‌های مهم
 
 ### Community 1493 - "Community 1493"
+Cohesion: 0.4
+Nodes (4): Editing Rules, Local Goals, Output Notes, Verification
+
+### Community 1494 - "Community 1494"
+Cohesion: 0.4
+Nodes (4): Business Docs Index, Domains, How To Use, Template
+
+### Community 1495 - "Community 1495"
+Cohesion: 0.4
+Nodes (4): Episodic Memory Eval, سناریوهای حداقلی, سوال‌های ارزیابی, معیار پذیرش
+
+### Community 1496 - "Community 1496"
+Cohesion: 0.4
+Nodes (4): code:dataview (TABLE type, source_file, community), Dataview, Folders, Graphify Obsidian Export
+
+### Community 1497 - "Community 1497"
+Cohesion: 0.4
+Nodes (4): Authentication Change Checklist, Local Rules, Safety Rules, Verification
+
+### Community 1498 - "Community 1498"
 Cohesion: 0.5
 Nodes (3): IScopedDependency, ISingletonDependency, ITransientDependency
 
-### Community 1499 - "Community 1499"
-Cohesion: 0.5
-Nodes (3): IdentityRole, Entities.Users, Role
-
-### Community 1503 - "Community 1503"
-Cohesion: 0.5
-Nodes (3): IdentityUser, Entities.Users, User
-
-### Community 1516 - "Community 1516"
+### Community 1504 - "Community 1504"
 Cohesion: 1.0
 Nodes (3): BaseEntity, Entities.Common, IEntity
 
-### Community 1519 - "Community 1519"
+### Community 1511 - "Community 1511"
+Cohesion: 0.5
+Nodes (3): IdentityRole, Entities.Users, Role
+
+### Community 1512 - "Community 1512"
+Cohesion: 0.5
+Nodes (3): IdentityUser, Entities.Users, User
+
+### Community 1526 - "Community 1526"
 Cohesion: 0.5
 Nodes (3): PagingDTO, PagingWithoutData, PagingWithoutData
 
 ## Knowledge Gaps
-- **6100 isolated node(s):** `AdminPanelAuthenticationSettings`, `AdminPanelAuthenticationSettings`, `OperationCatalogSecuritySettings`, `Type`, `MethodInfo` (+6095 more)
+- **6135 isolated node(s):** `AdminPanelAuthenticationSettings`, `AdminPanelAuthenticationSettings`, `OperationCatalogSecuritySettings`, `Type`, `MethodInfo` (+6130 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **104 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **107 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `string` connect `Community 22` to `Community 194`, `Community 2`, `Community 580`, `Community 37`, `Community 6`, `Community 581`, `Community 36`, `Community 1418`, `Community 14`, `Community 23`, `Community 25`, `Community 29`, `Community 30`?**
+- **Why does `string` connect `Community 26` to `Community 33`, `Community 34`, `Community 2`, `Community 5`, `Community 40`, `Community 200`, `Community 41`, `Community 587`, `Community 11`, `Community 588`, `Community 1423`, `Community 18`, `Community 28`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `AuthenticationService` connect `Community 2` to `Community 199`, `Community 588`, `Community 79`, `Community 17`, `Community 19`, `Community 20`, `Community 21`, `Community 22`?**
+- **Why does `int` connect `Community 81` to `Community 0`, `Community 2`, `Community 200`, `Community 11`, `Community 83`, `Community 25`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `int` connect `Community 79` to `Community 0`, `Community 193`, `Community 194`, `Community 2`, `Community 23`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `ListModel` connect `Community 81` to `Community 12`?**
+  _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `AdminPanelAuthenticationSettings`, `AdminPanelAuthenticationSettings`, `OperationCatalogSecuritySettings` to the rest of the system?**
-  _6100 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _6135 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.13 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11 - nodes in this community are weakly interconnected._

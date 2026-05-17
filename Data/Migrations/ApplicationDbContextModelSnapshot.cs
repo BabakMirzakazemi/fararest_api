@@ -2071,6 +2071,190 @@ namespace Data.Migrations
                     b.ToTable("EmailSharedInformation");
                 });
 
+            modelBuilder.Entity("Entities.EpisodicMemory.Episode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("ActorId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("actor_id");
+
+                    b.Property<string>("ActorName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("actor_name");
+
+                    b.Property<string>("CommitSha")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("commit_sha");
+
+                    b.Property<string>("CorrelationId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("correlation_id");
+
+                    b.Property<string>("DeduplicationKey")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("deduplication_key");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("text")
+                        .HasColumnName("details");
+
+                    b.Property<string>("Environment")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("environment");
+
+                    b.Property<int>("Importance")
+                        .HasColumnType("integer")
+                        .HasColumnName("importance");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("MetadataJson")
+                        .HasColumnType("text")
+                        .HasColumnName("metadata_json");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_at_utc");
+
+                    b.Property<Guid?>("ParentEpisodeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_episode_id");
+
+                    b.Property<DateTimeOffset>("RecordedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("recorded_at_utc");
+
+                    b.Property<int>("Source")
+                        .HasColumnType("integer")
+                        .HasColumnName("source");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("summary");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommitSha");
+
+                    b.HasIndex("CorrelationId");
+
+                    b.HasIndex("DeduplicationKey");
+
+                    b.HasIndex("OccurredAtUtc");
+
+                    b.HasIndex("ParentEpisodeId");
+
+                    b.HasIndex("Importance", "OccurredAtUtc");
+
+                    b.HasIndex("Type", "OccurredAtUtc");
+
+                    b.ToTable("memory_episode", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.EpisodicMemory.EpisodeReference", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("EpisodeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("episode_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("ReferenceKey")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("reference_key");
+
+                    b.Property<string>("ReferenceLabel")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("reference_label");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Type", "ReferenceKey");
+
+                    b.HasIndex("EpisodeId", "Type", "ReferenceKey")
+                        .IsUnique();
+
+                    b.ToTable("memory_episode_reference", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.EpisodicMemory.EpisodeTag", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("EpisodeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("episode_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("Tag")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("tag");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Tag");
+
+                    b.HasIndex("EpisodeId", "Tag")
+                        .IsUnique();
+
+                    b.ToTable("memory_episode_tag", (string)null);
+                });
+
             modelBuilder.Entity("Entities.Items.Item", b =>
                 {
                     b.Property<long>("Id")
@@ -3942,6 +4126,38 @@ namespace Data.Migrations
                     b.Navigation("EmailSharedInformation");
                 });
 
+            modelBuilder.Entity("Entities.EpisodicMemory.Episode", b =>
+                {
+                    b.HasOne("Entities.EpisodicMemory.Episode", "ParentEpisode")
+                        .WithMany("FollowUpEpisodes")
+                        .HasForeignKey("ParentEpisodeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ParentEpisode");
+                });
+
+            modelBuilder.Entity("Entities.EpisodicMemory.EpisodeReference", b =>
+                {
+                    b.HasOne("Entities.EpisodicMemory.Episode", "Episode")
+                        .WithMany("References")
+                        .HasForeignKey("EpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Episode");
+                });
+
+            modelBuilder.Entity("Entities.EpisodicMemory.EpisodeTag", b =>
+                {
+                    b.HasOne("Entities.EpisodicMemory.Episode", "Episode")
+                        .WithMany("Tags")
+                        .HasForeignKey("EpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Episode");
+                });
+
             modelBuilder.Entity("Entities.Items.Item", b =>
                 {
                     b.HasOne("Entities.Categories.Category", "Category")
@@ -4031,6 +4247,15 @@ namespace Data.Migrations
                     b.Navigation("Documents");
 
                     b.Navigation("Emails");
+                });
+
+            modelBuilder.Entity("Entities.EpisodicMemory.Episode", b =>
+                {
+                    b.Navigation("FollowUpEpisodes");
+
+                    b.Navigation("References");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Entities.Users.ConfirmationCode", b =>

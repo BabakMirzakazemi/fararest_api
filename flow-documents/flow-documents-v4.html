@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند فلو سیستم - نسخه v4 - Episodic Memory</title>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --line:#d9e2ef; --text:#12263a; --muted:#4a6077; --head:#0d1f33; --soft:#eef4fb; --accent:#0b63c9; }
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(130deg,#f8fbff,#edf3fb);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
+    .wrap{max-width:1500px;margin:0 auto;padding:20px 14px 28px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;overflow-x:auto}
+    h1,h2,h3{margin:0 0 10px;color:var(--head)}h1{font-size:24px}h2{font-size:20px;border-right:4px solid var(--accent);padding-right:8px}h3{font-size:17px}
+    p,li{line-height:2;margin:0 0 8px}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;min-width:980px}th,td{border:1px solid var(--line);padding:9px;vertical-align:top;line-height:1.9}th{background:var(--soft)}
+    .badge{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid #b8d7ff;background:#eef6ff;color:#164d90;font-size:12px;margin-left:6px}
+    .mono{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:12px;background:#f8fbff;border:1px solid #d9e6f7;border-radius:8px;padding:10px;white-space:pre;overflow:auto}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>مستند فلو سیستم</h1>
+    <p class="muted">این نسخه رفتار end-to-end مربوط به Episodic Memory را به جریان‌های فعلی سیستم اضافه می‌کند.</p>
+    <p><span class="badge">نسخه</span> v4 <span class="badge">تاریخ</span> 2026-05-17 <span class="badge">Scope</span> Admin / Memory / Agent Workflows</p>
+  </div>
+
+  <div class="card">
+    <h2>نمای کلی فلو جدید</h2>
+    <div class="mono">Authorized Admin / Agent
+  -> POST /api/admin/v1/Episodes/RecordAsync
+  -> FluentValidation + service invariants
+  -> duplicate check by DeduplicationKey
+  -> save Episode + Tags + References
+  -> later search/recent/important queries reuse normalized metadata</div>
+  </div>
+
+  <div class="card">
+    <h2>1) ثبت episode</h2>
+    <p>کاربر ادمین یا عامل مجاز یک episode ثبت می‌کند. درخواست شامل نوع، اهمیت، summary، زمان وقوع، tagها و referenceهای پایدار است.</p>
+    <p><strong>API درگیر:</strong> <code>POST /api/admin/v1/Episodes/RecordAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></p>
+    <p><strong>قواعد مهم:</strong></p>
+    <ul>
+      <li>حداقل یکی از details، tag یا reference باید وجود داشته باشد.</li>
+      <li>رویداد آینده پذیرفته نمی‌شود.</li>
+      <li>اگر parent episode داده شود، باید وجود داشته باشد.</li>
+      <li>duplicateهای نزدیک با `DeduplicationKey` رد می‌شوند.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>2) مشاهده single episode</h2>
+    <p>برای بررسی کامل یک رویداد، سیستم episode را به‌همراه tagها و referenceهایش برمی‌گرداند.</p>
+    <p><strong>API درگیر:</strong> <code>GET /api/admin/v1/Episodes/GetAsync?id=&lt;guid&gt;</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></p>
+  </div>
+
+  <div class="card">
+    <h2>3) جستجوی episodeها</h2>
+    <p>جستجو بر اساس متن، نوع، اهمیت، source، environment، بازه زمانی، tag، reference، commit sha و correlation id انجام می‌شود.</p>
+    <p><strong>API درگیر:</strong> <code>POST /api/admin/v1/Episodes/SearchAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></p>
+    <p><strong>رفتار:</strong> نتیجه به‌صورت paging برمی‌گردد و بر اساس <code>OccurredAtUtc DESC</code> مرتب می‌شود.</p>
+  </div>
+
+  <div class="card">
+    <h2>4) دریافت episodeهای recent</h2>
+    <p>این فلو برای یافتن رویدادهای نزدیک زمانی استفاده می‌شود؛ مثلا قبل از تغییر schema یا deployment جدید.</p>
+    <p><strong>API درگیر:</strong> <code>GET /api/admin/v1/Episodes/RecentAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>memory_episode</code>، <code>memory_episode_tag</code></p>
+  </div>
+
+  <div class="card">
+    <h2>5) دریافت episodeهای مهم</h2>
+    <p>این فلو برای decisionها، incidentها و findingهای high/critical مناسب است.</p>
+    <p><strong>API درگیر:</strong> <code>GET /api/admin/v1/Episodes/ImportantAsync</code></p>
+    <p><strong>جدول‌های درگیر:</strong> <code>memory_episode</code>، <code>memory_episode_tag</code></p>
+  </div>
+
+  <div class="card">
+    <h2>6) نقش Graphify در این فلو</h2>
+    <ul>
+      <li>Graphify source of truth برای روابط ساختاری باقی می‌ماند.</li>
+      <li>episodeها فقط referenceهای پایدار را ذخیره می‌کنند.</li>
+      <li>عامل‌ها ابتدا graph را برای context و سپس episodic memory را برای history/queryable events بررسی می‌کنند.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>فهرست APIهای درگیر</h2>
+    <table>
+      <thead><tr><th>API</th><th>هدف</th><th>جدول‌های درگیر</th></tr></thead>
+      <tbody>
+        <tr><td><code>POST /api/admin/v1/Episodes/RecordAsync</code></td><td>ثبت episode جدید</td><td><code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></td></tr>
+        <tr><td><code>GET /api/admin/v1/Episodes/GetAsync</code></td><td>دریافت جزئیات یک episode</td><td><code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></td></tr>
+        <tr><td><code>POST /api/admin/v1/Episodes/SearchAsync</code></td><td>جستجوی ترکیبی</td><td><code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></td></tr>
+        <tr><td><code>GET /api/admin/v1/Episodes/RecentAsync</code></td><td>رویدادهای اخیر</td><td><code>memory_episode</code>، <code>memory_episode_tag</code></td></tr>
+        <tr><td><code>GET /api/admin/v1/Episodes/ImportantAsync</code></td><td>رویدادهای مهم</td><td><code>memory_episode</code>، <code>memory_episode_tag</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>فهرست جدول‌های درگیر</h2>
+    <table>
+      <thead><tr><th>جدول</th><th>کاربرد</th></tr></thead>
+      <tbody>
+        <tr><td><code>memory_episode</code></td><td>هسته رویدادهای durable</td></tr>
+        <tr><td><code>memory_episode_tag</code></td><td>tagهای normalized برای فیلتر و جستجو</td></tr>
+        <tr><td><code>memory_episode_reference</code></td><td>referenceهای ساختاری پایدار به artifactهای سیستم</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

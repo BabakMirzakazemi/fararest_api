@@ -26,6 +26,7 @@
   - `.agents/skills/digital-menu-business/SKILL.md`
   - `.agents/skills/support-business/SKILL.md`
   - `.agents/skills/crm-business/SKILL.md`
+  - `.agents/skills/episodic-memory/SKILL.md`
 
 ## Business Requirements Source
 - Business requirement documents live under `docs/business/**`.

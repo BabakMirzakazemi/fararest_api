@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند دیتابیس Fararest API - نسخه v2 - Episodic Memory</title>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --line:#d9e2ef; --text:#12263a; --muted:#4a6077; --head:#0d1f33; --soft:#eef4fb; --accent:#0b63c9; }
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(130deg,#f8fbff,#edf3fb);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
+    .wrap{max-width:1500px;margin:0 auto;padding:20px 14px 28px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;overflow-x:auto}
+    h1,h2,h3{margin:0 0 10px;color:var(--head)}h1{font-size:24px}h2{font-size:20px;border-right:4px solid var(--accent);padding-right:8px}h3{font-size:17px}
+    p,li{line-height:2;margin:0 0 8px}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;min-width:980px}th,td{border:1px solid var(--line);padding:9px;vertical-align:top;line-height:1.9}th{background:var(--soft)}
+    .badge{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid #b8d7ff;background:#eef6ff;color:#164d90;font-size:12px;margin-left:6px}
+    .mono{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:12px;background:#f8fbff;border:1px solid #d9e6f7;border-radius:8px;padding:10px;white-space:pre;overflow:auto}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>مستند دیتابیس Fararest API</h1>
+    <p class="muted">این نسخه نمای کلی مدل دیتابیس فعلی را به‌همراه تغییرات نسخه اپیزودیک مموری مستند می‌کند.</p>
+    <p><span class="badge">نسخه</span> v2 <span class="badge">تاریخ</span> 2026-05-17 <span class="badge">تغییر برجسته</span> افزودن Episodic Memory</p>
+  </div>
+
+  <div class="card">
+    <h2>تغییرات این نسخه</h2>
+    <ul>
+      <li>افزودن جدول <code>memory_episode</code> برای ثبت رویدادهای زمان‌مند و durable پروژه.</li>
+      <li>افزودن جدول <code>memory_episode_tag</code> برای tagهای قابل جستجو.</li>
+      <li>افزودن جدول <code>memory_episode_reference</code> برای referenceهای پایدار به ماژول، فایل، endpoint، migration و جدول.</li>
+      <li>حفظ portability در سطح EF schema و پرهیز از قابلیت‌های provider-specific برای این feature.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>نمای کلی دامنه‌های دیتابیس</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>دامنه</th>
+          <th>نمونه جدول‌ها</th>
+          <th>کاربرد</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Identity / Users</td>
+          <td><code>AspNetUsers</code>، <code>AspNetRoles</code>، <code>AspNetUserRoles</code>، <code>ConfirmationCode</code></td>
+          <td>احراز هویت، نقش‌ها، تایید ثبت‌نام و امنیت پایه کاربران</td>
+        </tr>
+        <tr>
+          <td>Accounts / Authorization</td>
+          <td><code>accounts_permission</code>، <code>accounts_role_permission</code>، <code>accounts_user_session</code>، <code>accounts_membership</code></td>
+          <td>مجوزها، session، عضویت سازمانی، نقش و grant/revoke</td>
+        </tr>
+        <tr>
+          <td>Licenses</td>
+          <td><code>licenses_plan</code>، <code>licenses_plan_price</code>، <code>licenses_subscription</code></td>
+          <td>مدیریت plan، قیمت‌گذاری و subscription</td>
+        </tr>
+        <tr>
+          <td>Payments</td>
+          <td><code>payments_wallet</code>، <code>payments_wallet_entry</code>، <code>payments_operation</code></td>
+          <td>کیف پول و عملیات مالی</td>
+        </tr>
+        <tr>
+          <td>Menu / Digital Menu</td>
+          <td><code>menu_item</code>، <code>menu_category</code>، <code>menu_digital_menu</code>، <code>menu_ingredient</code></td>
+          <td>منو، دسته‌بندی، آیتم‌ها و منوی دیجیتال</td>
+        </tr>
+        <tr>
+          <td>CRM</td>
+          <td><code>crm_customer</code>، <code>crm_customer_note</code>، <code>crm_discount_campaign</code></td>
+          <td>مدیریت مشتری، وفاداری، کمپین و coupon</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td><code>support_ticket</code>، <code>support_ticket_message</code>، <code>support_ticket_event</code></td>
+          <td>تیکت، پیام و eventهای پشتیبانی</td>
+        </tr>
+        <tr>
+          <td>Episodic Memory</td>
+          <td><code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></td>
+          <td>حافظه رویدادی durable برای تصمیم‌ها، incidentها، migrationها و یافته‌ها</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>جزئیات جداول جدید Episodic Memory</h2>
+    <h3>1) memory_episode</h3>
+    <table>
+      <thead><tr><th>ستون</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>uuid</td><td>شناسه اصلی episode</td></tr>
+        <tr><td><code>type</code></td><td>int</td><td>نوع رویداد مانند decision، bug، migration، incident</td></tr>
+        <tr><td><code>importance</code></td><td>int</td><td>اولویت و شدت اهمیت</td></tr>
+        <tr><td><code>source</code></td><td>int</td><td>منبع رویداد: انسان، agent، system، pipeline</td></tr>
+        <tr><td><code>status</code></td><td>int?</td><td>وضعیت اختیاری رویداد</td></tr>
+        <tr><td><code>title</code></td><td>varchar(200)</td><td>عنوان کوتاه و قابل جستجو</td></tr>
+        <tr><td><code>summary</code></td><td>varchar(1000)</td><td>خلاصه رویداد</td></tr>
+        <tr><td><code>details</code></td><td>text</td><td>جزئیات کامل رویداد</td></tr>
+        <tr><td><code>occurred_at_utc</code></td><td>timestamptz</td><td>زمان واقعی وقوع</td></tr>
+        <tr><td><code>recorded_at_utc</code></td><td>timestamptz</td><td>زمان ثبت در سیستم</td></tr>
+        <tr><td><code>actor_id</code> / <code>actor_name</code></td><td>varchar</td><td>عامل انسانی یا ماشینی مرتبط با رویداد</td></tr>
+        <tr><td><code>correlation_id</code></td><td>varchar(128)</td><td>اتصال به trace/request/deployment context</td></tr>
+        <tr><td><code>environment</code></td><td>varchar(64)</td><td>محیط اجرا مانند dev/staging/prod</td></tr>
+        <tr><td><code>commit_sha</code></td><td>varchar(64)</td><td>اتصال به commit کد</td></tr>
+        <tr><td><code>deduplication_key</code></td><td>varchar(256)</td><td>کلید جلوگیری از ثبت duplicate</td></tr>
+        <tr><td><code>metadata_json</code></td><td>text</td><td>اطلاعات تکمیلی اختیاری به‌صورت provider-neutral</td></tr>
+        <tr><td><code>parent_episode_id</code></td><td>uuid?</td><td>ارتباط follow-up با episode قبلی</td></tr>
+      </tbody>
+    </table>
+
+    <h3>2) memory_episode_tag</h3>
+    <table>
+      <thead><tr><th>ستون</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه tag</td></tr>
+        <tr><td><code>episode_id</code></td><td>uuid</td><td>ارجاع به episode</td></tr>
+        <tr><td><code>tag</code></td><td>varchar(64)</td><td>tag نرمال‌شده و قابل جستجو</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3) memory_episode_reference</h3>
+    <table>
+      <thead><tr><th>ستون</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه reference</td></tr>
+        <tr><td><code>episode_id</code></td><td>uuid</td><td>ارجاع به episode</td></tr>
+        <tr><td><code>type</code></td><td>int</td><td>نوع reference مانند module، table، migration، endpoint</td></tr>
+        <tr><td><code>reference_key</code></td><td>varchar(256)</td><td>کلید پایدار برای lookup</td></tr>
+        <tr><td><code>reference_label</code></td><td>varchar(256)</td><td>label خواناتر برای نمایش</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>ایندکس‌ها و ملاحظات portability</h2>
+    <ul>
+      <li>ایندکس روی <code>occurred_at_utc</code>، <code>(type, occurred_at_utc)</code> و <code>(importance, occurred_at_utc)</code> برای queryهای recent/important/search.</li>
+      <li>ایندکس روی <code>tag</code> و <code>(type, reference_key)</code> برای جستجوی سریع tag/reference.</li>
+      <li>از <code>jsonb</code>، array، trigger، function و GIN index برای این feature استفاده نشده است.</li>
+      <li>طراحی جدول‌ها و typeها برای مهاجرت آینده به SQL Server مانع جدی ایجاد نمی‌کند.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>DDL خلاصه Episodic Memory</h2>
+    <div class="mono">memory_episode
+  PK: id
+  FK: parent_episode_id -> memory_episode.id (Restrict)
+
+memory_episode_tag
+  PK: id
+  FK: episode_id -> memory_episode.id (Cascade)
+  UQ: (episode_id, tag)
+
+memory_episode_reference
+  PK: id
+  FK: episode_id -> memory_episode.id (Cascade)
+  UQ: (episode_id, type, reference_key)</div>
+  </div>
+</div>
+</body>
+</html>

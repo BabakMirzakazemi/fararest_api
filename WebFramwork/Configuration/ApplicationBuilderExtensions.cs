@@ -1,6 +1,8 @@
-﻿using Common.Utilities.Helpers;
+using Common.Configurations;
+using Common.Utilities.Helpers;
 using Data;
 using Data.Database.SqlObjects;
+using Entities.EpisodicMemory;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,8 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Exporter;
+using Services.Contracts.EpisodicMemory;
 using Services.DataInitializer;
-using Common.Configurations;
+using Services.DTOs.EpisodicMemory;
+using System.Reflection;
 using WebFramework.Middlewares;
 
 namespace WebFramework.Configuration;
@@ -29,19 +33,16 @@ public static class ApplicationBuilderExtensions
         return app;
     }
 
-    public static IApplicationBuilder InitializeDatabase(this IApplicationBuilder app)
+    public static IApplicationBuilder InitializeDatabase(this IApplicationBuilder app, bool bootstrapMode = false)
     {
         Assert.NotNull(app, nameof(app));
 
-        //Use C# 8 using variables
         using var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>(); //Service locator
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var hostEnvironment = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
+        var pendingMigrations = dbContext.Database.GetPendingMigrations().ToList();
 
-        //Dos not use Migrations, just Create Database with latest changes
-        //dbContext.Database.EnsureCreated();
-        //Applies any pending migrations for the context to the database like (Update-Database)
         dbContext.Database.Migrate();
-        // Re-apply SQL objects (functions/triggers/views) from stable scripts.
         DatabaseSqlObjectsInstaller.ApplyAsync(dbContext).GetAwaiter().GetResult();
 
         var dataInitializers = scope.ServiceProvider.GetServices<IDataInitializer>().OrderBy(i => i.Order).ToList();
@@ -51,6 +52,8 @@ public static class ApplicationBuilderExtensions
             Console.WriteLine($"[Seed] Running: {dataInitializer.GetType().FullName}");
             dataInitializer.InitializeData();
         }
+
+        TryRecordDatabaseAutomationEpisodesAsync(scope.ServiceProvider, hostEnvironment, pendingMigrations, bootstrapMode).GetAwaiter().GetResult();
 
         return app;
     }
@@ -70,23 +73,18 @@ public static class ApplicationBuilderExtensions
             ? "/metrics"
             : telemetry.PrometheusScrapingEndpointPath;
 
-        // End-to-end request telemetry (trace + metrics) for bottleneck analysis.
         app.UseMiddleware<RequestTelemetryMiddleware>();
 
-        // Prometheus scrape endpoint for Grafana live charts.
         if (telemetry.Enabled && telemetry.EnablePrometheusScrapingEndpoint)
             app.UseOpenTelemetryPrometheusScrapingEndpoint(path: metricsPath);
 
-        // Rate limit first to protect downstream resources under burst traffic.
         app.UseMiddleware<SimpleRateLimitMiddleware>();
 
-        // Liveness: process is alive (fast and dependency-light).
         app.UseHealthChecks("/health/live", new HealthCheckOptions
         {
             Predicate = check => check.Tags.Contains("live")
         });
 
-        // Readiness: critical dependencies (database/cache) are reachable.
         app.UseHealthChecks("/health/ready", new HealthCheckOptions
         {
             Predicate = check => check.Tags.Contains("ready")
@@ -108,6 +106,7 @@ public static class ApplicationBuilderExtensions
 
         return app;
     }
+
     public static void HandleRecurringJobs(this IApplicationBuilder app, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
     {
         //recurringJobManager.AddOrUpdate(nameof(IJobService.SendSMSs), () => serviceProvider.GetService<IJobService>().SendSMSs(CancellationToken.None), "*/10 * * * *", TimeZoneInfo.Local);
@@ -118,4 +117,164 @@ public static class ApplicationBuilderExtensions
         //app.HandleRecurringJobs(recurringJobManager, serviceProvider);
     }
 
+    private static async Task TryRecordDatabaseAutomationEpisodesAsync(
+        IServiceProvider serviceProvider,
+        IHostEnvironment hostEnvironment,
+        IReadOnlyCollection<string> pendingMigrations,
+        bool bootstrapMode)
+    {
+        if (serviceProvider.GetService(typeof(IEpisodicMemoryAutomationService)) is not IEpisodicMemoryAutomationService automationService)
+            return;
+
+        var now = DateTimeOffset.UtcNow;
+        var runtimeVersion = ResolveRuntimeVersion();
+        var commitSha = ResolveCommitSha();
+        var environmentName = hostEnvironment.EnvironmentName;
+        var deploymentTags = new List<string>
+        {
+            "deployment",
+            "startup",
+            environmentName.ToLowerInvariant()
+        };
+
+        if (bootstrapMode)
+            deploymentTags.Add("bootstrap");
+
+        await automationService.TryRecordAsync(new RecordEpisodeRequest
+        {
+            Type = EpisodeType.DeploymentEvent,
+            Importance = bootstrapMode ? EpisodeImportance.High : EpisodeImportance.Medium,
+            Source = EpisodeSource.System,
+            Status = EpisodeStatus.Informational,
+            Title = bootstrapMode
+                ? "Application bootstrap startup executed"
+                : "Application startup executed",
+            Summary = $"Environment={environmentName}; Version={runtimeVersion ?? "unknown"}; PendingMigrationsBeforeStart={pendingMigrations.Count}",
+            Details = BuildDeploymentDetails(environmentName, runtimeVersion, commitSha, bootstrapMode, pendingMigrations, now),
+            OccurredAtUtc = now,
+            ActorName = nameof(ApplicationBuilderExtensions),
+            Environment = environmentName,
+            CommitSha = commitSha,
+            DeduplicationKey = $"deployment|{environmentName.ToLowerInvariant()}|{runtimeVersion ?? "unknown"}|{commitSha ?? "no-commit"}|{now:yyyyMMdd}",
+            Tags = deploymentTags,
+            References =
+            [
+                new EpisodeReferenceInput
+                {
+                    Type = EpisodeReferenceType.Module,
+                    ReferenceKey = "API.Program",
+                    ReferenceLabel = "API startup"
+                },
+                new EpisodeReferenceInput
+                {
+                    Type = EpisodeReferenceType.Module,
+                    ReferenceKey = "WebFramework.Configuration.ApplicationBuilderExtensions",
+                    ReferenceLabel = nameof(ApplicationBuilderExtensions)
+                }
+            ]
+        }, CancellationToken.None);
+
+        if (pendingMigrations.Count == 0 && !bootstrapMode)
+            return;
+
+        var title = pendingMigrations.Count > 0
+            ? "Applied EF Core migrations during application startup"
+            : "Executed database bootstrap without pending migrations";
+        var summary = pendingMigrations.Count > 0
+            ? $"Applied {pendingMigrations.Count} migration(s): {string.Join(", ", pendingMigrations)}"
+            : "Database bootstrap mode was executed and no pending migrations were found.";
+
+        var references = pendingMigrations
+            .Select(migrationId => new EpisodeReferenceInput
+            {
+                Type = EpisodeReferenceType.Migration,
+                ReferenceKey = migrationId,
+                ReferenceLabel = migrationId
+            })
+            .ToList();
+
+        references.Add(new EpisodeReferenceInput
+        {
+            Type = EpisodeReferenceType.Module,
+            ReferenceKey = "Data.ApplicationDbContext",
+            ReferenceLabel = nameof(ApplicationDbContext)
+        });
+
+        await automationService.TryRecordAsync(new RecordEpisodeRequest
+        {
+            Type = pendingMigrations.Count > 0 ? EpisodeType.Migration : EpisodeType.DeploymentEvent,
+            Importance = pendingMigrations.Count > 0 ? EpisodeImportance.High : EpisodeImportance.Medium,
+            Source = EpisodeSource.System,
+            Status = EpisodeStatus.Informational,
+            Title = title,
+            Summary = summary,
+            Details = BuildDeploymentDetails(environmentName, runtimeVersion, commitSha, bootstrapMode, pendingMigrations, now),
+            OccurredAtUtc = now,
+            ActorName = nameof(ApplicationBuilderExtensions),
+            Environment = environmentName,
+            CommitSha = commitSha,
+            DeduplicationKey = pendingMigrations.Count > 0
+                ? $"migration|{environmentName.ToLowerInvariant()}|{runtimeVersion ?? "unknown"}|{commitSha ?? "no-commit"}|{string.Join("|", pendingMigrations)}"
+                : $"bootstrap|{environmentName.ToLowerInvariant()}|{runtimeVersion ?? "unknown"}|{commitSha ?? "no-commit"}|{now:yyyyMMdd}",
+            Tags = pendingMigrations.Count > 0
+                ? ["migration", "startup", "database", environmentName.ToLowerInvariant()]
+                : ["bootstrap", "database", environmentName.ToLowerInvariant()],
+            References = references
+        }, CancellationToken.None);
+    }
+
+    private static string BuildDeploymentDetails(
+        string environmentName,
+        string? runtimeVersion,
+        string? commitSha,
+        bool bootstrapMode,
+        IReadOnlyCollection<string> pendingMigrations,
+        DateTimeOffset occurredAtUtc)
+    {
+        return $"Environment: {environmentName}; Version: {runtimeVersion ?? "unknown"}; CommitSha: {commitSha ?? "unknown"}; BootstrapMode: {bootstrapMode}; PendingMigrations: {(pendingMigrations.Count == 0 ? "none" : string.Join(", ", pendingMigrations))}; OccurredAtUtc: {occurredAtUtc:O}";
+    }
+
+    private static string? ResolveRuntimeVersion()
+    {
+        var entryAssembly = Assembly.GetEntryAssembly();
+        if (entryAssembly == null)
+            return null;
+
+        var informationalVersion = entryAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        if (!string.IsNullOrWhiteSpace(informationalVersion))
+            return informationalVersion;
+
+        return entryAssembly.GetName().Version?.ToString();
+    }
+
+    private static string? ResolveCommitSha()
+    {
+        var environmentVariableNames = new[]
+        {
+            "GIT_COMMIT",
+            "SOURCE_VERSION",
+            "BUILD_SOURCEVERSION",
+            "RELEASE_COMMIT_SHA",
+            "COMMIT_SHA"
+        };
+
+        foreach (var environmentVariableName in environmentVariableNames)
+        {
+            var value = Environment.GetEnvironmentVariable(environmentVariableName);
+            if (!string.IsNullOrWhiteSpace(value))
+                return value.Trim();
+        }
+
+        var informationalVersion = Assembly.GetEntryAssembly()
+            ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion;
+        if (string.IsNullOrWhiteSpace(informationalVersion))
+            return null;
+
+        var plusIndex = informationalVersion.IndexOf('+');
+        if (plusIndex < 0 || plusIndex == informationalVersion.Length - 1)
+            return null;
+
+        return informationalVersion[(plusIndex + 1)..].Trim();
+    }
 }

@@ -9,6 +9,8 @@ public class RequestContextEnrichmentMiddleware(
     RequestDelegate next,
     IOptions<PerformanceSettings> performanceOptions)
 {
+    public const string CorrelationIdItemKey = "CorrelationId";
+
     public async Task InvokeAsync(HttpContext context)
     {
         var observability = performanceOptions.Value.Observability;
@@ -25,6 +27,8 @@ public class RequestContextEnrichmentMiddleware(
         // Echo correlation id so clients can correlate their request with server logs.
         if (observability.AddCorrelationIdHeader)
             context.Response.Headers[headerName] = correlationId;
+
+        context.Items[CorrelationIdItemKey] = correlationId;
 
         // Push correlation id into Serilog scope for all logs in current request.
         using (LogContext.PushProperty("CorrelationId", correlationId))

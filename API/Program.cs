@@ -71,7 +71,7 @@ var app = builder.Build();
 // applies migrations + SQL objects + data initializers, then exits.
 if (args.Any(x => string.Equals(x, "--bootstrap-db", StringComparison.OrdinalIgnoreCase)))
 {
-    app.InitializeDatabase();
+    app.InitializeDatabase(bootstrapMode: true);
     return;
 }
 

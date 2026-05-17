@@ -1,0 +1,4 @@
+interface:
+  display_name: "Episodic Memory"
+  short_description: "Search and record durable engineering memory for this repository"
+  default_prompt: "Use $episodic-memory before risky changes and record durable outcomes after important engineering events."

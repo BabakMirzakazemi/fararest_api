@@ -1,4 +1,5 @@
 using Common.Utilities.Extensions;
+using Entities.EpisodicMemory;
 using Entities.Common;
 using Entities.Users;
 using Microsoft.AspNetCore.Identity;
@@ -20,10 +21,16 @@ namespace Data
             base.OnModelCreating(modelBuilder);
 
             var entitiesAssembly = typeof(IEntity).Assembly;
+            var dataAssembly = typeof(ApplicationDbContext).Assembly;
 
             modelBuilder.RegisterAllEntities<IEntity>(entitiesAssembly);
-            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
+            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly, dataAssembly);
             modelBuilder.AddCascadeDeleteBehaviorConvention();
+            modelBuilder.Entity<Episode>()
+                .HasOne(x => x.ParentEpisode)
+                .WithMany(x => x.FollowUpEpisodes)
+                .HasForeignKey(x => x.ParentEpisodeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             var isNpgsql = Database.ProviderName?.Contains("Npgsql", StringComparison.OrdinalIgnoreCase) == true;
             modelBuilder.AddDefaultValueSqlConvention("Id", typeof(Guid), isNpgsql ? "gen_random_uuid()" : "NEWSEQUENTIALID()");
