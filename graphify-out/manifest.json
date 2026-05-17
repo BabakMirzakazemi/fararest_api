@@ -32,15 +32,15 @@
     "hash": "4d03a0ea197cffc7b1a59ccf3b23c795"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\obj\\Debug\\net10.0\\AdminPanel.AssemblyInfo.cs": {
-    "mtime": 1778917274.4069908,
-    "hash": "f9e1e926b02dac4acd8bddee4cd6d519"
+    "mtime": 1779023320.3460088,
+    "hash": "13a3b4f91fecf5b96bc5204a972f34c1"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\obj\\Debug\\net10.0\\AdminPanel.GlobalUsings.g.cs": {
     "mtime": 1776503006.0838263,
     "hash": "5b3fdaae7b59d230d7d136eab049a98a"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\obj\\Debug\\net10.0\\AdminPanel.RazorAssemblyInfo.cs": {
-    "mtime": 1778757022.7691984,
+    "mtime": 1779005234.8956702,
     "hash": "107ae0df7a1c149cb2f6f09051696c83"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\Pages\\Error.cshtml.cs": {
@@ -92,8 +92,12 @@
     "hash": "53e309eeca51b3b6de20c4d24e1b2b63"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\Program.cs": {
-    "mtime": 1778677764.2264602,
-    "hash": "2f7d09dd3c0719157538c81df6bc7e3a"
+    "mtime": 1779004430.316023,
+    "hash": "9b0cf87cf90922c1487cfffbf5e34a4f"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\API\\Controllers\\Admin\\v1\\AgentToolsController.cs": {
+    "mtime": 1779023206.4353397,
+    "hash": "9a69f491dd818abb8a6bd138921d93b1"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\Controllers\\Admin\\v1\\AuthorizationAdminController.cs": {
     "mtime": 1778076128.243046,
@@ -112,15 +116,19 @@
     "hash": "71c7566628a40a5eece8ef8a34c15812"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\obj\\Debug\\net10.0\\API.AssemblyInfo.cs": {
-    "mtime": 1779002417.403727,
-    "hash": "e5f3ff59b38b34f6d359720ac89a713a"
+    "mtime": 1779023348.0473132,
+    "hash": "19f9b4cb2e1076d9202e68aa55563134"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\obj\\Debug\\net10.0\\API.GlobalUsings.g.cs": {
     "mtime": 1779001871.3209062,
     "hash": "1437d1476a7e925c873b40cf2890485d"
   },
+  "D:\\Projects\\Faral\\fararest_api\\main\\API\\obj\\Debug\\net10.0\\API.MvcApplicationPartsAssemblyInfo.cs": {
+    "mtime": 1779023364.7627487,
+    "hash": "8a7753c7bd41afc53f971fd6857f0b56"
+  },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\obj\\Debug\\net10.0\\Sentry.Attributes.cs": {
-    "mtime": 1779002417.391245,
+    "mtime": 1779023348.0256784,
     "hash": "8f1698768bd90937818c7af8b767a0e5"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Common\\GlobalUsing.cs": {
@@ -188,8 +196,8 @@
     "hash": "369d3e766825b04ce8079bf7a69966cd"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Common\\obj\\Debug\\net10.0\\Common.AssemblyInfo.cs": {
-    "mtime": 1779002416.8368766,
-    "hash": "e01fc4ce2a2555119c1d392c23dce7a7"
+    "mtime": 1779023345.1051948,
+    "hash": "13489a24aa618261702b85994e003603"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Common\\obj\\Debug\\net10.0\\Common.GlobalUsings.g.cs": {
     "mtime": 1776503005.459155,
@@ -319,29 +327,21 @@
     "mtime": 1777799163.4192913,
     "hash": "3c6eaecdee3af7f2e563e3e78ee3c475"
   },
-  "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\20260514111247_Init.cs": {
-    "mtime": 1778757167.9272187,
-    "hash": "1105dbf49d895c008b970762d960d742"
+  "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\20260517072737_Init.cs": {
+    "mtime": 1779002857.385952,
+    "hash": "2949a41e56206de7a1649a57f7d0f6b1"
   },
-  "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\20260514111247_Init.Designer.cs": {
-    "mtime": 1778757167.9283025,
-    "hash": "afb2d0c949a299743dc6ffa015fc2bc9"
-  },
-  "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\20260517071751_AddEpisodicMemory.cs": {
-    "mtime": 1779002271.594392,
-    "hash": "93c62d3b8ae3a5b0ac8f382e028e4f86"
-  },
-  "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\20260517071751_AddEpisodicMemory.Designer.cs": {
-    "mtime": 1779002271.594392,
-    "hash": "baa58b2981096d936e343e288edd3d61"
+  "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\20260517072737_Init.Designer.cs": {
+    "mtime": 1779002857.385952,
+    "hash": "a44534a717f47842d3988c7926ce3072"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Data\\Migrations\\ApplicationDbContextModelSnapshot.cs": {
-    "mtime": 1779002271.5977397,
+    "mtime": 1779002857.385952,
     "hash": "a90b92e5fc9c26c94fa28cc8b39a20ff"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Data\\obj\\Debug\\net10.0\\Data.AssemblyInfo.cs": {
-    "mtime": 1779002423.2620864,
-    "hash": "723affd2ce92773d311a03043d07e15f"
+    "mtime": 1779023345.3263514,
+    "hash": "fc7eedae73c6ac429465183bd381685d"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Data\\obj\\Debug\\net10.0\\Data.GlobalUsings.g.cs": {
     "mtime": 1776503006.754403,
@@ -496,8 +496,8 @@
     "hash": "07bf5045149491e69845bed7fc887fdf"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Entities\\obj\\Debug\\net10.0\\Entities.AssemblyInfo.cs": {
-    "mtime": 1779002418.1249385,
-    "hash": "161fb8c0de17e4612c04e1153a35b7a2"
+    "mtime": 1779023345.9104395,
+    "hash": "4035fe2e4ea427db1c88c165056c5465"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Entities\\obj\\Debug\\net10.0\\Entities.GlobalUsings.g.cs": {
     "mtime": 1776503005.288259,
@@ -559,6 +559,10 @@
     "mtime": 1776242039.380054,
     "hash": "7da3dd636546ae2b2ca687d60f0f6024"
   },
+  "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Contracts\\AgentTools\\IAgentToolingService.cs": {
+    "mtime": 1779023205.7534585,
+    "hash": "8143d06b8ad822fc01f9d2dda0f6d731"
+  },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Contracts\\Authentications\\IAuthenticationService.cs": {
     "mtime": 1778061562.1352599,
     "hash": "768fc7f34e8df9cf1a98a658c668706c"
@@ -590,6 +594,10 @@
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Contracts\\Caching\\IAppCacheService.cs": {
     "mtime": 1776256475.7364843,
     "hash": "637ade500dba9115e87d95009625dbe9"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Contracts\\EpisodicMemory\\IEpisodicMemoryAutomationService.cs": {
+    "mtime": 1779004358.9668932,
+    "hash": "71452ae4e3ef26d14067dbf0d0167d0f"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Contracts\\EpisodicMemory\\IEpisodicMemoryService.cs": {
     "mtime": 1779001732.6903691,
@@ -759,6 +767,10 @@
     "mtime": 1728547539.1410139,
     "hash": "f5f6a0a6c0f98125876d3b9cf9f19e31"
   },
+  "D:\\Projects\\Faral\\fararest_api\\main\\Services\\DTOs\\AgentTools\\AgentToolingDtos.cs": {
+    "mtime": 1779023206.0387087,
+    "hash": "078e5615593b8626581faca56dd2e97d"
+  },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\DTOs\\Common\\BaseDto.cs": {
     "mtime": 1776344733.1585362,
     "hash": "9c0721d58a218653195320dc7379a2d0"
@@ -876,12 +888,16 @@
     "hash": "8a23d7a8ceab0bb538cb539a96afdce5"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\obj\\Debug\\net10.0\\Services.AssemblyInfo.cs": {
-    "mtime": 1779002419.6436691,
-    "hash": "e3e966a68e87908a98c2bdcf90c5089f"
+    "mtime": 1779023346.4723978,
+    "hash": "a10bbe108174865c4b05546f3fb32018"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\obj\\Debug\\net10.0\\Services.GlobalUsings.g.cs": {
     "mtime": 1776503005.5951974,
     "hash": "9706b2dbf69f7db452e8b0d5baf54dcf"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Services\\AgentTools\\AgentToolingService.cs": {
+    "mtime": 1779023303.000414,
+    "hash": "f5b120ca09b56dc031655d956eb9e97d"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Services\\Authentications\\AuthenticationService.cs": {
     "mtime": 1778678636.078912,
@@ -914,6 +930,10 @@
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Services\\Authentications\\UserService.cs": {
     "mtime": 1776499577.8986194,
     "hash": "a9481d7bae342613a275997f3db98660"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Services\\EpisodicMemory\\EpisodicMemoryAutomationService.cs": {
+    "mtime": 1779004359.1301205,
+    "hash": "c174f178e11fa74b08d276242c0420ac"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\Services\\EpisodicMemory\\EpisodicMemoryService.cs": {
     "mtime": 1779001758.3469183,
@@ -984,8 +1004,8 @@
     "hash": "d3288f0ed0aeb605cf71665d14a35bb4"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\Configuration\\ApplicationBuilderExtensions.cs": {
-    "mtime": 1777811846.1883907,
-    "hash": "a23af622c5d827f996b7e48d1e48a2cb"
+    "mtime": 1779005039.6276255,
+    "hash": "03a9477e3af5f99cddcee1f3a6acabe2"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\Configuration\\CookieManager.cs": {
     "mtime": 1776346505.9007328,
@@ -1060,12 +1080,12 @@
     "hash": "56388526757c02fde0faf3cfdc56003b"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\Middlewares\\CustomExceptionHandlerMiddleware.cs": {
-    "mtime": 1776154614.9072928,
-    "hash": "419fea07b2741f686fbf66957e705e37"
+    "mtime": 1779005013.645635,
+    "hash": "6a9674580fd7eafd40fdb4c88839f701"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\Middlewares\\RequestContextEnrichmentMiddleware.cs": {
-    "mtime": 1776256508.1981778,
-    "hash": "121743e57191ead904f1f4dc059fcbee"
+    "mtime": 1779004359.2504659,
+    "hash": "44911e4318f6bf2179893e09bd050251"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\Middlewares\\RequestTelemetryMiddleware.cs": {
     "mtime": 1776502493.1158888,
@@ -1076,8 +1096,8 @@
     "hash": "bd283c562252a92e7f1aedaa844ede03"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\obj\\Debug\\net10.0\\WebFramwork.AssemblyInfo.cs": {
-    "mtime": 1779002417.0743825,
-    "hash": "e09c1a470945f4590d101c147acaa595"
+    "mtime": 1779023347.8922858,
+    "hash": "07f97673b6c90a7e536571a139de3282"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\obj\\Debug\\net10.0\\WebFramwork.GlobalUsings.g.cs": {
     "mtime": 1776503005.4145873,
@@ -1104,24 +1124,28 @@
     "hash": "b25b2b4b9bcfa81b300ca1f8c16d9f4f"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\agent.md": {
-    "mtime": 1779002312.9615133,
-    "hash": "d48973d3c3b0ed315bd610628e76a6dc"
+    "mtime": 1779023231.9305072,
+    "hash": "8535e70d0a5c4fc24c0bbb23aab98192"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AGENTS.fa.md": {
     "mtime": 1776501274.7834594,
     "hash": "481d91e7b41ae69763ae906647795ffb"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AGENTS.md": {
-    "mtime": 1778596516.8897412,
-    "hash": "b7efa0dfbb6db2840cda268fed8f91bc"
+    "mtime": 1779004476.0398028,
+    "hash": "d3ed08999d91290e856500b7f493a6e0"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\decision-log.md": {
-    "mtime": 1779002313.5835147,
-    "hash": "ece9fe5d1d37c288ed3cf047b5a8cfe9"
+    "mtime": 1779023232.1027527,
+    "hash": "e2c06591a870a90688fe99756b236c89"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\docker-compose.monitoring.yml": {
     "mtime": 1776501982.1073215,
     "hash": "5aae78f82d07d71f5cbf448bf492d005"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\mcp.md": {
+    "mtime": 1779023206.6073925,
+    "hash": "3297d088d2669b4f5ab0cc99bccf906e"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\memory.md": {
     "mtime": 1779002313.2304428,
@@ -1140,15 +1164,15 @@
     "hash": "7d510c72f645269202807be1d803f083"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\tools.md": {
-    "mtime": 1779002313.4682677,
-    "hash": "d7e0bb263e65174b19632b6ee98ecc65"
+    "mtime": 1779023231.7820184,
+    "hash": "e25f22aa1a340ff953bb07457eb419bb"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\AGENTS.override.md": {
     "mtime": 1775495707.6124203,
     "hash": "756231ec988f482a152818549dbe9e2c"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\obj\\Debug\\net10.0\\AdminPanel.csproj.FileListAbsolute.txt": {
-    "mtime": 1779001911.5102959,
+    "mtime": 1779023324.5104284,
     "hash": "dcd0ad2218570fcbb8c0740f5f160287"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\AdminPanel\\obj\\Debug\\net10.0\\staticwebassets.references.upToDateCheck.txt": {
@@ -1172,8 +1196,8 @@
     "hash": "ba2bed45d99b13d4c31485d0631ae675"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\obj\\Debug\\net10.0\\API.csproj.FileListAbsolute.txt": {
-    "mtime": 1779002412.0948422,
-    "hash": "9f6614a97e23ee4717f6839613092c93"
+    "mtime": 1779023368.5679128,
+    "hash": "52bd77a42ca84f37807086b17f4488e5"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\API\\obj\\Debug\\net10.0\\staticwebassets.references.upToDateCheck.txt": {
     "mtime": 1776503208.5026476,
@@ -1184,11 +1208,11 @@
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Common\\obj\\Debug\\net10.0\\Common.csproj.FileListAbsolute.txt": {
-    "mtime": 1779002419.4161959,
+    "mtime": 1779023347.8239596,
     "hash": "ce45a2eb0b753d0df778328e9b494629"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Data\\obj\\Debug\\net10.0\\Data.csproj.FileListAbsolute.txt": {
-    "mtime": 1779002429.4918141,
+    "mtime": 1779023358.6810162,
     "hash": "05c5911cc5ba654facb40327b155f341"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\database-documents\\auth_controller_guide_fa.html": {
@@ -1248,7 +1272,7 @@
     "hash": "4e1e2e74dc010b74b9f0b8ac8cda56ec"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Entities\\obj\\Debug\\net10.0\\Entities.csproj.FileListAbsolute.txt": {
-    "mtime": 1779002423.4888172,
+    "mtime": 1779023351.8156958,
     "hash": "c4b2e1907fdbbb151e40c2157693fdce"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\evals\\episodic-memory-eval.md": {
@@ -1274,6 +1298,10 @@
   "D:\\Projects\\Faral\\fararest_api\\main\\flow-documents\\flow-documents-v4.html": {
     "mtime": 1779002388.5095098,
     "hash": "3cc145d6832e115f78933c8df084ab5f"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\flow-documents\\flow-documents-v5.html": {
+    "mtime": 1779023206.9488294,
+    "hash": "922387c3b987e3d404dc382a5f321cb8"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\monitoring\\grafana\\provisioning\\dashboards\\dashboards.yml": {
     "mtime": 1776501945.607445,
@@ -6924,15 +6952,19 @@
     "hash": "ead032c14a4695f3cee57fbbd21d24bb"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\playbooks\\episodic-memory.md": {
-    "mtime": 1779002313.79767,
-    "hash": "7942f286a662015d25db674631783ba6"
+    "mtime": 1779004750.7960007,
+    "hash": "69df950f8b2841dd0096a5748e84ae9c"
+  },
+  "D:\\Projects\\Faral\\fararest_api\\main\\playbooks\\mcp-adapters.md": {
+    "mtime": 1779023206.7947452,
+    "hash": "5015422d9ac9aae9e2a8875a2ceee369"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\AGENTS.override.md": {
     "mtime": 1775495718.508341,
     "hash": "30731657d495ebcecbd7742562e9068e"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\Services\\obj\\Debug\\net10.0\\Services.csproj.FileListAbsolute.txt": {
-    "mtime": 1779002432.037078,
+    "mtime": 1779023361.1292412,
     "hash": "bbeade48e0eadab08837b2a82a8f9a23"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\tmp_auth_docx\\plain.txt": {
@@ -6952,7 +6984,7 @@
     "hash": "80e6f4011884ec96490dc1e027d6d5fc"
   },
   "D:\\Projects\\Faral\\fararest_api\\main\\WebFramwork\\obj\\Debug\\net10.0\\WebFramwork.csproj.FileListAbsolute.txt": {
-    "mtime": 1779002434.407974,
+    "mtime": 1779023363.840528,
     "hash": "2bce2c60dc7d67ea91587fdfa6180890"
   }
 }

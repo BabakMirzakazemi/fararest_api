@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Flow Documents v5</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.5; color: #222; }
+    h1, h2 { color: #0f3d57; }
+    code { background: #f4f4f4; padding: 0.1rem 0.3rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #eef5f8; }
+  </style>
+</head>
+<body>
+  <h1>Program Flow Document v5</h1>
+  <p>This version documents the agent-safe tooling endpoints added for MCP-friendly integration.</p>
+
+  <h2>Impacted APIs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>API</th>
+        <th>Purpose</th>
+        <th>Impacted Tables</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>GET /api/admin/v1/AgentTools/CapabilitiesAsync</code></td>
+        <td>Returns the recommended agent tool catalog and MCP-safe capability map.</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td><code>GET /api/admin/v1/AgentTools/DatabaseStatusAsync</code></td>
+        <td>Returns provider, connectivity, and migration status without direct SQL access.</td>
+        <td><code>__EFMigrationsHistory</code> via EF metadata APIs</td>
+      </tr>
+      <tr>
+        <td><code>GET /api/admin/v1/AgentTools/MemoryStatusAsync</code></td>
+        <td>Returns episodic memory freshness and coverage for agent decisions.</td>
+        <td><code>memory_episode</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>End-to-End Behavior</h2>
+  <p>Agents should prefer application-level APIs over direct database access. The new flow is:</p>
+  <ol>
+    <li>Inspect capabilities from <code>AgentTools/CapabilitiesAsync</code>.</li>
+    <li>Check <code>DatabaseStatusAsync</code> when migration or environment state matters.</li>
+    <li>Check <code>MemoryStatusAsync</code> to determine whether episodic memory is populated and recent.</li>
+    <li>Use episodic memory APIs for search and record workflows.</li>
+  </ol>
+
+  <h2>Design Rule</h2>
+  <p>Direct PostgreSQL MCP access is intentionally not part of the current flow. The project favors read-only, boundary-safe adapters first.</p>
+</body>
+</html>

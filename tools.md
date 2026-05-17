@@ -25,3 +25,14 @@
 - `POST /api/admin/v1/Episodes/SearchAsync`
 - `GET /api/admin/v1/Episodes/RecentAsync`
 - `GET /api/admin/v1/Episodes/ImportantAsync`
+
+## Agent-Safe Tool APIs
+
+- `GET /api/admin/v1/AgentTools/CapabilitiesAsync`
+- `GET /api/admin/v1/AgentTools/DatabaseStatusAsync`
+- `GET /api/admin/v1/AgentTools/MemoryStatusAsync`
+
+## MCP Guidance
+
+- preferred adapter surface: episodic memory APIs + agent-safe tool APIs
+- direct PostgreSQL MCP access: not recommended in current project state
