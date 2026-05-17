@@ -68,6 +68,15 @@ public sealed class AgentToolingService(
                 IsReadOnly = true,
                 RecommendedForMcpAdapter = true,
                 Purpose = "Returns episodic memory coverage and freshness so agents can decide when to search or record."
+            },
+            new()
+            {
+                ToolName = "episodes.evaluate_search",
+                HttpMethod = "POST",
+                Route = "/api/admin/v1/Episodes/EvaluateSearchAsync",
+                IsReadOnly = true,
+                RecommendedForMcpAdapter = false,
+                Purpose = "Evaluates retrieval quality for a known query and expected episode set using recall, precision, and reciprocal rank."
             }
         };
 
@@ -78,6 +87,14 @@ public sealed class AgentToolingService(
             SwaggerUiPath = "/swagger",
             DirectDatabaseAccessRecommended = false,
             DatabaseAccessRecommendation = "Use the read-only database status tool and episodic memory APIs first. Direct PostgreSQL MCP access is intentionally not recommended in the current project state.",
+            RecommendedWorkflowSteps =
+            [
+                "Check database and memory status before sensitive changes.",
+                "Search episodic memory before migrations, auth/security edits, and repeated fixes.",
+                "Use hybrid-ranked search when query intent is fuzzy or multi-signal.",
+                "Record a new episode after a significant decision, fix, failure, migration, incident, or deployment event.",
+                "Use search evaluation when tuning retrieval quality for repeated workflows."
+            ],
             Tools = tools
         };
 
@@ -142,6 +159,8 @@ public sealed class AgentToolingService(
             })
             .FirstOrDefaultAsync(cancellationToken);
 
+        var recommendation = BuildRecommendation(totalEpisodes, latestEpisode?.RecordedAtUtc, episodesRecordedLast30Days);
+
         return new AgentMemoryStatusDto
         {
             TotalEpisodes = totalEpisodes,
@@ -149,7 +168,24 @@ public sealed class AgentToolingService(
             EpisodesRecordedLast30Days = episodesRecordedLast30Days,
             LatestEpisodeId = latestEpisode?.Id,
             LatestEpisodeTitle = latestEpisode?.Title,
-            LatestRecordedAtUtc = latestEpisode?.RecordedAtUtc
+            LatestRecordedAtUtc = latestEpisode?.RecordedAtUtc,
+            SearchRecommended = totalEpisodes > 0,
+            RecordRecommendedAfterSignificantChange = true,
+            Recommendation = recommendation
         };
+    }
+
+    private static string BuildRecommendation(long totalEpisodes, DateTimeOffset? latestRecordedAtUtc, int episodesRecordedLast30Days)
+    {
+        if (totalEpisodes == 0)
+            return "Episodic memory is empty. Seed the system with recent decisions, migrations, incidents, and successful implementations before relying on retrieval.";
+
+        if (!latestRecordedAtUtc.HasValue)
+            return "Search episodic memory before sensitive work and record fresh episodes after significant outcomes.";
+
+        if (episodesRecordedLast30Days == 0 || latestRecordedAtUtc.Value < DateTimeOffset.UtcNow.AddDays(-30))
+            return "Memory exists but looks stale. Search first, then record recent project events so retrieval stays useful.";
+
+        return "Memory is active. Search before sensitive changes and record outcomes after important work.";
     }
 }

@@ -39,6 +39,12 @@ public sealed class SearchEpisodesRequest : PagingRequest
     public string? ReferenceKey { get; set; }
     public string? CommitSha { get; set; }
     public string? CorrelationId { get; set; }
+    public bool UseHybridRanking { get; set; }
+    public bool PreferRecent { get; set; } = true;
+    public bool PreferImportant { get; set; } = true;
+    public int CandidatePoolSize { get; set; } = 120;
+    public IReadOnlyList<string> BoostTags { get; set; } = Array.Empty<string>();
+    public IReadOnlyList<string> BoostReferenceKeys { get; set; } = Array.Empty<string>();
 }
 
 public sealed class GetRecentEpisodesRequest : PagingRequest
@@ -92,6 +98,8 @@ public sealed class EpisodeListItemDto
     public string? Environment { get; set; }
     public string? CommitSha { get; set; }
     public IReadOnlyList<string> Tags { get; set; } = Array.Empty<string>();
+    public double? RetrievalScore { get; set; }
+    public IReadOnlyList<string> RetrievalSignals { get; set; } = Array.Empty<string>();
 }
 
 public sealed class EpisodeReferenceInput
@@ -106,4 +114,34 @@ public sealed class EpisodeReferenceDto
     public EpisodeReferenceType Type { get; set; }
     public string ReferenceKey { get; set; } = string.Empty;
     public string? ReferenceLabel { get; set; }
+}
+
+public sealed class EvaluateEpisodeSearchRequest
+{
+    public SearchEpisodesRequest Search { get; set; } = new();
+    public IReadOnlyList<Guid> ExpectedEpisodeIds { get; set; } = Array.Empty<Guid>();
+    public int TopK { get; set; } = 10;
+}
+
+public sealed class EpisodeSearchEvaluationDto
+{
+    public int TopK { get; set; }
+    public int ResultCount { get; set; }
+    public int ExpectedCount { get; set; }
+    public int HitCount { get; set; }
+    public double RecallAtK { get; set; }
+    public double PrecisionAtK { get; set; }
+    public int? FirstRelevantRank { get; set; }
+    public double ReciprocalRank { get; set; }
+    public IReadOnlyList<Guid> MatchedEpisodeIds { get; set; } = Array.Empty<Guid>();
+    public IReadOnlyList<EpisodeSearchEvaluationResultDto> TopResults { get; set; } = Array.Empty<EpisodeSearchEvaluationResultDto>();
+}
+
+public sealed class EpisodeSearchEvaluationResultDto
+{
+    public int Rank { get; set; }
+    public Guid EpisodeId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public double? RetrievalScore { get; set; }
+    public bool IsExpectedHit { get; set; }
 }

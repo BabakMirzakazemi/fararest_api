@@ -26,6 +26,11 @@ public sealed class EpisodesController(IEpisodicMemoryService episodicMemoryServ
     public async Task<PagingDTO<EpisodeListItemDto>> SearchAsync(SearchEpisodesRequest request, CancellationToken cancellationToken)
         => await episodicMemoryService.SearchEpisodesAsync(request, cancellationToken);
 
+    [HttpPost("[action]")]
+    [ApiCustomAuthorize(false, RoleHelper.SuperAdmin, RoleHelper.Admin)]
+    public async Task<EpisodeSearchEvaluationDto> EvaluateSearchAsync(EvaluateEpisodeSearchRequest request, CancellationToken cancellationToken)
+        => await episodicMemoryService.EvaluateSearchAsync(request, cancellationToken);
+
     [HttpGet("[action]")]
     [ApiCustomAuthorize(false, RoleHelper.SuperAdmin, RoleHelper.Admin)]
     public async Task<PagingDTO<EpisodeListItemDto>> RecentAsync([FromQuery] GetRecentEpisodesRequest request, CancellationToken cancellationToken)

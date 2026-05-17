@@ -7,6 +7,7 @@ public sealed class AgentCapabilitiesDto
     public string SwaggerUiPath { get; set; } = string.Empty;
     public bool DirectDatabaseAccessRecommended { get; set; }
     public string DatabaseAccessRecommendation { get; set; } = string.Empty;
+    public IReadOnlyList<string> RecommendedWorkflowSteps { get; set; } = Array.Empty<string>();
     public IReadOnlyList<AgentToolDescriptorDto> Tools { get; set; } = Array.Empty<AgentToolDescriptorDto>();
 }
 
@@ -39,4 +40,7 @@ public sealed class AgentMemoryStatusDto
     public Guid? LatestEpisodeId { get; set; }
     public string? LatestEpisodeTitle { get; set; }
     public DateTimeOffset? LatestRecordedAtUtc { get; set; }
+    public bool SearchRecommended { get; set; }
+    public bool RecordRecommendedAfterSignificantChange { get; set; }
+    public string Recommendation { get; set; } = string.Empty;
 }

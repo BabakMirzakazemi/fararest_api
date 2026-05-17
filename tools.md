@@ -23,6 +23,7 @@
 - `POST /api/admin/v1/Episodes/RecordAsync`
 - `GET /api/admin/v1/Episodes/GetAsync?id=<guid>`
 - `POST /api/admin/v1/Episodes/SearchAsync`
+- `POST /api/admin/v1/Episodes/EvaluateSearchAsync`
 - `GET /api/admin/v1/Episodes/RecentAsync`
 - `GET /api/admin/v1/Episodes/ImportantAsync`
 

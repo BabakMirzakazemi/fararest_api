@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Flow Documents v6</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.5; color: #222; }
+    h1, h2 { color: #0f3d57; }
+    code { background: #f4f4f4; padding: 0.1rem 0.3rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #eef5f8; }
+  </style>
+</head>
+<body>
+  <h1>Program Flow Document v6</h1>
+  <p>This version documents lightweight hybrid retrieval, retrieval-quality evaluation, and stronger episodic-memory workflow guidance.</p>
+
+  <h2>Impacted APIs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>API</th>
+        <th>Purpose</th>
+        <th>Impacted Tables</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>POST /api/admin/v1/Episodes/SearchAsync</code></td>
+        <td>Supports lightweight hybrid ranking using text, tags, references, importance, and recency.</td>
+        <td><code>memory_episode</code>, <code>memory_episode_tag</code>, <code>memory_episode_reference</code></td>
+      </tr>
+      <tr>
+        <td><code>POST /api/admin/v1/Episodes/EvaluateSearchAsync</code></td>
+        <td>Evaluates retrieval quality for a known query using recall, precision, and reciprocal rank.</td>
+        <td><code>memory_episode</code>, <code>memory_episode_tag</code>, <code>memory_episode_reference</code></td>
+      </tr>
+      <tr>
+        <td><code>GET /api/admin/v1/AgentTools/MemoryStatusAsync</code></td>
+        <td>Returns memory freshness plus workflow recommendations for when to search and record.</td>
+        <td><code>memory_episode</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>End-to-End Behavior</h2>
+  <ol>
+    <li>Agent checks memory/database status for sensitive work.</li>
+    <li>Agent runs hybrid-ranked search before migrations, auth/security edits, and repeated fixes.</li>
+    <li>Agent records durable outcomes with better structured context and stable references.</li>
+    <li>Team evaluates repeated query patterns with <code>EvaluateSearchAsync</code> to tune retrieval quality.</li>
+  </ol>
+
+  <h2>Design Rule</h2>
+  <p>The retrieval upgrade remains relational and provider-portable. No vector store, RAG stack, or direct database MCP access was added in this phase.</p>
+</body>
+</html>
