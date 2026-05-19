@@ -124,8 +124,10 @@ For every task:
 3. Identify architecture boundary impact.
 4. Apply minimal, localized changes.
 5. Update/add DTOs, validators, services, and controller endpoints in correct layers.
-6. Run build/tests (if available) before finalizing.
-7. Summarize changed files and architecture reasoning.
+6. If `Entities/**`, EF configuration, `Data/ApplicationDbContext.cs`, `Data/Migrations/**`, or `ApplicationDbContextModelSnapshot` changed, create the next versioned file under `database-documents/` before finalizing.
+7. If business flow or API behavior changed, create the next versioned file under `flow-documents/` before finalizing.
+8. Run build/tests (if available) before finalizing.
+9. Summarize changed files, architecture reasoning, and any mandatory HTML documents created.
 
 ## Done Criteria (Definition of Done)
 A task is complete only if:
@@ -133,9 +135,11 @@ A task is complete only if:
 2. No architecture boundary violation is introduced.
 3. New behavior is wired through DI and reachable from API.
 4. Any required DB migration is included (when model changed).
-5. Relevant tests are added/updated if test project exists.
-6. No new compiler warning is introduced relative to the baseline.
-7. For data-heavy changes, query observability remains intact (slow-query logging + query tags where applicable).
+5. The next versioned file under `database-documents/` is created when any database shape or semantics changed.
+6. The next versioned file under `flow-documents/` is created when any business flow or endpoint behavior changed.
+7. Relevant tests are added/updated if test project exists.
+8. No new compiler warning is introduced relative to the baseline.
+9. For data-heavy changes, query observability remains intact (slow-query logging + query tags where applicable).
 
 ## Practical Examples
 
@@ -199,6 +203,8 @@ These rules are mandatory for every future change and are part of Definition of 
    - The latest version number (`N`) must be discovered from existing files in the target folder and incremented by 1.
    - If no prior versioned file exists, start from `v1`.
    - Creating these files is mandatory whenever the trigger conditions above are met.
+   - The agent must not finalize the task or present it as complete until these required HTML documents are created.
+   - Final task reports must explicitly list each created documentation file path when one of these rules was triggered.
 
 # Graphify Project Context
 

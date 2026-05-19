@@ -8,6 +8,12 @@
 - Before handling any new prompt or task, review the relevant business guidance files under `docs/business/**`, starting from `docs/business/README.md`.
 - Perform this review before memory lookup/write decisions so the agent grounds its work in current repository knowledge and business rules.
 
+## Mandatory Documentation Gate
+
+- If a task changes `Entities/**`, EF configuration, `Data/ApplicationDbContext.cs`, migrations, or database semantics, create the next versioned file under `database-documents/` before considering the task complete.
+- If a task changes business flow, orchestration, or endpoint behavior, create the next versioned file under `flow-documents/` before considering the task complete.
+- Final reports must explicitly mention each required HTML documentation file created for the task.
+
 ## چه زمانی episode ثبت شود
 
 - وقتی تصمیم معماری گرفته یا اصلاح می‌شود.

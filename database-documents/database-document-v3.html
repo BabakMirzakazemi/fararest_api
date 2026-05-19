@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مستند دیتابیس Fararest API - نسخه v3 - Menu Management Core</title>
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --line:#d9e2ef; --text:#12263a; --muted:#4a6077; --head:#0d1f33; --soft:#eef4fb; --accent:#0b63c9; }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(130deg,#f8fbff,#edf3fb);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
+    .wrap{max-width:1520px;margin:0 auto;padding:20px 14px 28px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;overflow-x:auto}
+    h1,h2,h3{margin:0 0 10px;color:var(--head)}
+    h1{font-size:24px}
+    h2{font-size:20px;border-right:4px solid var(--accent);padding-right:8px}
+    h3{font-size:17px}
+    p,li{line-height:2;margin:0 0 8px}
+    .muted{color:var(--muted)}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;min-width:980px}
+    th,td{border:1px solid var(--line);padding:9px;vertical-align:top;line-height:1.9}
+    th{background:var(--soft)}
+    .badge{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid #b8d7ff;background:#eef6ff;color:#164d90;font-size:12px;margin-left:6px}
+    .mono{direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:12px;background:#f8fbff;border:1px solid #d9e6f7;border-radius:8px;padding:10px;white-space:pre;overflow:auto}
+    code{direction:ltr;unicode-bidi:embed}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>مستند دیتابیس Fararest API</h1>
+    <p class="muted">این نسخه نمای کلی مدل فعلی دیتابیس را حفظ می‌کند و تغییرات برجسته مربوط به Menu Management Core و موجودیت‌های پشتیبان Digital Menu را مستند می‌سازد.</p>
+    <p>
+      <span class="badge">نسخه</span> v3
+      <span class="badge">تاریخ</span> 2026-05-19
+      <span class="badge">تغییر برجسته</span> افزودن و تثبیت هسته مدیریت منو
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>تغییرات این نسخه</h2>
+    <ul>
+      <li>افزودن جدول <code>menu</code> به‌عنوان ریشه منطقی ساختار منو برای هر سازمان/کسب‌وکار.</li>
+      <li>افزودن جدول <code>menu_category</code> با قابلیت سلسله‌مراتب والد/فرزند و اتصال به منو.</li>
+      <li>افزودن جدول <code>menu_item</code> برای آیتم‌های قابل فروش با شناسه یکتای <code>code</code> در سطح سازمان.</li>
+      <li>افزودن جدول‌های پایه مکمل شامل <code>menu_unit</code>، <code>menu_ingredient</code>، <code>menu_ingredient_component</code> و <code>menu_item_ingredient</code>.</li>
+      <li>افزودن جدول‌های حوزه Digital Menu شامل <code>menu_digital_menu</code> و جداول پروفایل، زمان‌بندی و بازدید.</li>
+      <li>اتکای تمام داده‌های منو به شناسه سازمان و استفاده منطقی از <code>accounts_organization</code> به‌عنوان ریشه مالکیت کسب‌وکار.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>نمای کلی دامنه‌های دیتابیس</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>دامنه</th>
+          <th>نمونه جدول‌ها</th>
+          <th>نقش در سیستم</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Identity / Users</td>
+          <td><code>AspNetUsers</code>، <code>AspNetRoles</code>، <code>AspNetUserRoles</code></td>
+          <td>احراز هویت پایه، نقش‌ها و سازوکار امنیتی Identity.</td>
+        </tr>
+        <tr>
+          <td>Accounts / Authorization</td>
+          <td><code>accounts_organization</code>، <code>accounts_membership</code>، <code>accounts_permission</code>، <code>accounts_role_permission</code></td>
+          <td>مدیریت سازمان، عضویت، مجوزها، نشست‌ها و کنترل امنیت سازمانی.</td>
+        </tr>
+        <tr>
+          <td>Licenses</td>
+          <td><code>licenses_plan</code>، <code>licenses_plan_price</code>، <code>licenses_subscription</code></td>
+          <td>تعریف پلن و اشتراک سرویس.</td>
+        </tr>
+        <tr>
+          <td>Payments</td>
+          <td><code>payments_wallet</code>، <code>payments_wallet_entry</code>، <code>payments_operation</code></td>
+          <td>کیف پول و عملیات مالی.</td>
+        </tr>
+        <tr>
+          <td>Menu / Digital Menu</td>
+          <td><code>menu</code>، <code>menu_category</code>، <code>menu_item</code>، <code>menu_unit</code>، <code>menu_ingredient</code>، <code>menu_digital_menu</code></td>
+          <td>مرجع اصلی ساختار منو، آیتم‌ها، مواد، و کانال نمایش دیجیتال.</td>
+        </tr>
+        <tr>
+          <td>CRM</td>
+          <td><code>crm_customer</code>، <code>crm_customer_note</code>، <code>crm_discount_campaign</code></td>
+          <td>داده‌های مشتری، تعاملات و کمپین‌ها.</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td><code>support_ticket</code>، <code>support_ticket_message</code>، <code>support_ticket_event</code></td>
+          <td>تیکت، پیام و رویدادهای پشتیبانی.</td>
+        </tr>
+        <tr>
+          <td>Episodic Memory</td>
+          <td><code>memory_episode</code>، <code>memory_episode_tag</code>، <code>memory_episode_reference</code></td>
+          <td>حافظه رویدادی durable برای agent و تیم.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>موجودیت مرجع مالکیت سازمان</h2>
+    <h3>accounts_organization</h3>
+    <table>
+      <thead><tr><th>فیلد</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه یکتای سازمان/کسب‌وکار.</td></tr>
+        <tr><td><code>name</code></td><td>varchar(200)</td><td>نام تجاری سازمان.</td></tr>
+        <tr><td><code>tax_id</code> / <code>national_id</code></td><td>varchar(50)?</td><td>شناسه‌های رسمی سازمان.</td></tr>
+        <tr><td><code>is_active</code></td><td>boolean</td><td>وضعیت فعال بودن سازمان.</td></tr>
+        <tr><td><code>province_id</code> / <code>county_id</code></td><td>int?</td><td>موقعیت جغرافیایی.</td></tr>
+        <tr><td><code>address</code> / <code>postal_code</code> / <code>logo_url</code></td><td>text / varchar(20)?</td><td>اطلاعات نمایشی و ارتباطی سازمان.</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">داده‌های حوزه منو از نظر کسب‌وکاری باید به یک رکورد معتبر در این جدول متصل باشند، حتی اگر در schema فعلی همه روابط به‌صورت foreign key صریح مدل نشده باشند.</p>
+  </div>
+
+  <div class="card">
+    <h2>جزئیات هسته مدیریت منو</h2>
+
+    <h3>1) menu</h3>
+    <table>
+      <thead><tr><th>فیلد</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه منو.</td></tr>
+        <tr><td><code>organization_id</code></td><td>bigint</td><td>مالک سازمانی منو.</td></tr>
+        <tr><td><code>name</code></td><td>varchar(200)</td><td>نام منو.</td></tr>
+        <tr><td><code>description</code></td><td>text?</td><td>شرح اختیاری.</td></tr>
+        <tr><td><code>is_active</code></td><td>boolean</td><td>فعال/غیرفعال بودن منو.</td></tr>
+        <tr><td><code>created_at</code> / <code>updated_at</code></td><td>timestamptz</td><td>زمان ایجاد و آخرین بروزرسانی.</td></tr>
+      </tbody>
+    </table>
+    <p>ایندکس‌های مهم: <code>IX_menu_organization_id</code> و <code>IX_menu_organization_id_name</code>.</p>
+
+    <h3>2) menu_category</h3>
+    <table>
+      <thead><tr><th>فیلد</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه دسته‌بندی.</td></tr>
+        <tr><td><code>organization_id</code></td><td>bigint</td><td>دامنه سازمانی دسته‌بندی.</td></tr>
+        <tr><td><code>menu_id</code></td><td>bigint</td><td>منوی مالک.</td></tr>
+        <tr><td><code>parent_id</code></td><td>bigint?</td><td>والد اختیاری برای ساختار درختی.</td></tr>
+        <tr><td><code>name</code></td><td>varchar(200)</td><td>نام دسته‌بندی.</td></tr>
+        <tr><td><code>description</code></td><td>text?</td><td>توضیح اختیاری.</td></tr>
+        <tr><td><code>image_urls</code></td><td>text[]?</td><td>تصاویر نمایشی دسته.</td></tr>
+        <tr><td><code>is_active</code></td><td>boolean</td><td>وضعیت فعال/غیرفعال.</td></tr>
+        <tr><td><code>created_at</code> / <code>updated_at</code></td><td>timestamptz</td><td>ردیابی زمانی.</td></tr>
+      </tbody>
+    </table>
+    <p>روابط مهم: <code>menu_category.menu_id -&gt; menu.id</code> و self-reference روی <code>parent_id</code> با حذف restrict.</p>
+
+    <h3>3) menu_item</h3>
+    <table>
+      <thead><tr><th>فیلد</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه آیتم.</td></tr>
+        <tr><td><code>organization_id</code></td><td>bigint</td><td>دامنه سازمانی آیتم.</td></tr>
+        <tr><td><code>category_id</code></td><td>bigint</td><td>دسته‌بندی مالک.</td></tr>
+        <tr><td><code>name</code></td><td>varchar(200)</td><td>نام آیتم قابل فروش.</td></tr>
+        <tr><td><code>code</code></td><td>varchar(100)</td><td>کد یکتای آیتم در سطح سازمان.</td></tr>
+        <tr><td><code>item_type</code></td><td>int</td><td>نوع آیتم مانند غذای تولیدی، نوشیدنی، پکیج یا افزودنی.</td></tr>
+        <tr><td><code>price_amount</code></td><td>numeric(18,2)</td><td>قیمت پایه.</td></tr>
+        <tr><td><code>description</code></td><td>text?</td><td>توضیح اختیاری.</td></tr>
+        <tr><td><code>image_urls</code></td><td>text[]?</td><td>تصاویر نمایشی.</td></tr>
+        <tr><td><code>is_active</code></td><td>boolean</td><td>وضعیت فعال/غیرفعال.</td></tr>
+        <tr><td><code>created_at</code> / <code>updated_at</code></td><td>timestamptz</td><td>ردیابی زمانی.</td></tr>
+      </tbody>
+    </table>
+    <p>ایندکس مهم: یکتایی <code>(organization_id, code)</code> برای جلوگیری از کد تکراری در یک کسب‌وکار.</p>
+
+    <h3>4) menu_unit</h3>
+    <table>
+      <thead><tr><th>فیلد</th><th>نوع</th><th>توضیح</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>bigint</td><td>شناسه واحد.</td></tr>
+        <tr><td><code>code</code></td><td>varchar(50)</td><td>کد فنی واحد مانند <code>KG</code> یا <code>PCS</code>.</td></tr>
+        <tr><td><code>name</code></td><td>varchar(150)</td><td>نام خوانا برای واحد اندازه‌گیری.</td></tr>
+        <tr><td><code>is_active</code></td><td>boolean</td><td>وضعیت فعال بودن واحد.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>جزئیات موجودیت‌های مکمل مواد اولیه و فرمول</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>جدول</th>
+          <th>فیلدهای کلیدی</th>
+          <th>کاربرد</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>menu_ingredient</code></td>
+          <td><code>organization_id</code>، <code>ingredient_type</code>، <code>code</code>، <code>unit_id</code>، <code>price_amount</code></td>
+          <td>تعریف مواد اولیه، محصول شرکتی یا اقلام پایه قابل مصرف/فروش.</td>
+        </tr>
+        <tr>
+          <td><code>menu_ingredient_component</code></td>
+          <td><code>prepared_ingredient_id</code>، <code>component_ingredient_id</code>، <code>quantity</code>، <code>unit_id</code></td>
+          <td>ساختار recipe-like برای مواد ترکیبی.</td>
+        </tr>
+        <tr>
+          <td><code>menu_item_ingredient</code></td>
+          <td><code>item_id</code>، <code>ingredient_id</code>، <code>quantity</code>، <code>unit_id</code></td>
+          <td>اتصال آیتم منو به مواد اولیه مصرفی.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>جزئیات موجودیت‌های Digital Menu</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>جدول</th>
+          <th>کاربرد</th>
+          <th>نکات مهم</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>menu_digital_menu</code></td>
+          <td>تنظیمات اصلی منوی دیجیتال در سطح سازمان.</td>
+          <td>ایندکس یکتا روی <code>organization_id</code> و <code>token</code>.</td>
+        </tr>
+        <tr>
+          <td><code>menu_digital_menu_profile</code></td>
+          <td>پروفایل نمایشی، برندینگ، توضیحات و لینک‌های ارتباطی.</td>
+          <td>ایندکس یکتا روی <code>digital_menu_id</code>.</td>
+        </tr>
+        <tr>
+          <td><code>menu_digital_menu_schedule_weekly</code></td>
+          <td>زمان‌بندی هفتگی نمایش یا فعالیت منوی دیجیتال.</td>
+          <td>ایندکس یکتا روی <code>(digital_menu_id, weekday)</code>.</td>
+        </tr>
+        <tr>
+          <td><code>menu_digital_menu_schedule_exception</code></td>
+          <td>استثناهای تقویمی مثل تعطیلی یا تغییر ساعت در یک روز خاص.</td>
+          <td>ایندکس یکتا روی <code>(digital_menu_id, date_value)</code>.</td>
+        </tr>
+        <tr>
+          <td><code>menu_digital_menu_visit</code></td>
+          <td>ثبت بازدیدهای منوی دیجیتال برای تحلیل مصرف.</td>
+          <td>ایندکس روی <code>(digital_menu_id, visited_at)</code>.</td>
+        </tr>
+        <tr>
+          <td><code>menu_digital_menu_metrics</code></td>
+          <td>نمای تحلیلی read-only برای بازدید و شمارش دسته/آیتم.</td>
+          <td>به‌صورت <code>View</code> و بدون کلید اصلی مدل شده است.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>روابط و قواعد کلیدی</h2>
+    <ul>
+      <li>هر <code>menu</code> به یک <code>organization_id</code> تعلق دارد و مبنای تمام دسته‌ها و آیتم‌های زیرمجموعه است.</li>
+      <li>هر <code>menu_category</code> دقیقاً به یک <code>menu</code> متصل است و می‌تواند والد اختیاری داشته باشد.</li>
+      <li>هر <code>menu_item</code> دقیقاً به یک <code>menu_category</code> متصل است.</li>
+      <li>کد آیتم در سطح سازمان یکتا نگه داشته می‌شود تا تداخل در فروش، گزارش و یکپارچگی رخ ندهد.</li>
+      <li>جدول‌های Digital Menu از نظر مالکیت به سازمان متصل‌اند و کانال نمایش مشتری‌محور را از داده مرجع منو جدا می‌کنند.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>DDL خلاصه تغییرات برجسته این نسخه</h2>
+    <div class="mono">accounts_organization
+  PK: id
+  Logical owner of menu data
+
+menu
+  PK: id
+  IDX: organization_id
+  IDX: (organization_id, name)
+
+menu_category
+  PK: id
+  FK: menu_id -> menu.id (Restrict)
+  FK: parent_id -> menu_category.id (Restrict)
+
+menu_item
+  PK: id
+  FK: category_id -> menu_category.id
+  UQ: (organization_id, code)
+
+menu_unit
+  PK: id
+
+menu_ingredient
+  PK: id
+  UQ: (organization_id, code)
+
+menu_ingredient_component
+  PK: id
+  UQ: (prepared_ingredient_id, component_ingredient_id)
+
+menu_item_ingredient
+  PK: id
+  UQ: (item_id, ingredient_id)
+
+menu_digital_menu
+  PK: id
+  UQ: organization_id
+  UQ: token</div>
+  </div>
+</div>
+</body>
+</html>
