@@ -1,5 +1,6 @@
 ﻿using Entities.Common;
 using Entities.Items;
+using Entities.Menus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,7 @@ namespace Entities.Categories
     public class Category : BaseEntity<long>
     {
         public long OrganizationId { get; set; }
+        public long MenuId { get; set; }
         public long? ParentCategoryId { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
@@ -18,6 +20,7 @@ namespace Entities.Categories
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
+        public Menu Menu { get; set; } = null!;
         [ForeignKey(nameof(ParentCategoryId))]
         public Category? ParentCategory { get; set; }
         public ICollection<Category> ChildCategories { get; set; } = new List<Category>();
@@ -32,6 +35,7 @@ namespace Entities.Categories
             builder.ToTable("menu_category");
             builder.Property(p => p.Id).HasColumnName("id");
             builder.Property(p => p.OrganizationId).HasColumnName("organization_id");
+            builder.Property(p => p.MenuId).HasColumnName("menu_id");
             builder.Property(p => p.ParentCategoryId).HasColumnName("parent_id");
             builder.Property(p => p.Name).HasColumnName("name").IsRequired().HasMaxLength(200);
             builder.Property(p => p.Description).HasColumnName("description");
@@ -39,6 +43,13 @@ namespace Entities.Categories
             builder.Property(p => p.IsActive).HasColumnName("is_active");
             builder.Property(p => p.CreatedAt).HasColumnName("created_at");
             builder.Property(p => p.UpdatedAt).HasColumnName("updated_at");
+            builder.HasIndex(p => p.MenuId);
+            builder.HasIndex(p => p.ParentCategoryId);
+            builder
+                .HasOne(c => c.Menu)
+                .WithMany(m => m.Categories)
+                .HasForeignKey(c => c.MenuId)
+                .OnDelete(DeleteBehavior.Restrict);
             // Self-referencing relation
             builder
                 .HasOne(c => c.ParentCategory)       // هر دسته یک والد دارد

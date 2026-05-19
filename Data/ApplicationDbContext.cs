@@ -24,8 +24,8 @@ namespace Data
             var dataAssembly = typeof(ApplicationDbContext).Assembly;
 
             modelBuilder.RegisterAllEntities<IEntity>(entitiesAssembly);
-            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly, dataAssembly);
             modelBuilder.AddCascadeDeleteBehaviorConvention();
+            modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly, dataAssembly);
             modelBuilder.Entity<Episode>()
                 .HasOne(x => x.ParentEpisode)
                 .WithMany(x => x.FollowUpEpisodes)

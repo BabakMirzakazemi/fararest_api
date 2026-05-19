@@ -1026,6 +1026,10 @@ namespace Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<long>("MenuId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("menu_id");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -1045,6 +1049,8 @@ namespace Data.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
 
                     b.HasIndex("ParentCategoryId");
 
@@ -2293,6 +2299,10 @@ namespace Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("ItemType")
+                        .HasColumnType("integer")
+                        .HasColumnName("item_type");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -2314,6 +2324,9 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrganizationId", "Code")
+                        .IsUnique();
 
                     b.ToTable("menu_item", (string)null);
                 });
@@ -3274,6 +3287,53 @@ namespace Data.Migrations
                     b.ToTable("licenses_subscription", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Menus.Menu", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("organization_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("OrganizationId", "Name");
+
+                    b.ToTable("menu", (string)null);
+                });
+
             modelBuilder.Entity("Entities.Payments.PaymentOperation", b =>
                 {
                     b.Property<long>("Id")
@@ -4096,10 +4156,18 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Categories.Category", b =>
                 {
+                    b.HasOne("Entities.Menus.Menu", "Menu")
+                        .WithMany("Categories")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Entities.Categories.Category", "ParentCategory")
                         .WithMany("ChildCategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Menu");
 
                     b.Navigation("ParentCategory");
                 });
@@ -4256,6 +4324,11 @@ namespace Data.Migrations
                     b.Navigation("References");
 
                     b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Entities.Menus.Menu", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Entities.Users.ConfirmationCode", b =>

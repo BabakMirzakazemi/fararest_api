@@ -36,6 +36,12 @@
   2. Follow the related domain skill under `.agents/skills/*-business/SKILL.md`.
   3. If requirements are ambiguous, add an explicit `Open Questions` item back to the related document.
 
+## Mandatory Pre-Task Context Review
+- Before handling any new prompt or task, inspect the `knowledge/**` path first for repository knowledge, decisions, and operational context.
+- Before handling any new prompt or task, inspect the relevant business guidance files under `docs/business/**`, starting from `docs/business/README.md`.
+- Treat both `knowledge/**` and `docs/business/**` as mandatory context sources whenever they may affect requirements, terminology, workflows, or constraints.
+- If a task is clearly unrelated to business behavior, still perform a quick relevance check against these sources before skipping deeper review.
+
 ## Purpose
 This file defines mandatory engineering and architecture rules for AI agents working in this repository.
 All agents must read and follow this file before making any change.
@@ -113,12 +119,13 @@ If a task requires violating these rules, stop and propose a refactor path inste
 
 ## Task Execution Protocol (Agent Workflow)
 For every task:
-1. Read impacted layer(s) first.
-2. Identify architecture boundary impact.
-3. Apply minimal, localized changes.
-4. Update/add DTOs, validators, services, and controller endpoints in correct layers.
-5. Run build/tests (if available) before finalizing.
-6. Summarize changed files and architecture reasoning.
+1. Review `knowledge/**` and the relevant `docs/business/**` guidance first.
+2. Read impacted layer(s) first.
+3. Identify architecture boundary impact.
+4. Apply minimal, localized changes.
+5. Update/add DTOs, validators, services, and controller endpoints in correct layers.
+6. Run build/tests (if available) before finalizing.
+7. Summarize changed files and architecture reasoning.
 
 ## Done Criteria (Definition of Done)
 A task is complete only if:

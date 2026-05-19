@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Flow Documents v7</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.5; color: #222; }
+    h1, h2 { color: #0f3d57; }
+    code { background: #f4f4f4; padding: 0.1rem 0.3rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #eef5f8; }
+  </style>
+</head>
+<body>
+  <h1>Program Flow Document v7</h1>
+  <p>This version documents organization-existence validation in menu management so orphan menu/category/item records cannot be created under a non-existent business.</p>
+
+  <h2>Impacted APIs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>API</th>
+        <th>Purpose</th>
+        <th>Impacted Tables</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>POST /api/admin/v1/MenuManagement/CreateMenuAsync</code></td>
+        <td>Validates that <code>OrganizationId</code> points to a real registered organization before creating a menu.</td>
+        <td><code>accounts_organization</code>, <code>menu</code></td>
+      </tr>
+      <tr>
+        <td><code>POST /api/admin/v1/MenuManagement/CreateCategoryAsync</code></td>
+        <td>Rejects category creation when the parent menu points to a missing organization/business.</td>
+        <td><code>accounts_organization</code>, <code>menu</code>, <code>menu_category</code></td>
+      </tr>
+      <tr>
+        <td><code>POST /api/admin/v1/MenuManagement/UpdateCategoryAsync</code></td>
+        <td>Rejects category updates when the category belongs to an invalid organization/business reference.</td>
+        <td><code>accounts_organization</code>, <code>menu_category</code></td>
+      </tr>
+      <tr>
+        <td><code>POST /api/admin/v1/MenuManagement/CreateItemAsync</code></td>
+        <td>Rejects item creation when the category chain points to a missing organization/business.</td>
+        <td><code>accounts_organization</code>, <code>menu_category</code>, <code>menu_item</code></td>
+      </tr>
+      <tr>
+        <td><code>POST /api/admin/v1/MenuManagement/UpdateItemAsync</code></td>
+        <td>Rejects item updates when the category belongs to an invalid organization/business reference.</td>
+        <td><code>accounts_organization</code>, <code>menu_category</code>, <code>menu_item</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>End-to-End Behavior</h2>
+  <ol>
+    <li>Client submits menu/category/item management requests.</li>
+    <li>The service resolves the owning organization from the request or from the related menu/category.</li>
+    <li>The service verifies that the organization exists in <code>accounts_organization</code>.</li>
+    <li>If the organization does not exist, the request fails with a validation error and no menu data is created or updated.</li>
+    <li>If the organization exists, the normal menu/category/item flow continues.</li>
+  </ol>
+
+  <h2>Design Rule</h2>
+  <p>Organization existence is enforced in the application service layer to keep controllers thin, preserve business integrity, and protect both new requests and legacy orphaned records from further propagation.</p>
+</body>
+</html>

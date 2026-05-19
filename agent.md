@@ -2,6 +2,12 @@
 
 این فایل مکمل `AGENTS.md` است و رفتار عامل‌ها را برای Episodic Memory مشخص می‌کند.
 
+## Mandatory Pre-Prompt Context Review
+
+- Before handling any new prompt or task, review `knowledge/**` for project knowledge, prior decisions, and operational context.
+- Before handling any new prompt or task, review the relevant business guidance files under `docs/business/**`, starting from `docs/business/README.md`.
+- Perform this review before memory lookup/write decisions so the agent grounds its work in current repository knowledge and business rules.
+
 ## چه زمانی episode ثبت شود
 
 - وقتی تصمیم معماری گرفته یا اصلاح می‌شود.

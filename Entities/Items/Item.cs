@@ -1,10 +1,9 @@
-﻿using Entities.Categories;
+using Entities.Categories;
 using Entities.Common;
-using Entities.Users;
+using Entities.Menus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations;
-
 
 namespace Entities.Items
 {
@@ -14,6 +13,7 @@ namespace Entities.Items
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string Code { get; set; } = string.Empty;
+        public MenuItemType ItemType { get; set; }
         public decimal PriceAmount { get; set; }
         public string[]? ImageUrls { get; set; }
         public bool IsActive { get; set; } = true;
@@ -23,6 +23,7 @@ namespace Entities.Items
         public DateTimeOffset UpdatedAt { get; set; }
         public Category Category { get; set; } = null!;
     }
+
     public class PostConfiguration : IEntityTypeConfiguration<Item>
     {
         public void Configure(EntityTypeBuilder<Item> builder)
@@ -33,15 +34,16 @@ namespace Entities.Items
             builder.Property(p => p.CategoryId).HasColumnName("category_id");
             builder.Property(p => p.Name).HasColumnName("name").IsRequired().HasMaxLength(200);
             builder.Property(p => p.Code).HasColumnName("code").IsRequired().HasMaxLength(100);
+            builder.Property(p => p.ItemType).HasColumnName("item_type");
             builder.Property(p => p.PriceAmount).HasColumnName("price_amount").HasColumnType("numeric(18,2)");
             builder.Property(p => p.ImageUrls).HasColumnName("image_urls");
             builder.Property(p => p.Description).HasColumnName("description");
             builder.Property(p => p.IsActive).HasColumnName("is_active");
             builder.Property(p => p.CreatedAt).HasColumnName("created_at");
             builder.Property(p => p.UpdatedAt).HasColumnName("updated_at");
+            builder.HasIndex(p => p.CategoryId);
+            builder.HasIndex(p => new { p.OrganizationId, p.Code }).IsUnique();
             builder.HasOne(p => p.Category).WithMany(c => c.Items).HasForeignKey(p => p.CategoryId);
         }
     }
-
-
 }
